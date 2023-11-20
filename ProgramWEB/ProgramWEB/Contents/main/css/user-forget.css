@@ -91,3 +91,7 @@ p {
 input:disabled {
     opacity: 0.6;
 }
+
+.form-outline {
+    width: 100%;
+}

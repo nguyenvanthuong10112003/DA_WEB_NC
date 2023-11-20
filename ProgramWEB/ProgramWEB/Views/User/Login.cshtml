@@ -11,7 +11,7 @@
     <title>Trang đăng nhập</title>
 
     <!-- Bootstrap-->
-    <link rel="stylesheet" href="~/Contents/bootstrap-4.4.1/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="~/Contents/pluto/css/bootstrap.min.css">
     
     <!-- fontawesome-->
     <link href="~/Contents/fontawesome-free-6.4.2-web/css/all.min.css" rel="stylesheet" />
@@ -20,12 +20,10 @@
     <link rel="stylesheet" href="~/Contents/main/css/user-login.css">
     
     <!-- Jquery-->
-    <script src="~/Contents/jquery/jquery.js"></script>
+    <script src="~/Scripts/pluto/js/jquery.js"></script>
 </head>
 <body>
     <div id="wrapper"></div>
-    <!-- main -->
-    <script src="/Contents/main/javascript/user-login.js"></script>
 </body>
 </html>
 <script>
@@ -103,6 +101,15 @@
                 error = null;
                 load();
             })
+            $('#eye').click(function () {
+                $(this).toggleClass('open');
+                $(this).children('i').toggleClass('fa-eye-slash fa-eye');
+                if ($(this).hasClass('open')) {
+                    $(this).prev().attr('type', 'text');
+                } else {
+                    $(this).prev().attr('type', 'password');
+                }
+            });
             $('.btn-submit').click(function () {
                 username = usernameInput.val();
                 password = passwordInput.val();
@@ -129,9 +136,9 @@
                 }
                 if (errorPassword == daucach && errorUsername == daucach) {
                     var data = {
-                        username = username,
-                        password = password,
-                        keepLogin = keep
+                        username : username,
+                        password : password,
+                        keepLogin : keep
                     }
                     $.ajax({
                         url: "/User/CheckLogin",

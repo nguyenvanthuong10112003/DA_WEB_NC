@@ -76,3 +76,10 @@ font-style: normal;
 .flaticon-windows:before { content: "\f12d"; }
 .flaticon-wordpress-logo:before { content: "\f12e"; }
 .flaticon-world-wide-web:before { content: "\f12f"; }
+.fa-clock-o:before { content: "\f017"; }
+.fa-bar-chart-o:before { content: "\f080"; }
+.fa-comments-o:before { content: "\f0e6"; }
+.fa-facebook-f:before, .fa-facebook:before { content: "\f09a"; }
+.fa-twitter:before { content: "\f099"; }
+.fa-twitter:before { content: "\f099"; }
+.fa-google-plus:before { content: "\f0d5"; }

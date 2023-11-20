@@ -13,14 +13,16 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="viewport" content="initial-scale=1, maximum-scale=1">
     <!-- site metas -->
-    <title>Pluto - Responsive Bootstrap Admin Panel Templates</title>
+    <title>@ViewBag.Title</title>
     <meta name="keywords" content="">
     <meta name="description" content="">
     <meta name="author" content="">
     <!-- site icon -->
     <link rel="icon" href="~/Contents/pluto/images/fevicon.png" type="image/png" />
+    <!-- font-awesome -->
+    <link rel="stylesheet" href="~/Contents/fontawesome-free-6.4.2-web/css/all.min.css" />
     <!-- bootstrap css -->
-    <link rel="stylesheet" href="~/Contents/pluto/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/Contents/bootstrap/bootstrap.min.css" />
     <!-- site css -->
     <link rel="stylesheet" href="~/Contents/pluto/style.css" />
     <!-- responsive css -->
@@ -33,6 +35,8 @@
     <link rel="stylesheet" href="~/Contents/pluto/css/perfect-scrollbar.css" />
     <!-- custom css -->
     <link rel="stylesheet" href="~/Contents/pluto/css/custom.css" />
+    <!-- content css-->
+    @RenderSection("cssContent", required: false)
     <!--[if lt IE 9]>
     <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
     <script src="https://oss.maxcdn.com/libs/respond/js/1.4.2/respond.min.js"></script>
@@ -66,27 +70,31 @@
         </div>
     </div>
     <!-- jQuery -->
-    <script src="~/Contents/pluto/js/jquery.js"></script>
-    <script src="~/Contents/pluto/js/popper.min.js"></script>
-    <script src="~/Contents/pluto/js/bootstrap.min.js"></script>
+    <script src="~/Scripts/pluto/js/jquery.js"></script>
+    <script src="~/Scripts/pluto/js/popper.min.js"></script>
+    <script src="~/Scripts/pluto/js/bootstrap.min.js"></script>
     <!-- wow animation -->
-    <script src="~/Contents/pluto/js/animate.js"></script>
+    <script src="~/Scripts/pluto/js/animate.js"></script>
     <!-- select country -->
-    <script src="~/Contents/pluto/js/bootstrap-select.js"></script>
+    <script src="~/Scripts/pluto/js/bootstrap-select.js"></script>
     <!-- owl carousel -->
-    <script src="~/Contents/pluto/js/owl.carousel.js"></script>
+    <script src="~/Scripts/pluto/js/owl.carousel.js"></script>
     <!-- chart js -->
-    <script src="~/Contents/pluto/js/Chart.min.js"></script>
-    <script src="~/Contents/pluto/js/Chart.bundle.min.js"></script>
-    <script src="~/Contents/pluto/js/utils.js"></script>
-    <script src="~/Contents/pluto/js/analyser.js"></script>
+    <script src="~/Scripts/pluto/js/Chart.min.js"></script>
+    <script src="~/Scripts/pluto/js/Chart.bundle.min.js"></script>
+    <script src="~/Scripts/pluto/js/utils.js"></script>
+    <script src="~/Scripts/pluto/js/analyser.js"></script>
     <!-- nice scrollbar -->
-    <script src="~/Contents/pluto/js/perfect-scrollbar.min.js"></script>
+    <script src="~/Scripts/pluto/js/perfect-scrollbar.min.js"></script>
     <script>
         var ps = new PerfectScrollbar('#sidebar');
     </script>
     <!-- custom js -->
-    <script src="~/Contents/pluto/js/custom.js"></script>
-    <script src="~/Contents/pluto/js/chart_custom_style1.js"></script>
+    <script src="~/Scripts/pluto/js/custom.js"></script>
+    <script src="~/Scripts/pluto/js/chart_custom_style1.js"></script>
+    <!-- libary js-->
+    <script src="~/Scripts/libary.js"></script>
+    <!-- Content js-->
+    @RenderSection("jsContent", required: false)
 </body>
 </html>
