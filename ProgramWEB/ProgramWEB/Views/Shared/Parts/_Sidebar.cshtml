@@ -1,12 +1,16 @@
-﻿<div class="sidebar_blog_1">
+﻿@using ProgramWEB.Models;
+@{
+    UserLogin user = (UserLogin)Session[ProgramWEB.Define.DefineSession.userSession];
+}
+<div class="sidebar_blog_1">
     <div class="sidebar-header">
     </div>
     <div class="sidebar_user_info">
         <div class="icon_setting"></div>
         <div class="user_profle_side">
-            <div class="user_img"><img class="img-responsive" src="/Contents/pluto/images/layout_img/user_img.jpg" alt="#" /></div>
+            <div class="user_img"><img class="img-responsive" src="@(string.IsNullOrEmpty(user.avatar) ? "/Images/avatar.png" : user.avatar)" alt="#" /></div>
             <div class="user_info">
-                <h6>John David</h6>
+                <h6>@user.username</h6>
                 <p><span class="online_animation"></span> Online</p>
             </div>
         </div>
@@ -15,7 +19,6 @@
 <div class="sidebar_blog_2">
     <h4>General</h4>
     <ul class="list-unstyled components">
-
         <li class="active">
             <a href="#dashboard" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle"><i class="fa fa-dashboard yellow_color"></i> <span>Dashboard</span></a>
             <ul class="collapse list-unstyled" id="dashboard">
@@ -60,13 +63,13 @@
         </li>
 
         <li><a href="price.html"><i class="fa fa-briefcase blue1_color"></i> <span>Pricing Tables</span></a></li>
-        
+
         <li>
             <a href="contact.html">
                 <i class="fa fa-paper-plane red_color"></i> <span>Contact</span>
             </a>
         </li>
-        
+
         <li class="active">
             <a href="#additional_page" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle"><i class="fa fa-clone yellow_color"></i> <span>Additional Pages</span></a>
             <ul class="collapse list-unstyled" id="additional_page">
@@ -84,11 +87,11 @@
                 </li>
             </ul>
         </li>
-        
+
         <li><a href="map.html"><i class="fa fa-map purple_color2"></i> <span>Map</span></a></li>
-       
+
         <li><a href="charts.html"><i class="fa fa-bar-chart-o green_color"></i> <span>Charts</span></a></li>
-        
+
         <li><a href="settings.html"><i class="fa fa-cog yellow_color"></i> <span>Settings</span></a></li>
     </ul>
 </div>

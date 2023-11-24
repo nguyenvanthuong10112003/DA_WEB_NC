@@ -33,3 +33,32 @@ const validateEmail = (email) => {
             /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|.(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
         );
 };
+var toDateView = function (data) {
+    if (data == null || data.length < 8)
+        return "";
+    for (let i = 0; i < data.length; i++)
+        if ((data[i] > '9' || data[i] < '0') && data[i] != '-')  {
+            data = data.substr(0, i);
+            break;
+        }
+    let arr = data.split('-');
+    if (arr.length < 3)
+        return "";
+    return to2(arr[2]) + "-" + to2(arr[1]) + "-" + to2(arr[0]);
+}
+var toDateInput = function (data) {
+    if (data == null || data.length < 8)
+        return "";
+    let arr = data.split('-');
+    if (arr.length < 3)
+        return "";
+    return arr[2] + "-" + arr[1] + "-" + arr[0];
+}
+var to2 = function (data) {
+    if (data.length == 1)
+        return '0' + data;
+    return data;
+}
+var xoaKhoangTrang = function (data) {
+    return data.replace(/ /g, '');
+}

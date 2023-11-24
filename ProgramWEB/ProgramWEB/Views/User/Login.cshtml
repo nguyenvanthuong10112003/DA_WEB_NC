@@ -11,7 +11,7 @@
     <title>Trang đăng nhập</title>
 
     <!-- Bootstrap-->
-    <link rel="stylesheet" href="~/Contents/pluto/css/bootstrap.min.css">
+    <link rel="stylesheet" href="~/Contents/bootstrap/bootstrap.min.css">
     
     <!-- fontawesome-->
     <link href="~/Contents/fontawesome-free-6.4.2-web/css/all.min.css" rel="stylesheet" />
@@ -21,6 +21,9 @@
     
     <!-- Jquery-->
     <script src="~/Scripts/pluto/js/jquery.js"></script>
+
+    <!-- Libart-->
+    <script src="~/Scripts/libary.js"></script>
 </head>
 <body>
     <div id="wrapper"></div>
@@ -30,6 +33,7 @@
     var root = $('#wrapper');
     var daucach = '&nbsp;';
     var error = null;
+    var success = null;
     var errorUsername = daucach;
     var errorPassword = daucach;
     var username = "";
@@ -42,6 +46,11 @@
                 ${isNaN(error) ? `
                     <div class="alert alert-danger bg-danger text-light border-0 alert-dismissible fade show" role="alert">
                         ${error}
+                        <button type="button" class="btn-close"><i class="fa-solid fa-xmark" style="color: #ffffff;"></i></button>
+                    </div>` : ""}
+                ${isNaN(success) ? `
+                    <div class="alert alert-success bg-success text-light border-0 alert-dismissible fade show" role="alert">
+                        ${success}
                         <button type="button" class="btn-close"><i class="fa-solid fa-xmark" style="color: #ffffff;"></i></button>
                     </div>` : ""}
                 <div class="form-group">
@@ -70,7 +79,7 @@
                     <a class="cancel bg-danger" href="/Home">Hủy bỏ</a>
                 </div>
 
-                <div class="funs-forget float-right text-right" style="font-size: 14px">
+                <div class="funs-forget float-right text-right" style="font-size: 14px; text-align: right">
                     <a style="color: aqua;" href="#!">Quên Mật Khẩu</a>
                     <span style="color: white">|</span>
                     <a style="color: aqua;" href="#!">Tài Khoản</a>
@@ -115,11 +124,14 @@
                 password = passwordInput.val();
                 errorPassword = daucach;
                 errorUsername = daucach;
+                error = null;
                 if (username.length == 0) {
                     errorUsername = 'Tên đăng nhập không được để trống'
                 }
                 else if (username.length > 30) {
                     errorUsername = 'Tên đăng nhập không được quá 30 ký tự';
+                } else if (username != removeVietnameseTones(username)) {
+                    errorUsername = 'Tên đăng nhập phải là ký tự không dấu'
                 }
                 if (username.indexOf(' ') != -1) {
                     errorUsername += '<br>Tên đăng nhập không được chứa dấu cách';
@@ -141,12 +153,23 @@
                         keepLogin : keep
                     }
                     $.ajax({
-                        url: "/User/CheckLogin",
+                        url: "/User/ToLogin",
                         data: data,
+                        type: "POST",
                         dataType: 'json',
                         success: function (data) {
-                            if (data['url'])
-                                window.location = data['url']
+                            if (data['error']) {
+                                error = data['error']
+                                load()
+                            }
+                            if (data['success']) {
+                                success = data['success']
+                                if (data['url'])
+                                    setTimeout(function () {
+                                        window.location = window.location.origin + '/' + data['url'];
+                                    }, 1000)
+                                load()
+                            }
                         },
                         error: function (data) {
                             if (data['error']) {
@@ -164,7 +187,6 @@
         })
     }
     var load = function () {
-        console.log(username);
         root.html(createContent())
         action()
     }

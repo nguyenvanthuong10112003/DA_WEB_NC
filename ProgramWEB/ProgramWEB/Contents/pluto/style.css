@@ -3409,9 +3409,35 @@ table.projects tr td:first-child {
 }
 
 .dropdown-toggle {
-    white-space: normal;
+    white-space: normal !important;
 }
 
 .counter_section .counter_no p.total_no {
     color: black !important;
+}
+
+#content {
+    padding-top: 64px !important;
+}
+
+@media (max-width: 1199px) {
+    #sidebar.active + #content {
+        left: 0 !important;
+    }
+}
+
+@media (max-width: 768px) {
+    .d-none-when-smart {
+        display: none !important;
+    }
+}
+
+.sidebar_toggle {
+    padding-top: 16px !important;
+    padding-bottom: 16px !important;
+}
+
+.list-unstyled > li > a:hover {
+    background-color: var(--color-main) !important;
+    color: white !important;
 }

