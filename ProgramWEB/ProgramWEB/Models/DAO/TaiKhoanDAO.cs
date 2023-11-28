@@ -16,7 +16,10 @@ namespace ProgramWEB.Models.DAO
         }
         public TaiKhoan getTaiKhoanByUsername(string username)
         {
-            return context.TaiKhoans.Where(item => item.TK_TenDangNhap.Equals(username)).FirstOrDefault();
+            try
+            {
+                return context.TaiKhoans.Find(username);
+            } catch { return null; }
         }
         public bool checkLocked(TaiKhoan taiKhoan)
         {
@@ -27,7 +30,10 @@ namespace ProgramWEB.Models.DAO
                     if (taiKhoan.TK_ThoiGianMoKhoa != null &&
                         taiKhoan.TK_ThoiGianMoKhoa <= DateTime.Now)
                     {
-                        changeLocked(taiKhoan);
+                        taiKhoan.TK_BiKhoa = !taiKhoan.TK_BiKhoa;
+                        int check = context.SaveChanges();
+                        if (check == 0)
+                            return true;
                         return false;
                     }
                 }
@@ -38,27 +44,24 @@ namespace ProgramWEB.Models.DAO
         }
         public TaiKhoan GetTaiKhoanByMaNhanSu(string code)
         {
-            return context.TaiKhoans.Where(e => e.NS_Ma == code).FirstOrDefault();
-        }
-        public void changeLocked(TaiKhoan taiKhoan)
-        {
-            if (taiKhoan != null)
+            try
             {
-                taiKhoan = context.TaiKhoans.Find(taiKhoan.TK_TenDangNhap);
-                if (taiKhoan != null)
-                {
-                    taiKhoan.TK_BiKhoa = !taiKhoan.TK_BiKhoa;
-                    context.SaveChanges();
-                }
-            }
+                return context.TaiKhoans.Where(e => e.NS_Ma == code).FirstOrDefault();
+            } catch { return null; }
         }
         public bool Insert(TaiKhoan taiKhoan)
         {
-            context.TaiKhoans.Add(taiKhoan);
-            int count = context.SaveChanges();
-            if (count > 0)
+            try
             {
-                return true;
+                context.TaiKhoans.Add(taiKhoan);
+                int count = context.SaveChanges();
+                if (count > 0)
+                {
+                    return true;
+                }
+            } catch
+            {
+
             }
             return false;
         }
@@ -66,16 +69,23 @@ namespace ProgramWEB.Models.DAO
         {
             if (taiKhoan != null)
             {
-                context.TaiKhoans.AddOrUpdate(taiKhoan);
-                int count = context.SaveChanges();
-                if (count >= 1)
-                    return true;
+                try
+                {
+                    context.TaiKhoans.AddOrUpdate(taiKhoan);
+                    int count = context.SaveChanges();
+                    if (count >= 1)
+                        return true;
+                } catch { }
             }
             return false;
         }
         public IEnumerable<TaiKhoan> getAll()
         {
-            return context.TaiKhoans.Select(item => item);
+            try
+            {
+                return context.TaiKhoans.Select(item => item);
+            } catch { }
+            return null;
         }
     }
 }

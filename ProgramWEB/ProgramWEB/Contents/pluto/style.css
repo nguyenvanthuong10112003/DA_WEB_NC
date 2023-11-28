@@ -823,7 +823,7 @@ span {
     box-shadow: 0 0 3px 0px rgba(0, 0, 0, 0.4);
     float: left;
     width: 100%;
-    background-image: url('images/layout_img/pattern_h.png');
+    background-image: url('./images/layout_img/pattern_h.png');
     position: fixed;
     height: 100%;
     overflow: auto;
@@ -3439,5 +3439,9 @@ table.projects tr td:first-child {
 
 .list-unstyled > li > a:hover {
     background-color: var(--color-main) !important;
+    color: white !important;
+}
+
+.full > button > i {
     color: white !important;
 }

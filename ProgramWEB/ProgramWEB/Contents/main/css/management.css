@@ -4,7 +4,6 @@
     border: 0;
     line-height: 1.6;
     font-family: var(--font-family);
-    animation: all linear 0.4s;
 }
 
 :root {
@@ -295,6 +294,7 @@ input, .input-password, .input-password-repeat, .input-old-password, .input-new-
 #content {
     padding-left: 0;
     padding-right: 0;
+    padding-top: 67px;
 }
 
 @media (min-width: 1200px) {
@@ -389,6 +389,36 @@ button i {
     z-index: 5;
 }
 
+#content-add {
+    max-height: 100%;
+    overflow: auto;
+}
+
 #content-add .card-body {
     padding-top: 40px;
+}
+
+#view-loader {
+    background-color: var(--color-main)
+}
+
+.icon_info ul.user_profile_dd > li {
+    padding-top: 16px;
+    padding-bottom: 16px;
+}
+
+.col-md-6 {
+    display: grid;
+}
+
+.errorCL, .successCL {
+    width: calc(100% - calc(var(--bs-gutter-x)));
+    margin-left: calc(var(--bs-gutter-x) * .5);
+}
+
+@media (max-width:1495px) {
+    table {
+        display: block;
+        overflow: auto;
+    }
 }

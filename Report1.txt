@@ -1,0 +1,23 @@
+SQLQuery2.sql - MYLAP.Quan_Li_Nhan_Vien (sa (66))
+
+- Querying transaction count (Warning)
+	Messages
+	* Unable to query transaction count. The SQL text editor window will close without committing any open transactions.
+	
+	------------------------------
+	ADDITIONAL INFORMATION:
+	
+	The connection is broken and recovery is not possible.  The client driver attempted to recover the connection one or more times and all attempts failed.  Increase the value of ConnectRetryCount to increase the number of recovery attempts. (Microsoft SQL Server, Error: 0)
+	
+	For help, click: https://docs.microsoft.com/sql/relational-databases/errors-events/mssqlserver-0-database-engine-error
+	
+	------------------------------
+	
+	Cannot open database "Quan_Li_Nhan_Vien" requested by the login. The login failed.
+	Login failed for user 'sa'. (Microsoft SQL Server, Error: 4060)
+	
+	For help, click: https://docs.microsoft.com/sql/relational-databases/errors-events/mssqlserver-4060-database-engine-error
+	
+
+
+

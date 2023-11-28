@@ -1,5 +1,5 @@
 ﻿@model string
-@{ 
+@{
     ViewBag.Title = "NhanSu"; Layout = "~/Views/Shared/_Layout.cshtml";
     ViewBag.pageNow =
     new LocationPage(DefinePage.home,
@@ -7,7 +7,10 @@
             new LocationPage(DefinePage.management_NhanSu)));
 }
 @section cssContent {
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css" integrity="sha512-+4zCK9k+qNFUR5X+cKL9EIR+ZOhtIloNl9GIKS57V1MyNsYpYcUrUeQc9vNfzsWfV28IaLL3i96P9sdNyeRssA==" crossorigin="anonymous" />
     <link href="~/Contents/main/css/management.css" rel="stylesheet" />
+    <link href="~/Contents/loader/style.css" rel="stylesheet" />
+    <link href="~/Contents/alert-f8/style.css" rel="stylesheet" />
 }
 @using ProgramWEB.Models.Data;
 @using ProgramWEB.Define;
@@ -16,99 +19,59 @@
 </div>
 @section jsContent {
     <script src="~/Scripts/export-file/dist/table2excel.js"></script>
+    <script src="~/Contents/alert-f8/script.js"></script>
+    <script src="~/Scripts/management/main.js"></script>
     <script>
         $('#main').addClass('gird wide');
-        var load = function () {
-            new Promise(
-                function (myResolve, myReject) {
-                    loadData(myResolve, myReject);
-                }
-            )
-                .then(
-                    function () {
-                        loadPage()
-                    }
-                )
-                .catch(
-                    function (message) {
-                        console.log(message);
-                        alert("Huhuhuhu T.T, lỗi mất rồi...");
-                    }
-                )
-        }
-        var name = 'nhân sự';
-        var path = window.location.origin + window.location.pathname;
         var root = $('.content-wrapper');
+        var dauCach = '&nbsp;';
+        var namePage = 'nhân sự';
+        var error;
+        var success;
         var page = 1;
         var pageSize = 10;
         var json = JSON.parse("@ViewBag.jsonString".replace(/&quot;/g, '"'));
         var countData = json["countData"];
         var nameItems = json["nameModel"];
         var nameTiengViets = json["nameRender"];
-        var usingIndex = [];
         var count = nameTiengViets.length;
         var datas = [{}];
-        var nameObj = {};
+        var usingIndex = [];
+        var nameObj = [{}];
         for (let i = 0; i < count; i++) {
-            usingIndex[i] = i;
+            this.usingIndex[i] = i;
         }
         for (let index = 0; index < count; index++) {
-            nameObj[nameTiengViets[index]] = { type: "", id: "", using: "" }
-            nameObj[nameTiengViets[index]].id = removeVietnameseTones(nameTiengViets[index].replace(/ /g, ''));
-            nameObj[nameTiengViets[index]].using = true;
+            this.nameObj[nameTiengViets[index]] = { type: "", id: "", using: "" }
+            this.nameObj[nameTiengViets[index]].id = removeVietnameseTones(nameTiengViets[index].replace(/ /g, ''));
+            this.nameObj[nameTiengViets[index]].using = true;
         }
-        var htmlView = function (item, item1, index, id) {
+        var createRowTable = function (item, item1, index, id) {
             let using = nameObj[nameTiengViets[index]].using;
             let idName = nameObj[nameTiengViets[index]].id + '-' + id;
-            let data = item[item1] ? item[item1] : '';
+            let data = item[item1];
             switch (index) {
                 case 2:
                     return `
                         <td class="${using ? "" : "d-none"}"
-                            id="${idName}">${data ? ((data == true || data == 'true') ? 'Nam' : 'Nữ') : 'Không biết'}
+                            id="${idName}">${data != null ? ((data == true || data == 'true') ? 'Nam' : 'Nữ') : 'Không biết'}
                         </td >
                     `
                 case 3:
                 case count - 1:
                     return `
                         <td class="${using ? "" : "d-none"}"
-                            id="${idName}">${toDateView(data)}
+                            id="${idName}">${data ? toDateView(data) : ''}
                         </td >
                     `;
             }
             return `
             <td class="${using ? "" : "d-none"}"
-               id="${idName}">${data}
+               id="${idName}">${data ? data : ''}
             </td >
             `;
         }
-        var htmlCreateOrUpdate = function (thaotac, result, item, index, id) {
-            let data = result['"' + nameObj[item].id + '"'] ? (result['"' + nameObj[item].id + '"']).trim() : "";
-            let idName = nameObj[item].id + '-' + thaotac + '-' + id;
-            switch (index) {
-                case 2:
-                    return `
-                    <div>
-                        <input type="radio" name="${idName}" value="nam"
-                            id="nam-${idName}" ${data == 'Nam' ? "checked" : ""}>
-                        <label for="nam-${idName}">Nam</label>
-                        <input type="radio" name="${idName}" value="nu"
-                            id="nu-${idName}" ${data == 'Nữ' ? "checked" : ""}>
-                        <label for="nu-${idName}">Nữ</label>
-                    </div>`
-                case 3:
-                case count - 1:
-                    return `
-                        <input type="date" name="${idName}" id="${idName}" class="form-control"
-                            value="${data.length >= 8 ? toDateInput(data) : ""}"
-                            placeholder="Nhập ${item.toLowerCase()}">
-                    `
-            }
-            return `<input type="text" name="${idName}" id="${idName}" class="form-control"
-                        value="${data}"
-                        placeholder="Nhập ${item.toLowerCase()}">`
-        }
-        var htmlActionOnRow = function (id) {
+        var createActionOnRow = function (id) {
             return `
             <td class="d-flex flex-row flex-nowrap">
                 <a href="@(DefinePage.profile_ThanhVien.url)?ma=${id}"
@@ -118,445 +81,83 @@
                         Xem
                 </a>
                 <a href="#!"
-                    class="btn btn-primary btn-sm mr-1 edit" onclick="edit(this)">
+                    class="btn btn-primary btn-sm mr-1 edit" onclick="openEdit(this)">
                     <i class="fas fa-edit"></i>
                         Sửa
                 </a>
                 <a href="#!"
-                    class="btn btn-sm mr-1" style="background-color: red; color: white; margin-left: 5px">
+                    class="btn btn-sm mr-1" onclick="yeuCauXoaDenServer('${id}')"
+                    style="background-color: red; color: white; margin-left: 5px">
                     <i class="fas fa-times" style="color: white"></i>
                         Xóa
                 </a>
             </td>
             `
         }
-        var createContent = function () {
-            return `
-                <div class="content-header">
-                    <h1 class="text-dark">Danh sách ${name}</h1>
-                </div>
-                <!-- Main content -->
-                <div class="functions">
-                    <ul class="list-function">
-                        <li class="function add">
-                            <i class="fa-solid fa-plus"></i>Thêm
-                        </li>
-                        <li class="function search">
-                            <i class="fa-solid fa-magnifying-glass"></i>Tìm kiếm
-                        </li>
-                    </ul>
-                </div>
-                <div class="content">
-                    <div class="container-fluid" style="padding: 0">
-                        <div class="card card-default"
-                             id="content-search"
-                             style="display: none">
-                            <div class="card-header">
-                                <h3 class="card-title">Tìm kiếm thành viên</h3>
-                                <div class="card-tools">
-                                    <button type="button"
-                                            class="btn btn-tool btn-slide-form"
-                                            data-card-widget="collapse">
-                                        <i class="fas fa-minus"></i>
-                                    </button>
-                                    <button type="button"
-                                            class="btn btn-tool btn-close-form"
-                                            data-card-widget="remove">
-                                        <i class="fas fa-times"></i>
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="card">
-                            <div class="card-header">
-                                <b style="padding-top: 20px; font-size: 20px;">Tổng số: ${countData + ' ' + name}</b>
-                                <div class="header-functions d-flex flex-row align-items-center">
-                                    <span class="tablet-mr-10 page-size form-outline d-flex flex-nowrap align-items-center" style="border: 1px solid #d5d5d5; border-radius: 40px; padding: 8px; margin-right: 10px">
-                                        <label for="so-luong-hang" style="font-size: 16px; font-weight: 600">Số lượng hàng &nbsp;</label>
-                                        <input type="number" name="so-luong-hang" id="so-luong-hang" class="form-control" style="max-width: 50px; padding: 0" min="1" max="${countData > 100 ? 100 : countData}"
-                                            value="${pageSize}"/>
-                                        &nbsp;
-                                        <a href="#!" id="btn-accept-size-page" class="btn btn-primary" style="border-radius: 30px">Xác nhận</a>
-                                    </span>
-                                    <span class="tablet-mr-10 sort-by d-flex flex-nowrap" style="border: 1px solid #d5d5d5; border-radius: 40px; padding: 8px; margin-right: 10px">
-                                        <input type="checkbox" name="sap-xep-tang-giam" id="sap-xep-tang-giam" />
-                                        <label for="sap-xep-tang-giam" style="margin-right: 10px; font-size: 16px; font-weight: 600">&nbsp; Sắp xếp giảm dần</label>
-                                    </span>
-                                    <div class="tablet-mr-10 header-sort d-block" style="margin-right: 10px">
-                                        <span class="text-sort position-relative d-flex flex-row align-items-center"
-                                              onclick="event.stopPropagation()">
-                                            <i class="fa-solid fa-sort" style="margin-right: 5px">
-                                            </i>Sắp xếp
-                                        </span>
-                                        <ul class="header-sort-list position-absolute d-flex flex-column d-none z-3">
-                                            ${usingIndex.reduce(function (result, item) {
-                                                return result + `
-                                                    <li>
-                                                        <label for="${nameObj[nameTiengViets[item]].id}-sort">${nameTiengViets[item]}</label>
-                                                        <input class="sort-item" type="checkbox" name="${nameObj[nameTiengViets[item]].id}-sort" id="${nameObj[nameTiengViets[item]].id}-sort"
-                                                            value="${nameTiengViets[item]}" ${nameObj[nameTiengViets[item]].sort == true ? "checked" : ""} />
-                                                    </li>
-                                                `;
-                                            }, "")
-                                            }
-                                            <li class="btn-sort">Sắp xếp</li>
-                                        </ul>
-                                    </div>
-                                    <div class="tablet-mr-10 header-view d-block">
-                                        <span class="text-view position-relative d-flex flex-row align-items-center"
-                                              onclick="event.stopPropagation()">
-                                            <i class="fa-solid fa-caret-down" style="margin-right: 5px">
-                                            </i>Hiển thị
-                                        </span>
-                                        <ul class="header-view-list position-absolute d-flex flex-column d-none z-3">
-                                            <li>
-                                                <label for="select-all">Chọn tất cả</label>
-                                                <input class="view-item" type="checkbox" name="select-all" id="select-all">
-                                            </li>
-                                            ${usingIndex.reduce(function (result, item) {
-                                                return result + `
-                                                    <li>
-                                                        <label for="${nameObj[nameTiengViets[item]].id}-view">${nameTiengViets[item]}</label>
-                                                        <input class="view-item" type="checkbox" name="${nameObj[nameTiengViets[item]].id}-view" id="${nameObj[nameTiengViets[item]].id}-view"
-                                                            value="${nameTiengViets[item]}" ${nameObj[nameTiengViets[item]].using == true ? "checked" : ""} />
-                                                    </li>
-                                                `;
-                                                }, "")
-                                            }
-                                            <li id="btn-view">Hiển thị</li>
-                                        </ul>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <!-- /.card-header -->
-                            <div class="card-body p-0">
-                                <form method="POST"
-                                      action="https://1900.com.vn/admin/jobs/update-career">
-                                    <div class="table-responsive-xl">
-                                        <table class="table table-hover" id="table-job">
-                                            <thead>
-                                                <tr class="align-center">
-                                                    <th width="50">
-                                                        <label class="icheck-primary mb-0 d-block">
-                                                            <input type="checkbox" value="all" id="table-select-all">
-                                                        </label>
-                                                    </th>
-                                                    ${
-                                                    nameTiengViets.reduce(function (result, item) {
-                                                        return result + `<th class="${nameObj[item].using ? "" : "d-none"}">${item}</th>`
-                                                    }, "")
-                                                    }
-                                                    <th>Thao tác</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                ${
-                                                 datas != null ?
-                                                 (datas.reduce(function (result, item) {
-                                                     let id = item[nameItems[0]].trim();
-                                                     return result + `
-                                                        <tr id="${id}">
-                                                        <td>
-                                                            <label class="icheck-primary mb-0 d-block">
-                                                                <input id="table-select-${id}" type="checkbox" value="${id}" name="delete[]"
-                                                                       class="records table-select">
-                                                            </label>
-                                                        </td>
-                                                        ${nameItems.reduce(function (result1, item1, index) {
-                                                            return result1 + htmlView(item, item1, index, id)
-                                                            }, "")
-                                                         }
-                                                        ${htmlActionOnRow(id)}
-                                                        </tr>
-                                                     `
-                                                 }, "")) : ""
-                                                }
-                                            </tbody>
-                                        </table>
-                                    </div>
-                                </form>
-                            </div>
-
-                            <!-- /.card-body -->
-                            <div class="card-footer clearfix p-0"
-                                 style="padding-top: 10px !important">
-                                <ul class="pagination pagination-sm m-0 float-right">
-                               <li class="page-item" onclick="toPage(1)">
-                                   <a class="page-link" href="#!"><< First</a>
-                               </li>
-                               ${
-                                   [""].reduce(function (result)
-                                   {
-                                       let arr = [];
-                                       let str = "";
-                                       let t = 3;
-                                       let s = 3;
-                                       for (let i = s; i >= 1; i--) {
-                                           if ((page - i) >= 1) {
-                                               arr[arr.length] = page - i;
-                                           }
-                                       }
-                                       if (arr.length < 3)
-                                           s += (s - arr.length)
-                                       arr[arr.length] = page;
-                                       for (let i = 1; i <= s; i++) {
-                                           if ((page + i) <= (countData / pageSize)) {
-                                               arr[arr.length] = page + i;
-                                           } else break;
-                                       }
-                                       if (arr.length < (t * 2 + 1)) {
-                                           for (let i = 1; arr.length < (t * 2 + 1) ; i++)
-                                               if (arr[0] - 1 >= 1) {
-                                                   arr = [arr[0] - 1, ...arr]
-                                               }
-                                       }
-                                       if (arr[0] > 1)
-                                           result += `<li class="page-item">
-                                               <a class="page-link" style="color: gray" href="#!">...</a>
-                                           </li>`
-
-                                       result += arr.reduce(function (result, item) {
-                                           return result + `
-                                               <li class="page-item" onclick="toPage(${item})">
-                                                   <a class="page-link ${item == page ? "active" : ""}" href="#!">${item}</a>
-                                               </li>`
-                                       }, "")
-
-                                       if (arr[arr.length - 1] < parseInt(countData / pageSize))
-                                           result += `<li class="page-item" >
-                                               <a class="page-link" style="color: gray" href="#!">...</a>
-                                           </li >`
-                                       return result;
-
-                                   }, "")
-                               }
-                               <li class="page-item" onclick="toPage(${parseInt(countData / pageSize) })">
-                                   <a class="page-link" href="#!">End >></a>
-                               </li>
-                                </ul>
-                                <button type="button"
-                                        class="btn btn-success btn-xuat-file float-end">
-                                    <span>Xuất file</span>
-                                    <img src="/icons/excel.png"
-                                         alt="icon-excel"
-                                         style="width: 32px" />
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div id="part-add" class="d-none">
-                        <div class="card card-default" id="content-add">
-                            <div>
-                                <div class="card-tools">
-                                    <button type="button" class="btn btn-tool btn-close-form" data-card-widget="remove">
-                                        <i class="fas fa-times" style="font-size: 18px;"></i>
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-                </div>
-            `;
-        }
-        var createForm = function (result, thaotac) {
-            let html = '';
-            if (result) {
-                let id = result[nameObj[nameTiengViets[0]].id];
-                let gioitinh = {};
-                html = `
-                        <div class="card-body form-input" id="${thaotac}">
-                            <h3 class="card-title">${thaotac == 'edit' ? "Sửa thông tin" : (thaotac == 'add' ? "Thêm " + name : "Tìm kiếm")} </h3>
-                            <form method="GET" action="#" id="form-${id}">
-                                <div class="row">
-                                    ${
-                                    nameTiengViets.reduce(function (result1, item, index) {
-                                        return result1 + `<div class="col-md-6">
-                                            <div class="form-group">
-                                                <label>${item}</label>
-                                                ${htmlCreateOrUpdate(thaotac, result, item, index, id)}
-                                            </div>
-                                        </div>`
-                                    }, "")
-                                    }
-                                    <div class="col-md-12">
-                                        <div class="form-group btns">
-                                            <button class="btn btn-primary">
-                                                ${thaotac == 'edit' ? "Xác nhận" : (thaotac == 'add' ? "Thêm" : "Tìm kiếm")}
-                                            </button>
-                                            <button class="btn btn-danger"
-                                                    type="button" onclick="resert(this)">
-                                                Đặt lại
-                                            </button>
-                                                ${thaotac == 'edit' ?
-                                            `<button class="btn btn-secondary cancel"
-                                                    type="button" onclick="cancel(this)">
-                                                Hủy
-                                            </button>` :  ""}
-                                        </div>
-                                    </div>
-                                </div>
-                            </form>
-                        </div>
-                `;
+        var createInputFormAddOrUpdate = function (thaotac, result, item, index, id) {
+            let data = result[nameObj[item].id] ? (result[nameObj[item].id]).trim() : "";
+            let idName = nameObj[item].id + '-' + thaotac + '-' + id;
+            switch (index) {
+                case 2:
+                    return `
+                    <div>
+                        <input type="radio" name="${idName}" value="nam"
+                            id="nam-${idName}" ${data == 'Nam' ? "checked" : ""} class="input-radio-${thaotac}" value='1'>
+                        <label for="nam-${idName}">Nam</label>
+                        <input type="radio" name="${idName}" value="nu"
+                            id="nu-${idName}" ${data == 'Nữ' ? "checked" : ""} class="input-radio-${thaotac}" value='0'>
+                        <label for="nu-${idName}">Nữ</label>
+                    </div>`
+                case 3:
+                case count - 1:
+                    return `
+                    <input type="date" name="${idName}" id="${idName}" class="form-control input-${thaotac}"
+                        value="${data.length >= 8 ? toDateInput(data) : ""}"
+                            placeholder="Nhập ${item.toLowerCase()}">
+                    `
+                case 5:
+                    return `
+                    <input type="email" name="${idName}" id="${idName}" class="form-control input-${thaotac}"
+                        value="${data}"
+                            placeholder="Nhập ${item.toLowerCase()}">
+                    `
             }
-            return html;
+            return `<input type="text" name="${idName}" id="${idName}" class="form-control input-${thaotac}"
+                value="${data}"
+                placeholder="Nhập ${item.toLowerCase()}">`
         }
-        var loadData = function (myResolve, myReject) {
-            $.ajax({
-                url: `/${removeVietnameseTones(xoaKhoangTrang(name))}/getAll?page=${page}&pageSize=${pageSize}`,
-                type: "POST",
-                contentType: "application/json;charset=utf-8",
-                dataType: "json",
-                success: function (result) {
-                    datas = result["data"];
-                    if (myResolve)
-                        myResolve()
-                },
-                error: function (errormessage) {
-                    if (myReject)
-                        myReject(errormessage)
-                }
-            });
-        }
-        var loadPage = function () {
-            root.html(createContent());
-            $('#content-add').html($('#content-add').html() + createForm({}, 'add'));
-            $('#content-search').html($('#content-search').html() + createForm({}, 'search'));
-            $('#content-search').slideUp(0);
-            $('.header-sort-list').addClass('d-none');
-            $('.header-view-list').addClass('d-none');
-            $(document).ready(ready);
-        }
-        var ready = function () {
-            function upDown(parent, child) {
-                if (child) {
-                    parent.children(`.${child.attr('class').replace(' ', '.')}`).slideToggle();
-                } else
-                    parent.slideToggle();
+        var convertDataToServer = function (item, index) {
+            switch (index) {
+                case 2:
+                    return $('#nam-' + item).prop('checked') ? 'true' : ($('#nu-' + item).prop('checked') ? 'false' : null);
             }
-            $('.btn-slide-form').click(function (e) {
-                upDown($(e.currentTarget).parent().parent().parent(), $('.form-input'));
-                $(e.currentTarget).children('i').attr('class',
-                    $(e.currentTarget).children('i')
-                        .attr('class') == 'fas fa-minus' ? 'fa-solid fa-plus' : 'fas fa-minus'
-                );
-            })
-            $('.btn-close-form').click(function (e) {
-                if ($(e.currentTarget).parent().parent().parent().attr('id') == 'content-add') {
-                    $('#part-add').addClass('d-none');
-                }
-                else
-                    upDown($(e.currentTarget).parent().parent().parent());
-            })
-            $('.function').click(function (e) {
-                if ($(e.currentTarget).attr('class').indexOf('search') != -1)
-                    upDown($('#content-search'));
-                else if ($(e.currentTarget).attr('class').indexOf('add') != -1) {
-                    $('#part-add').removeClass('d-none');
-                }
-            })
-            $('.text-view').click(function () {
-                $('.header-view-list').toggleClass('d-none');
-                $('.header-sort-list').addClass('d-none');
-            })
-            $('.text-sort').click(function () {
-                $('.header-sort-list').toggleClass('d-none');
-                $('.header-view-list').addClass('d-none');
-            })
-            $('.btn-sort').click(function () {
-                for (let e of $(this).parent().children()) {
-                    console.log($(e).val() + "\n");
-                }
-                $('.header-sort-list').addClass('d-none');
-            })
-            $('#btn-view').click(function () {
-                for (let item of $('.view-item')) {
-                    if (nameObj[$(item).val()]) {
-                        if ($(item).prop('checked')) {
-                            nameObj[$(item).val()].using = true;
-                        } else {
-                            nameObj[$(item).val()].using = false;
-                        }
+            return $('#' + item).val() ? $('#' + item).val().trim() : null;
+        }
+        var checkDataToServer = function (item, index) {
+            if (item == null || item.length == 0)
+                return "Trường này không được để trống"
+            switch (index) {
+                case 4: {
+                    var vnf_regex = /((09|03|07|08|05)+([0-9]{8})\b)/g;
+                    if (vnf_regex.test(item) == false) {
+                        return 'Số điện thoại của bạn không đúng định dạng!';
+                    } else {
+                        return undefined
                     }
                 }
-                loadPage();
-            })
-            $('.view-item:first').change(function () {
-                if ($(this).prop('checked')) {
-                    $('.view-item').prop('checked', true);
-                } else {
-                    $('.view-item').prop('checked', false);
+                case 5: {
+                    if (validateEmail(item))
+                        return undefined
+                    return "Email nhập không đúng định dạng"
                 }
-            })
-            $('#so-luong-hang').change(function () {
-                if ($(this).val() > 100)
-                    $(this).val(100);
-            })
-            $('#btn-accept-size-page').click(function () {
-                pageSize = parseInt($('#so-luong-hang').val());
-                console.log(pageSize);
-                load();
-            })
-            $('#table-select-all').change(function () {
-                if ($(this).prop('checked')) {
-                    $('.table-select').prop('checked', true);
-                } else {
-                    $('.table-select').prop('checked', false);
+                case 7: {
+                    if (item.length != 12)
+                        return "Số căn cước công dân phải chứa đúng 12 ký tự"
+                    return undefined
                 }
-            })
-            $('.btn-xuat-file').click(function () {
-                var table2excel = new Table2Excel();
-                console.log('ok')
-                table2excel.export($('table'), 'thống kê ' + name);
-            })
-        }
-        var edit = function (e) {
-            let edit = $(e).parent().parent();
-            let id = edit.attr('id');
-            let date = edit.children(`#${nameObj[nameTiengViets[3]].id}-${id}`).text();
-            let result = {}
-            for (let item of nameTiengViets) {
-                result['"' + nameObj[item].id + '"'] = edit.children(`#${nameObj[item].id}-${id}`).text()
             }
-            for (let e of edit.children('td')) {
-                e = $(e)
-                console.log(e)
-                e.attr('class', e.attr('class') ? (e.attr('class') + (e.attr('class').indexOf('d-none') == -1 ? ' d-none' : '')) : 'd-none')
-            }
-            $('.form-edit').remove();
-            edit.html(edit.html() + `<td colspan="${count + 2}" id="form-edit-${id}" class="form-edit">${createForm(result, 'edit')}</td>`);
-        }
-        var cancel = function (e) {
-            let edit = $(e).parent().parent().parent().parent().parent().parent().parent();
-            let id = edit.attr('id');
-            edit.children('td').removeClass('d-none');
-            for (let item of nameTiengViets) {
-                if (!nameObj[item].using)
-                    edit.children(`#${nameObj[item].id}-${id}`).addClass('d-none');
-            }
-            edit.children(`#form-edit-${id}`).addClass('d-none');
-        }
-        var resert = function (e) {
-            let editor = $(e).parent().parent().parent().parent().parent();
-            console.log(editor)
-            if (editor.attr('id') == 'edit') {
-                edit(editor);
-            } else if (editor.attr('id') == 'add') {
-                $('#add').remove();
-                $('#content-add').html($('#content-add').html() + createForm({}, 'add'));
-            } else if (editor.attr('id') == 'search') {
-                $('#search').remove();
-                $('#content-search').html($('#content-search').html() + createForm({}, 'search'));
-            }
-        }
-        var toPage = function (index) {
-            page = index;
-            load();
+            return undefined;
         }
         load()
-        
     </script>
 }

@@ -1,0 +1,274 @@
+﻿
+@{
+    ViewBag.Title = "PhongBan";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@section cssContent {
+    <style>
+        :root {
+            --color-main: #4caf50;
+        }
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background-color: #f4f4f4;
+        }
+
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+            background-color: #fff;
+        }
+
+        th, td {
+            border: 1px solid #ddd;
+            padding: 12px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #f2f2f2;
+        }
+
+        form {
+            margin-top: 20px;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+        }
+
+        input, button {
+            padding: 10px;
+            margin-bottom: 10px;
+        }
+
+        button {
+            background-color: #4caf50;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+
+        input[type="text"] {
+            width: 100%;
+            box-sizing: border-box;
+        }
+
+        input[type="text"], button {
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+        input[type="text"]:focus, button:focus {
+            outline: none;
+            border-color: #4caf50;
+        }
+
+        input[type="text"]::placeholder {
+            color: #ccc;
+        }
+
+        .search-highlight {
+            background-color: #ffcccb;
+            font-weight: bold;
+        }
+
+        .dashboard.dashboard_1 {
+            margin: 0;
+        }
+
+        .sidebar_toggle, .user_profile_dd li {
+            background-color: #4caf50 !important;
+        }
+
+        .logo_section > a > span {
+            color: #4caf50 !important;
+        }
+
+        #content {
+            padding-left: 0;
+            padding-right: 0;
+        }
+
+        @@media (min-width: 1200px) {
+            #content {
+                padding-left: 280px;
+            }
+
+            #sidebar.active + #content {
+                padding-left: 90px;
+            }
+        }
+
+        .container-fluid {
+            padding: 0;
+        }
+
+        .breadcrumb {
+            padding: 0;
+            background-color: white;
+        }
+
+        .breadcrumb-item a {
+            color: #0971B8;
+        }
+
+        .footer {
+            margin-top: 0;
+        }
+    </style>
+}
+<h1>Quản lý phòng ban</h1>
+<form id="departmentForm">
+    <label for="departmentCode">Mã phòng ban:</label>
+    <input type="text" id="departmentCode" placeholder="Nhập mã phòng ban" required>
+
+    <label for="departmentName">Tên phòng ban:</label>
+    <input type="text" id="departmentName" placeholder="Nhập tên phòng ban" required>
+
+    <button type="button" onclick="addOrUpdateDepartment()" data-department-id="">Thêm mới</button>
+</form>
+
+<label for="searchDepartment">Tìm kiếm theo mã phòng ban:</label>
+<input type="text" id="searchDepartment" oninput="searchDepartment()" placeholder="Nhập mã phòng ban">
+
+<table id="departmentTable">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Mã phòng ban</th>
+            <th>Tên phòng ban</th>
+            <th>Thao tác</th>
+        </tr>
+    </thead>
+    <tbody>
+        <!-- Dữ liệu phòng ban sẽ được thêm vào đây thông qua JavaScript -->
+    </tbody>
+</table>
+@section jsContent {
+<script>
+        let departments = [
+            { id: 1, code: 'PB001', name: 'Phòng ban A' },
+            { id: 2, code: 'PB002', name: 'Phòng ban B' },
+            // Thêm dữ liệu phòng ban khác nếu cần
+        ];
+
+        let currentId = departments.length + 1;
+
+        displayDepartments();
+
+        function addOrUpdateDepartment() {
+            const code = document.getElementById('departmentCode').value;
+            const name = document.getElementById('departmentName').value;
+            const departmentId = document.querySelector('button[onclick="addOrUpdateDepartment()"]').getAttribute('data-department-id');
+
+            if (departmentId) {
+                const index = departments.findIndex(d => d.id == departmentId);
+                if (index !== -1) {
+                    departments[index] = { id: parseInt(departmentId), code, name };
+                }
+            } else {
+                const newDepartment = {
+                    id: currentId++,
+                    code,
+                    name
+                };
+                departments.push(newDepartment);
+            }
+
+            updateIds();
+            displayDepartments();
+            clearForm();
+
+            // Chuyển hướng đến trang ThemPhongBan.html
+            window.location.href = 'ThemPhongBan.html';
+        }
+
+        function openEditDepartmentPage(id) {
+            window.location.href = `SuaPhongBan.html?id=${id}`;
+        }
+
+        function displayDepartments() {
+            const tableBody = document.querySelector('#departmentTable tbody');
+            tableBody.innerHTML = '';
+
+            departments.forEach(department => {
+                const row = tableBody.insertRow();
+                row.dataset.id = department.id;
+                row.innerHTML = `<td>${department.id}</td><td>${department.code}</td><td>${department.name}</td><td><button onclick="openEditDepartmentPage(${department.id})">Sửa</button> <button onclick="deleteDepartment(${department.id})">Xoá</button></td>`;
+            });
+        }
+
+        function deleteDepartment(id) {
+            departments = departments.filter(d => d.id !== id);
+            updateIds();
+            displayDepartments();
+            clearForm();
+        }
+
+        function updateIds() {
+            departments.forEach((department, index) => {
+                department.id = index + 1;
+            });
+        }
+
+        function clearForm() {
+            document.getElementById('departmentCode').value = '';
+            document.getElementById('departmentName').value = '';
+            const saveButton = document.querySelector('button[onclick="addOrUpdateDepartment()"]');
+            saveButton.innerText = 'Thêm mới';
+            saveButton.setAttribute('data-department-id', '');
+        }
+
+        function searchDepartment() {
+            const searchValue = document.getElementById('searchDepartment').value.toUpperCase();
+            const tableBody = document.querySelector('#departmentTable tbody');
+
+            departments.forEach(department => {
+                const row = tableBody.querySelector(`[data-id="${department.id}"]`);
+                if (department.code.toUpperCase().includes(searchValue)) {
+                    row.classList.add('search-highlight');
+                    document.getElementById('departmentCode').value = department.code;
+                    document.getElementById('departmentName').value = department.name;
+                } else {
+                    row.classList.remove('search-highlight');
+                }
+            });
+
+            const searchResults = departments.filter(department => department.code.toUpperCase().includes(searchValue));
+
+            if (searchResults.length > 0) {
+                const firstResult = searchResults[0];
+                document.getElementById('departmentCode').value = firstResult.code;
+                document.getElementById('departmentName').value = firstResult.name;
+
+                searchResults.forEach(department => {
+                    const row = tableBody.querySelector(`[data-id="${department.id}"]`);
+                    tableBody.insertBefore(row, tableBody.firstChild);
+                    row.classList.add('search-highlight');
+                });
+            } else {
+                departments.forEach(department => {
+                    const row = tableBody.querySelector(`[data-id="${department.id}"]`);
+                    row.classList.remove('search-highlight');
+                });
+            }
+        }
+</script>
+}
