@@ -239,8 +239,6 @@
     <Compile Include="Libary\DateHelper.cs" />
     <Compile Include="Libary\EmailHelper.cs" />
     <Compile Include="Libary\Validate.cs" />
-    <Compile Include="Models\DAO\NhanSuDAO.cs" />
-    <Compile Include="Models\DAO\TaiKhoanDAO.cs" />
     <Compile Include="Models\Data\BaoHiem.cs" />
     <Compile Include="Models\Data\BoPhan.cs" />
     <Compile Include="Models\Data\CaLam.cs" />
@@ -254,11 +252,14 @@
     <Compile Include="Models\Data\LichSuLamViec.cs" />
     <Compile Include="Models\Data\NgayNghi.cs" />
     <Compile Include="Models\Data\NhanSu.cs" />
+    <Compile Include="Libary\ObjectHelper.cs" />
     <Compile Include="Models\Data\PhongBan.cs" />
     <Compile Include="Models\Data\QuanLyNhanSuContext.cs" />
     <Compile Include="Models\Data\sysdiagram.cs" />
     <Compile Include="Models\Data\TaiKhoan.cs" />
-    <Compile Include="Models\UserLogin.cs" />
+    <Compile Include="Models\Object\Admin.cs" />
+    <Compile Include="Models\Object\QuanLy.cs" />
+    <Compile Include="Models\Object\User.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -2791,6 +2792,7 @@
     <None Include="packages.config" />
     <Content Include="Views\DangKy\LichLamViec.cshtml" />
     <Content Include="Views\Management\PhongBan.cshtml" />
+    <Content Include="Views\Management\TaiKhoan.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{3259AA49-8AA1-44D3-9025-A0B520596A8C}" />

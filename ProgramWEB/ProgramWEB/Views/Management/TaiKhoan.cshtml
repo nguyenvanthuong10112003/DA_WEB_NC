@@ -1,9 +1,9 @@
 ﻿@{
-    ViewBag.Title = "Quản lý nhân sự"; Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewBag.Title = "Quản lý tài khoản"; Layout = "~/Views/Shared/_Layout.cshtml";
     ViewBag.pageNow =
     new LocationPage(DefinePage.home,
         new LocationPage(DefinePage.management,
-            new LocationPage(DefinePage.management_NhanSu)));
+            new LocationPage(DefinePage.management_TaiKhoan)));
 }
 @section cssContent {
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css" integrity="sha512-+4zCK9k+qNFUR5X+cKL9EIR+ZOhtIloNl9GIKS57V1MyNsYpYcUrUeQc9vNfzsWfV28IaLL3i96P9sdNyeRssA==" crossorigin="anonymous" />
@@ -24,23 +24,16 @@
         $('#main').addClass('gird wide');
         var root = $('.content-wrapper');
         var dauCach = '&nbsp;';
-        var namePage = 'nhân sự';
+        var namePage = 'tài khoản';
         var error;
         var success;
         var page = 1;
         var pageSize = 10;
         var json = JSON.parse("@ViewBag.jsonString".replace(/&quot;/g, '"'));
-        var countData = -1;
+        var countData = json["countData"];
         var nameItems = json["nameModel"];
         var nameTiengViets = json["nameRender"];
         var sortBy = json["sortBy"];
-        var hanhDong = {
-            view: true,
-            add: true,
-            edit: true,
-            delete: true,
-            search: true
-        }
         var sortTangDan = true;
         var count = nameTiengViets.length;
         var datas = [{}];
@@ -80,35 +73,9 @@
             </td >
             `;
         }
-        var createActionOnRow = function (id) {
-            return `
-            <td class="d-flex flex-row flex-nowrap">
-                ${hanhDong.view ?
-                `<a href="@(DefinePage.profile_ThanhVien.url)?ma=${id}"
-                    class="btn btn-sm mr-1"
-                    style="background-color: green; color: white; margin-right: 5px">
-                    <i class="fa-solid fa-address-card"></i>
-                    Xem
-                </a>` : ''}
-                ${hanhDong.edit ?
-                `<a href="#!"
-                        class="btn btn-primary btn-sm mr-1 edit" onclick="openEdit(this)">
-                        <i class="fas fa-edit"></i>
-                        Sửa
-                </a>` : ''}
-                ${hanhDong.delete ? 
-                `<a href="#!"
-                    class="btn btn-sm mr-1 nut-xoa-hang" id="nut-xoa-hang-${id}"
-                    style="background-color: red; color: white; margin-left: 5px">
-                    <i class="fas fa-times" style="color: white"></i>
-                    Xóa
-                </a>` : ''}
-            </td>
-            `
-        }
         var createInputFormAddOrUpdate = function (thaotac, result, item, index, id) {
             let data = result[nameObj[item].id] ? (result[nameObj[item].id]).trim() : "";
-            let idName = nameObj[item].id + '-' + thaotac + (thaotac != 'search' ? '-' + id : '');
+            let idName = nameObj[item].id + '-' + thaotac + (thaotac == 'edit' ? '' : '-' + id);
             switch (index) {
                 case 2:
                     return `
@@ -137,6 +104,12 @@
             return `<input type="text" name="${idName}" id="${idName}" class="form-control input-${thaotac}"
                 value="${data}"
                 placeholder="Nhập ${item.toLowerCase()}">`
+        }
+        var createActionOnRow = function (id) {
+            return `
+            <td class="d-flex flex-row flex-nowrap">
+            </td>
+            `
         }
         var convertDataToServer = function (item, index) {
             switch (index) {
@@ -170,7 +143,6 @@
             }
             return undefined;
         }
-        setting(namePage)
         load()
     </script>
 }

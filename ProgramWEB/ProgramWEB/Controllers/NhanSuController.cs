@@ -1,8 +1,7 @@
 ﻿using ProgramWEB.Models.Data;
-using ProgramWEB.Models.DAO;
 using System.Web.Mvc;
 using Newtonsoft.Json;
-using ProgramWEB.Models;
+using ProgramWEB.Models.Object;
 using ProgramWEB.Define;
 using System.Linq;
 using Newtonsoft.Json.Converters;
@@ -17,32 +16,14 @@ namespace ProgramWEB.Controllers
 {
     public class NhanSuController : BaseController
     {
-        public string getAll(int page = 1, int pageSize = 10)
+        public string getAll(NhanSu findBy = null, int page = 1, int pageSize = 10, string sortBy = "NS_Ma", bool sortTangDan = true)
         {
-            UserLogin userLogin = (UserLogin)Session[DefineSession.userSession];
-            if (userLogin == null || !userLogin.quyenQuanLy)
-                return "";
             try
             {
-                List<IEnumerable<NhanSu>> results = new NhanSuDAO().getAll(
-                    new NhanSu()
-                    {
-                        NS_Ma = "TV",
-                        NS_HoVaTen = "Ng",
-                        NS_GioiTinh = true,
-                        NS_NgaySinh = new DateTime(2003, 11, 10),
-                        NS_SoDienThoai = "0886454996",
-                        NS_Email = "",
-                        NS_DiaChi = "Nam Định",
-                        NS_SoCCCD = "036203013425",
-                        NS_SoTaiKhoanNganHang = "",
-                        NS_TenChuTaiKhoan = "",
-                        NS_HocVan = ""
-                    },
-                    DefineTable.nhanSu.thuocTinhs[1],
-                    page,
-                    pageSize
-                );
+                QuanLy user = (QuanLy)Session[DefineSession.userSession];
+                if (user == null || !user.quyenQuanLy)
+                    return "";
+                List<IEnumerable<NhanSu>> results = user.layDanhSachNhanSu(findBy, page, pageSize, sortBy, sortTangDan);
                 if (results == null)
                     return "";
                 return JsonConvert.SerializeObject(new
@@ -61,64 +42,70 @@ namespace ProgramWEB.Controllers
         }
         public string add(NhanSu nhanSu)
         {
-            UserLogin userLogin = (UserLogin)Session[DefineSession.userSession];
-            if (userLogin == null)
-                return JsonConvert.SerializeObject(new { error = "Bạn cần phải đăng nhập mới có thể sử dụng chức năng này" });
-            if (!userLogin.quyenQuanLy)
-                return JsonConvert.SerializeObject(new { error = "Bạn không có quyền sử dụng chức năng này" });
-            if (nhanSu == null)
-                return JsonConvert.SerializeObject(new { error = "Thông tin gửi lên không hợp lệ" });
-            NhanSuDAO nhanSuDAO = new NhanSuDAO();
-            string error = nhanSuDAO.add(nhanSu);
-            if (!string.IsNullOrEmpty(error))
-                return JsonConvert.SerializeObject(new { error = error });
-            return JsonConvert.SerializeObject(new
+            try
             {
-                success = "Thêm thành công"
+                QuanLy user = (QuanLy)Session[DefineSession.userSession];
+                if (user == null)
+                    return JsonConvert.SerializeObject(new { error = "Bạn cần phải đăng nhập mới có thể sử dụng chức năng này." });
+                if (!user.quyenQuanLy)
+                    return JsonConvert.SerializeObject(new { error = "Bạn không có quyền sử dụng chức năng này." });
+                string error = ((QuanLy)user).themNhanSu(nhanSu);
+                if (!string.IsNullOrEmpty(error))
+                    return JsonConvert.SerializeObject(new { error = error });
+                return JsonConvert.SerializeObject(new
+                {
+                    success = "Thêm thành công."
+                });
+            } catch { }
+            return JsonConvert.SerializeObject(new 
+            { 
+                error = "Có lỗi xảy ra, vui lòng thử lại sau."
             });
         }
         public string edit(NhanSu nhanSu)
         {
-            UserLogin userLogin = (UserLogin)Session[DefineSession.userSession];
-            if (userLogin == null)
-                return JsonConvert.SerializeObject(new { error = "Bạn cần phải đăng nhập mới có thể sử dụng chức năng này" });
-            if (!userLogin.quyenQuanLy)
-                return JsonConvert.SerializeObject(new { error = "Bạn không có quyền sử dụng chức năng này" });
-            if (nhanSu == null) 
-                return JsonConvert.SerializeObject(new { error = "Thông tin gửi lên không hợp lệ" });
-            NhanSuDAO nhanSuDAO = new NhanSuDAO();
-            string error = nhanSuDAO.edit(nhanSu);
-            if (!string.IsNullOrEmpty(error))
-                return JsonConvert.SerializeObject(new { error = error });
+            try
+            {
+                QuanLy user = (QuanLy)Session[DefineSession.userSession];
+                if (user == null)
+                    return JsonConvert.SerializeObject(new { error = "Bạn cần phải đăng nhập mới có thể sử dụng chức năng này" });
+                if (!user.quyenQuanLy)
+                    return JsonConvert.SerializeObject(new { error = "Bạn không có quyền sử dụng chức năng này" });
+                string error = ((QuanLy)user).suaNhanSu(nhanSu);
+                if (!string.IsNullOrEmpty(error))
+                    return JsonConvert.SerializeObject(new { error = error });
+                return JsonConvert.SerializeObject(new
+                {
+                    success = "Sửa thành công"
+                });
+            }
+            catch { }
             return JsonConvert.SerializeObject(new
             {
-                success = "Sửa thành công"
+                error = "Có lỗi xảy ra, vui lòng thử lại sau."
             });
         }
-        public string delete(string ma)
+        public string delete(string[] mas)
         {
-            UserLogin userLogin = (UserLogin)Session[DefineSession.userSession];
-            if (userLogin == null)
-                return JsonConvert.SerializeObject(new { error = "Bạn cần phải đăng nhập mới có thể sử dụng chức năng này" });
-            if (!userLogin.quyenQuanLy)
-                return JsonConvert.SerializeObject(new { error = "Bạn không có quyền sử dụng chức năng này" });
-            TaiKhoan taiKhoan = new TaiKhoanDAO().GetTaiKhoanByMaNhanSu(ma);
-            if (taiKhoan != null)
+            try
             {
-                if (!userLogin.quyenAdmin)
-                    if ((taiKhoan.TK_QuyenQuanLy != null && taiKhoan.TK_QuyenQuanLy.Value == true) ||
-                        (taiKhoan.TK_QuyenAdmin != null && taiKhoan.TK_QuyenAdmin.Value == true))
-                        return JsonConvert.SerializeObject(new { error = "Bạn không thể xóa người có quyền quản lý hệ thống này" });
-                if (userLogin.quyenAdmin)
-                    if (taiKhoan.TK_QuyenAdmin != null && taiKhoan.TK_QuyenAdmin.Value == true)
-                        return JsonConvert.SerializeObject(new { error = "Bạn không thể xóa admin của hệ thống" });
-            }
-            bool check = new NhanSuDAO().delete(ma);
-            return JsonConvert.SerializeObject(new 
-            { 
-                success = check ? "Xóa nhân sự thành công" : string.Empty,
-                error = !check ? "Xóa thất bại, vui lòng thử lại sau" : string.Empty
-            }); 
+                QuanLy user = (QuanLy)Session[DefineSession.userSession];
+                if (user == null)
+                    return JsonConvert.SerializeObject(new { error = "Bạn cần phải đăng nhập mới có thể sử dụng chức năng này" });
+                if (!user.quyenQuanLy)
+                    return JsonConvert.SerializeObject(new { error = "Bạn không có quyền sử dụng chức năng này" });
+                string error = ((QuanLy)user).xoaNhieuNhanSu(mas);
+                if (!string.IsNullOrEmpty(error))
+                    return JsonConvert.SerializeObject(new { error = error });
+                return JsonConvert.SerializeObject(new
+                {
+                    success = "Xóa nhân sự thành công"
+                });
+            } catch { }
+            return JsonConvert.SerializeObject(new
+            {
+                error = "Có lỗi xảy ra, vui lòng thử lại sau."
+            });
         }
     }
 }

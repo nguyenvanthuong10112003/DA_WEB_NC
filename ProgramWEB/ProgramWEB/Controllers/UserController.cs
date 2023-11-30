@@ -1,6 +1,6 @@
 ﻿using ProgramWEB.Define;
-using ProgramWEB.Models.DAO;
 using ProgramWEB.Models.Data;
+using ProgramWEB.Models.Object;
 using ProgramWEB.Models;
 using System;
 using System.Collections.Generic;
@@ -30,20 +30,33 @@ namespace ProgramWEB.Controllers
                     return View();
                 var username = Request.Cookies[DefineCookie.cookieUsername].Value;
                 var password = Request.Cookies[DefineCookie.cookiePassword].Value;
-                if (username == null || password == null ||
-                    string.IsNullOrEmpty(username) || string.IsNullOrEmpty(password))
+                if (string.IsNullOrEmpty(username) || string.IsNullOrEmpty(password))
                     return View();
-                TaiKhoanDAO taiKhoanDAO = new TaiKhoanDAO();
-                TaiKhoan taiKhoan = taiKhoanDAO.getTaiKhoanByUsername(username);
-                if (taiKhoan == null || taiKhoan.TK_MatKhau != password || taiKhoanDAO.checkLocked(taiKhoan))
+                QuanLyNhanSuContext context = new QuanLyNhanSuContext();
+                if (context == null)
+                    return View();
+                TaiKhoan taiKhoan = context.TaiKhoans.Where(item => item.TK_TenDangNhap == username).FirstOrDefault();
+                if (taiKhoan == null || taiKhoan.TK_MatKhau != password || Models.Object.User.kiemTraBiKhoaVaMoKhoa(taiKhoan))
                 {
                     //Xoa khoi cookie
                     removeFromCookie(new string[] { DefineCookie.cookieUsername, DefineCookie.cookiePassword });
                     return View();
                 }
                 //Them vao session
-                UserLogin userSession = new UserLogin(taiKhoan.TK_TenDangNhap, taiKhoan.NS_Ma.Trim(),
+                User userSession;
+                if (taiKhoan.TK_QuyenAdmin == true)
+                {
+                    userSession = new Admin(taiKhoan.TK_TenDangNhap, taiKhoan.NS_Ma.Trim(),
                     taiKhoan.TK_QuyenAdmin.GetValueOrDefault(), taiKhoan.TK_QuyenQuanLy.GetValueOrDefault(), taiKhoan.TK_AnhDaiDien);
+                } else if (taiKhoan.TK_QuyenQuanLy == true)
+                {
+                    userSession = new QuanLy(taiKhoan.TK_TenDangNhap, taiKhoan.NS_Ma.Trim(),
+                    taiKhoan.TK_QuyenAdmin.GetValueOrDefault(), taiKhoan.TK_QuyenQuanLy.GetValueOrDefault(), taiKhoan.TK_AnhDaiDien);
+                } else
+                {
+                    userSession = new User(taiKhoan.TK_TenDangNhap, taiKhoan.NS_Ma.Trim(),
+                    taiKhoan.TK_QuyenAdmin.GetValueOrDefault(), taiKhoan.TK_QuyenQuanLy.GetValueOrDefault(), taiKhoan.TK_AnhDaiDien);
+                }
                 Session.Add(DefineSession.userSession, userSession);
                 string[] beforeURL = (string[])Session[DefineSession.beforeUrlSession];
                 if (beforeURL != null)
@@ -64,15 +77,36 @@ namespace ProgramWEB.Controllers
                 {
                     error = "Thông tin gửi lên không hợp lệ."
                 });
-            TaiKhoanDAO taiKhoanDAO = new TaiKhoanDAO();
-            TaiKhoan taiKhoan = taiKhoanDAO.getTaiKhoanByUsername(username);
-            string message = CheckLogin(taiKhoan, password);
+            QuanLyNhanSuContext context = new QuanLyNhanSuContext();
+            if (context == null)
+                return JsonConvert.SerializeObject(new
+                {
+                    error = "Có lỗi xảy ra, vui lòng thử lại sau."
+                });
+            TaiKhoan taiKhoan = context.TaiKhoans.Find(username);
+            string message = Models.Object.User.login(taiKhoan, password);
             if (!string.IsNullOrEmpty(message))
                 return JsonConvert.SerializeObject(new
                 {
                     error = message
                 });
-            Session.Add(DefineSession.userSession, new UserLogin(taiKhoan.TK_TenDangNhap, taiKhoan.NS_Ma, taiKhoan.TK_QuyenAdmin.Value, taiKhoan.TK_QuyenQuanLy.Value, taiKhoan.TK_AnhDaiDien));
+            User userSession;
+            if (taiKhoan.TK_QuyenAdmin == true)
+            {
+                userSession = new Admin(taiKhoan.TK_TenDangNhap, taiKhoan.NS_Ma.Trim(),
+                taiKhoan.TK_QuyenAdmin.GetValueOrDefault(), taiKhoan.TK_QuyenQuanLy.GetValueOrDefault(), taiKhoan.TK_AnhDaiDien);
+            }
+            else if (taiKhoan.TK_QuyenQuanLy == true)
+            {
+                userSession = new QuanLy(taiKhoan.TK_TenDangNhap, taiKhoan.NS_Ma.Trim(),
+                taiKhoan.TK_QuyenAdmin.GetValueOrDefault(), taiKhoan.TK_QuyenQuanLy.GetValueOrDefault(), taiKhoan.TK_AnhDaiDien);
+            }
+            else
+            {
+                userSession = new User(taiKhoan.TK_TenDangNhap, taiKhoan.NS_Ma.Trim(),
+                taiKhoan.TK_QuyenAdmin.GetValueOrDefault(), taiKhoan.TK_QuyenQuanLy.GetValueOrDefault(), taiKhoan.TK_AnhDaiDien);
+            }
+            Session.Add(DefineSession.userSession, userSession);
             if (keepLogin)
             {
                 DateTime timeSave = DateTime.Now.AddDays(30);
@@ -111,17 +145,6 @@ namespace ProgramWEB.Controllers
                     }
                 );
             }
-        }
-        [HttpPost]
-        public string CheckLogin(TaiKhoan taiKhoan, string password)
-        {
-            if (taiKhoan == null)
-                return "Tài khoản không tồn tại.";
-            if (!BCrypt.Net.BCrypt.Verify(password, taiKhoan.TK_MatKhau))
-                return "Mật khẩu đăng nhập không chính xác";
-            if (new TaiKhoanDAO().checkLocked(taiKhoan))
-                return "Tài khoản đang bị khóa, hãy chờ đến " + taiKhoan.TK_ThoiGianMoKhoa.ToString();
-            return string.Empty;
         }
     }
 }

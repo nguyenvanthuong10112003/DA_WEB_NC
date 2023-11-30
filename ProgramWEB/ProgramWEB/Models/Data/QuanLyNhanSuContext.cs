@@ -11,7 +11,6 @@ namespace ProgramWEB.Models.Data
             : base("name=QuanLyNhanSuContext")
         {
         }
-
         public virtual DbSet<BaoHiem> BaoHiems { get; set; }
         public virtual DbSet<BoPhan> BoPhans { get; set; }
         public virtual DbSet<CaLam> CaLams { get; set; }

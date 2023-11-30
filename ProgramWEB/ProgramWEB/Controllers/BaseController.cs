@@ -4,7 +4,6 @@ using System.Web.Mvc;
 using System.Web.Routing;
 using ProgramWEB.Models;
 using ProgramWEB.Define;
-using ProgramWEB.Models.DAO;
 using ProgramWEB.Models.Data;
 namespace ProgramWEB.Controllers
 {
@@ -13,7 +12,7 @@ namespace ProgramWEB.Controllers
         protected override void OnActionExecuting(ActionExecutingContext filterContext)
         {
             //Lay du lieu tu session
-            var userSession = (UserLogin)Session[DefineSession.userSession];
+            var userSession = Session[DefineSession.userSession];
             if (Session[DefineSession.beforeUrlSession] == null)
                 Session.Add(DefineSession.beforeUrlSession, 
                     new string[] { filterContext.RouteData.Values["action"].ToString(),

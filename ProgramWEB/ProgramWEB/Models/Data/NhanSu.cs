@@ -25,11 +25,10 @@ namespace ProgramWEB.Models.Data
             PhongBans = new HashSet<PhongBan>();
             TaiKhoans = new HashSet<TaiKhoan>();
         }
-
+        
         [Key]
         [StringLength(10)]
         public string NS_Ma { get; set; }
-
         [Required]
         [StringLength(50)]
         public string NS_HoVaTen { get; set; }

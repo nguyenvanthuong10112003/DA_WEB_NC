@@ -1,4 +1,9 @@
-﻿var createContent = function () {
+﻿var namePage;
+var setting = (namePage) => this.namePage = namePage
+var alertDelete = () => "Việc xóa " + namePage + " sẽ xóa tất cả các thông tin liên quan, bạn có chắc chắn muốn xóa không?"
+var alertDeletes = (item) => "Việc xóa " + namePage + " sẽ xóa tất cả các thông tin liên quan, bạn có chắc chắn muốn xóa " + item + " bản ghi đã chọn không?"
+var noiDungCanhBao = $('Dialog_content__fC8ze');
+var createContent = function () {
   return `
         <div id="toast"></div>
         <div class="content-header">
@@ -7,9 +12,13 @@
         <!-- Main content -->
         <div class="functions">
             <ul class="list-function">
+                ${hanhDong.add ?
+                `
                 <li class="function add">
                     <i class="fa-solid fa-plus"></i>Thêm
                 </li>
+                `
+                : ''}
                 <li class="function search">
                     <i class="fa-solid fa-magnifying-glass"></i>Tìm kiếm
                 </li>
@@ -21,7 +30,7 @@
                      id="content-search"
                      style="display: none">
                     <div class="card-header">
-                        <h3 class="card-title">Tìm kiếm thành viên</h3>
+                        <h3 class="card-title">Tìm kiếm ${namePage}</h3>
                         <div class="card-tools">
                             <button type="button"
                                     class="btn btn-tool btn-slide-form"
@@ -37,23 +46,77 @@
                     </div>
                 </div>
 
-                <div class="card">
+                <div class="card" id="content-table">
+                    
+                </div>
+            </div>
+        </div>
+        ${hanhDong.add ? 
+        `<div id="part-add">
+                <div class="card card-default" id="content-add">
+                    <div>
+                        <div class="card-tools">
+                            <button type="button" class="btn btn-tool btn-close-form" data-card-widget="remove">
+                                <i class="fas fa-times" style="font-size: 18px;"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+        </div>` : ''
+        }
+        <div id="alert-canh-bao">
+            <div class="Dialog_wrapper__5aD4q">
+                <div class="Dialog_overlay__27wcK">
+                </div>
+            <div class="Dialog_main__PPXtm">
+                <div class="Dialog_header__0dUcJ">
+                    <h3 class="Dialog_title__+aMqC">
+                        Cảnh báo
+                    </h3>
+                    <button class="Dialog_close-button__3tLfG">
+                        <svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="circle-xmark" class="svg-inline--fa fa-circle-xmark " role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+                            <path fill="currentColor" d="M0 256C0 114.6 114.6 0 256 0C397.4 0 512 114.6 512 256C512 397.4 397.4 512 256 512C114.6 512 0 397.4 0 256zM175 208.1L222.1 255.1L175 303C165.7 312.4 165.7 327.6 175 336.1C184.4 346.3 199.6 346.3 208.1 336.1L255.1 289.9L303 336.1C312.4 346.3 327.6 346.3 336.1 336.1C346.3 327.6 346.3 312.4 336.1 303L289.9 255.1L336.1 208.1C346.3 199.6 346.3 184.4 336.1 175C327.6 165.7 312.4 165.7 303 175L255.1 222.1L208.1 175C199.6 165.7 184.4 165.7 175 175C165.7 184.4 165.7 199.6 175 208.1V208.1z">
+                            </path>
+                        </svg>
+                    </button>
+                </div>
+                <div class="Dialog_content-wrapper__oTjv7">
+                    <div class="Dialog_content__fC8ze">
+                        
+                    </div>
+                    <div class="Dialog_action__kFm-L">
+                        <button class="btn btn-secondary Button_btn__RW1e2 Button_primary__86yfm Dialog_confirm-button__j4ByN" id="canh-bao-cancel">
+                            Hủy bỏ
+                        </button>
+                        <button class="btn btn-primary Button_btn__RW1e2 Button_primary__86yfm Dialog_confirm-button__j4ByN" id="canh-bao-accept">
+                            Đồng ý
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    `;
+};
+var createTable = function () {
+                return `
                     <div class="card-header">
                         <b style="padding-top: 20px; font-size: 20px;">Tổng số: <span id="count-element">${countData}</span>${
                         " " + namePage
                         }</b>
                         <div class="header-functions d-flex flex-row align-items-center">
+                            <span class="tablet-mr-10 page-size form-outline d-flex flex-nowrap align-items-center" style="margin-right: 10px">
+                                <button type="button" disabled id="btn-delete-rows" class="btn btn-danger" style="border-radius: 30px; padding-left: 16px; padding-right: 16px; font-weight: 600">Xóa</button>
+                            </span>
                             <span class="tablet-mr-10 page-size form-outline d-flex flex-nowrap align-items-center" style="border: 1px solid #d5d5d5; border-radius: 40px; padding: 8px; margin-right: 10px">
                                 <label for="so-luong-hang" style="font-size: 16px; font-weight: 600">Số lượng hàng &nbsp;</label>
-                                <input type="number" name="so-luong-hang" id="so-luong-hang" class="form-control" style="max-width: 50px; padding: 0" min="1" max="${
-                                  countData > 100 ? 100 : countData
-                                }"
-                                    value="${pageSize}"/>
+                                <input type="number" name="so-luong-hang" id="so-luong-hang" class="form-control" style="max-width: 50px; padding: 0" min="1" 
+                                max="${countData > 100 ? 100 : countData}"
+                                    value="${pageSize > countData ? countData : pageSize}"/>
                                 &nbsp;
                                 <a href="#!" id="btn-accept-size-page" class="btn btn-primary" style="border-radius: 30px">Xác nhận</a>
                             </span>
                             <span class="tablet-mr-10 sort-by d-flex flex-nowrap" style="border: 1px solid #d5d5d5; border-radius: 40px; padding: 8px; margin-right: 10px">
-                                <input type="checkbox" name="sap-xep-tang-giam" id="sap-xep-tang-giam" />
+                                <input type="checkbox" name="sap-xep-tang-giam" id="sap-xep-tang-giam" ${sortTangDan ? '' : 'checked'}/>
                                 <label for="sap-xep-tang-giam" style="margin-right: 10px; font-size: 16px; font-weight: 600">&nbsp; Sắp xếp giảm dần</label>
                             </span>
                             <div class="tablet-mr-10 header-sort d-block" style="margin-right: 10px">
@@ -63,38 +126,24 @@
                                     </i>Sắp xếp
                                 </span>
                                 <ul class="header-sort-list position-absolute d-flex flex-column d-none z-3">
-                                    ${usingIndex.reduce(function (
-                                      result,
-                                      item
-                                    ) {
-                                      return (
-                                        result +
-                                        `
+                                    ${usingIndex.reduce(
+                                        function (result,item) {
+                                            let id = nameObj[nameTiengViets[item]].id
+                                            let name = nameTiengViets[item]
+                                            let nameTT = nameItems[item]
+                                            return (
+                                                result +
+                                            `
                                             <li>
-                                                <label for="${
-                                                  nameObj[nameTiengViets[item]]
-                                                    .id
-                                                }-sort">${
-                                          nameTiengViets[item]
-                                        }</label>
-                                                <input class="sort-item" type="checkbox" name="${
-                                                  nameObj[nameTiengViets[item]]
-                                                    .id
-                                                }-sort" id="${
-                                          nameObj[nameTiengViets[item]].id
-                                        }-sort"
-                                                    value="${
-                                                      nameTiengViets[item]
-                                                    }" ${
-                                          nameObj[nameTiengViets[item]].sort ==
-                                          true
-                                            ? "checked"
-                                            : ""
-                                        } />
+                                                <label for="${id}-sort">${name}</label>
+                                                <input class="sort-item" type="radio" name="sortBy" 
+                                                id="${id}-sort"
+                                                value="${nameTT}"
+                                                ${sortBy == nameTT ? "checked" : ""}/>
                                             </li>
-                                        `
-                                      );
-                                    },
+                                            `
+                                            );
+                                        },
                                     "")}
                                     <li class="btn-sort">Sắp xếp</li>
                                 </ul>
@@ -114,30 +163,20 @@
                                       result,
                                       item
                                     ) {
+                                        let name = nameTiengViets[item];
+                                        let id = nameObj[name].id 
                                       return (
                                         result +
                                         `
                                             <li>
-                                                <label for="${
-                                                  nameObj[nameTiengViets[item]]
-                                                    .id
-                                                }-view">${
-                                          nameTiengViets[item]
-                                        }</label>
-                                                <input class="view-item" type="checkbox" name="${
-                                                  nameObj[nameTiengViets[item]]
-                                                    .id
-                                                }-view" id="${
-                                          nameObj[nameTiengViets[item]].id
-                                        }-view"
-                                                    value="${
-                                                      nameTiengViets[item]
-                                                    }" ${
-                                          nameObj[nameTiengViets[item]].using ==
-                                          true
-                                            ? "checked"
-                                            : ""
-                                        } />
+                                                <label for="${id}-view">
+                                                    ${name}
+                                                </label>
+                                                <input class="view-item" type="checkbox"
+                                                    name="view" 
+                                                    id="${id}-view"
+                                                    value="${name}" 
+                                                    ${nameObj[name].using ? "checked" : ""}/>
                                             </li>
                                         `
                                       );
@@ -154,6 +193,49 @@
                         <form method="POST"
                               action="https://1900.com.vn/admin/jobs/update-career">
                             <div class="table-responsive-xl" style="position: relative;">
+                                 <table class="table table-hover" id="table-job" style="overflow: auto;">
+                                    <thead>
+                                        <tr class="align-center">
+                                        <th width="50">
+                                            <label class="icheck-primary mb-0 d-block">
+                                                <input type="checkbox" value="all" id="table-select-all">
+                                            </label>
+                                        </th>
+                                        ${nameTiengViets.reduce(function (result, item) {
+                                            return (
+                                                result +
+                                                `<th class="${nameObj[item].using ? "" : "d-none"}">${item}</th>`
+                                            );
+                                        }, "")}
+                                        <th>Thao tác</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        ${datas != null
+                                        ? datas.reduce(function (result, item) {
+                                            let id = item[nameItems[0]].trim();
+                                            return (
+                                                result +
+                                                `
+                                            <tr id="${id}">
+                                                <td>
+                                                    <label class="icheck-primary mb-0 d-block">
+                                                        <input id="table-select-${id}" type="checkbox" value="${id}" name="delete[]"
+                                                        class="records table-select">
+                                                    </label>
+                                                </td>
+                                                ${nameItems.reduce(function (result1, item1, index) {
+                                                    return result1 + createRowTable(item, item1, index, id);
+                                                }, "")}
+                                                ${createActionOnRow(id)}
+                                            </tr>
+                                            `
+                                            );
+                                        }, "")
+                                        : ""
+                                    }
+                                    </tbody>
+                                 </table>
                             </div>
                         </form>
                     </div>
@@ -162,37 +244,43 @@
                     <div class="card-footer clearfix p-0"
                          style="padding-top: 10px !important">
                         <ul class="pagination pagination-sm m-0 float-right">
+                      ${countData == 0 ? '' : `
                        <li class="page-item" onclick="toPage(1)">
                            <a class="page-link" href="#!"><< First</a>
                        </li>
-                       ${[""].reduce(function (result) {
+                       ${countData > pageSize ? `
+                       ${
+                        [""].reduce(function (result) {
                          let arr = [];
                          let str = "";
                          let t = 3;
                          let s = 3;
+                         let n = (countData % pageSize == 0 ? countData / pageSize : countData / pageSize + 1)
                          for (let i = s; i >= 1; i--) {
-                           if (page - i >= 1) {
-                             arr[arr.length] = page - i;
+                             if (page - i >= 1) {
+                                 arr = [...arr, page - i]
                            }
                          }
-                         if (arr.length < 3) s += s - arr.length;
-                         arr[arr.length] = page;
+                         if (n > s * 2 && arr.length < 3)
+                            s += s - arr.length;
+                         arr = [...arr, page];
                          for (let i = 1; i <= s; i++) {
-                           if (page + i <= countData / pageSize) {
-                             arr[arr.length] = page + i;
-                           } else break;
+                            if (page + i <= n) {
+                                arr = [...arr, page + i];
+                            } else break;
                          }
                          if (arr.length < t * 2 + 1) {
-                           for (let i = 1; arr.length < t * 2 + 1; i++)
-                             if (arr[0] - 1 >= 1) {
-                               arr = [arr[0] - 1, ...arr];
-                             }
-                         }
-                         if (arr[0] > 1)
-                           result += `<li class="page-item">
-                                       <a class="page-link" style="color: gray" href="#!">...</a>
-                                   </li>`;
+                            for (let i = 1; arr.length < t * 2 + 1; i++)
+                                if (arr[0] - 1 >= 1) 
+                                    arr = [arr[0] - 1, ...arr]
+                                else break;
 
+                         }
+                         if (arr[0] > 1) {
+                            result += `<li class="page-item">
+                                <a class="page-link" style="color: gray" href="#!">...</a>
+                            </li>`;
+                         }
                          result += arr.reduce(function (result, item) {
                            return (
                              result +
@@ -205,19 +293,24 @@
                            );
                          }, "");
 
-                         if (
-                           arr[arr.length - 1] < parseInt(countData / pageSize)
-                         )
+                         if (arr[arr.length - 1] < n - 1)
                            result += `<li class="page-item" >
                                        <a class="page-link" style="color: gray" href="#!">...</a>
                                    </li >`;
                          return result;
-                       }, "")}
-                       <li class="page-item" onclick="toPage(${parseInt(
-                         countData / pageSize
-                       )})">
+                        }, "")
+                        }` :
+                        `
+                        <li class="page-item" onclick="toPage(1)">
+                            <a class="page-link active" href="#!">1</a>
+                        </li>`
+                       }
+                       <li class="page-item"
+                           onclick="toPage(${parseInt(countData % pageSize == 0
+                               ? countData / pageSize : countData / pageSize + 1)})">
                            <a class="page-link" href="#!">End >></a>
-                       </li>
+                       </li>`
+                      }
                         </ul>
                         <button type="button"
                                 class="btn btn-success btn-xuat-file float-end">
@@ -227,69 +320,7 @@
                                  style="width: 32px" />
                         </button>
                     </div>
-                </div>
-            </div>
-        </div>
-
-        <div id="part-add">
-                <div class="card card-default" id="content-add">
-                    <div>
-                        <div class="card-tools">
-                            <button type="button" class="btn btn-tool btn-close-form" data-card-widget="remove">
-                                <i class="fas fa-times" style="font-size: 18px;"></i>
-                            </button>
-                        </div>
-                    </div>
-                </div>
-        </div>
-    `;
-};
-var createTable = function () {
-    return `
-     <table class="table table-hover" id="table-job" style="overflow: auto;">
-        <thead>
-            <tr class="align-center">
-            <th width="50">
-                <label class="icheck-primary mb-0 d-block">
-                    <input type="checkbox" value="all" id="table-select-all">
-                </label>
-            </th>
-            ${nameTiengViets.reduce(function (result, item) {
-                return (
-                    result +
-                    `<th class="${nameObj[item].using ? "" : "d-none"}">${item}</th>`
-                );
-            }, "")}
-            <th>Thao tác</th>
-            </tr>
-        </thead>
-        <tbody>
-            ${datas != null
-            ? datas.reduce(function (result, item) {
-                let id = item[nameItems[0]].trim();
-                return (
-                    result +
-                    `
-                <tr id="${id}">
-                    <td>
-                        <label class="icheck-primary mb-0 d-block">
-                            <input id="table-select-${id}" type="checkbox" value="${id}" name="delete[]"
-                            class="records table-select">
-                        </label>
-                    </td>
-                    ${nameItems.reduce(function (result1, item1, index) {
-                        return result1 + createRowTable(item, item1, index, id);
-                    }, "")}
-                    ${createActionOnRow(id)}
-                </tr>
-                `
-                );
-            }, "")
-            : ""
-        }
-        </tbody>
-     </table>
-    `;
+    `
 };
 var createForm = function (result, thaotac) {
   let html = "";
@@ -297,7 +328,7 @@ var createForm = function (result, thaotac) {
     let id = result[nameObj[nameTiengViets[0]].id];
     if (id) id = id.trim();
     let gioitinh = {};
-    html = `
+    return hanhDong[thaotac] ? `
                 <div class="card-body form-input" id="${thaotac}">
                     <h3 class="card-title">${
                       thaotac == "edit"
@@ -334,12 +365,10 @@ var createForm = function (result, thaotac) {
                                           thaotac,
                                           result,
                                           item,
-                                          index,
+                                          index, 
                                           id
                                         )}
                                     </div>
-
-
                                     ${
                                       thaotac == "search"
                                         ? ""
@@ -351,7 +380,7 @@ var createForm = function (result, thaotac) {
                             "")}
                             <div class="col-md-12">
                                 <div class="form-group btns">
-                                    <button class="btn btn-primary" onclick="thucHienHanhDongDenServer(this, '${thaotac}')" type="button">
+                                    <button class="btn btn-primary" id="${thaotac}-submit" onclick="thucHienHanhDongDenServer(this, '${thaotac}')" type="button">
                                         ${
                                           thaotac == "edit"
                                             ? "Xác nhận"
@@ -377,9 +406,8 @@ var createForm = function (result, thaotac) {
                         </div>
                     </form>
                 </div>
-        `;
+        ` : '';
   }
-  return html;
 };
 var ready = function () {
     let danhSachHienThi = $('.header-view-list');
@@ -387,49 +415,21 @@ var ready = function () {
     let nutXuatFile = $('.btn-xuat-file');
     let nutChonTatCaBang = $('#table-select-all');
     let nutChapNhanThayDoiSoLuongHang = $('#btn-accept-size-page');
-    let nutAnHienBoxNhapDuLieu = $('.btn-slide-form');
-    let nutDongForm = $('.btn-close-form');
-    let formThem = $('#part-add');
-    let boxNhapDuLieu = $('.form-input');
-    let idFormThem = 'content-add';
-    let nutMoForm = $('.function');
-    let formTimKiem = $('#content-search');
-    let oNhapDuLieuFormAdd = $('.input-add');
-    let oRadioButtonFormAdd = $('.input-radio-add');
     let nutDongMoDanhSachHienThi = $('.text-view');
     let nutDongMoDanhSachSapXep = $('.text-sort');
     let nutXacNhanSapXep = $('.btn-sort');
     let nutXacNhanHienThi = $('#btn-view');
     let nutChonTatCaDanhSachHienThi = $('.view-item:first');
     let oNhapSoLuongHang = $('#so-luong-hang');
-    function upDown(parent, child) {
-        if (child) {
-            parent.children(`.${child.attr('class').replace(' ', '.')}`).slideToggle();
-        } else
-            parent.slideToggle();
-    }
-    nutAnHienBoxNhapDuLieu.click(function (e) {
-        upDown($(e.currentTarget).parent().parent().parent(),);
-        $(e.currentTarget).children('i').attr('class',
-            $(e.currentTarget).children('i')
-                .attr('class') == 'fas fa-minus' ? 'fa-solid fa-plus' : 'fas fa-minus'
-        );
-    })
-    nutDongForm.click(function (e) {
-        if ($(e.currentTarget).parent().parent().parent().attr('id') == idFormThem) {
-            formThem.hide()
-        }
+    let nutThayDoiCheDoSapXep = $('#sap-xep-tang-giam');
+    let nutChonHang = $('.table-select');
+    let nutXoaCacHangDaChon = $('#btn-delete-rows');
+    let nutXoaHang = $('.nut-xoa-hang')
+    nutChonHang.change(function () {
+        if (nutChonHang.toArray().some(item => $(item).prop('checked')))
+            nutXoaCacHangDaChon.removeAttr('disabled');      
         else
-            $(e.currentTarget).parent().parent().parent().slideUp();
-    })
-    nutMoForm.click(function (e) {
-        if ($(e.currentTarget).attr('class').indexOf('search') != -1)
-            formTimKiem.slideDown();
-        else if ($(e.currentTarget).attr('class').indexOf('add') != -1) {
-            formThem.show()
-            oNhapDuLieuFormAdd.val('')
-            oRadioButtonFormAdd.prop('checked', false)
-        }
+            nutXoaCacHangDaChon.attr('disabled', true)
     })
     nutDongMoDanhSachHienThi.click(function () {
         danhSachHienThi.toggleClass('d-none');
@@ -440,12 +440,18 @@ var ready = function () {
         danhSachHienThi.addClass('d-none');
     })
     nutXacNhanSapXep.click(function () {
-        for (let e of $(this).parent().children()) {
-            console.log($(e).val() + "\n");
-        }
-        danhSachHienThi.addClass('d-none');
+        danhSachHienThi.addClass('d-none')
+        danhSachSapXep.addClass('d-none')
+        $('.sort-item').toArray().forEach(function (element) {
+            if ($(element).prop('checked')) {
+                sortBy = $(element).val();
+            }
+        })
+        loadDataTable()
     })
     nutXacNhanHienThi.click(function () {
+        danhSachHienThi.addClass('d-none')
+        danhSachSapXep.addClass('d-none')
         for (let item of $('.view-item')) {
             if (nameObj[$(item).val()]) {
                 if ($(item).prop('checked')) {
@@ -465,25 +471,45 @@ var ready = function () {
         }
     })
     oNhapSoLuongHang.change(function () {
-        if ($(this).val() > 100)
-            $(this).val(100);
+        if ($(this).val() > parseInt($(this).attr('max')))
+            $(this).val(parseInt($(this).attr('max')));
     })
     nutChapNhanThayDoiSoLuongHang.click(function () {
         pageSize = parseInt($('#so-luong-hang').val());
-        console.log(pageSize);
-        load();
+        loadDataTable();
     })
     nutChonTatCaBang.change(function () {
         if ($(this).prop('checked')) {
             $('.table-select').prop('checked', true);
+            nutXoaCacHangDaChon.removeAttr('disabled');
         } else {
             $('.table-select').prop('checked', false);
+            nutXoaCacHangDaChon.attr('disabled', true)
         }
     })
     nutXuatFile.click(function () {
         var table2excel = new Table2Excel();
-        console.log('ok')
         table2excel.export($('table'), 'thống kê ' + namePage);
+    })
+    nutThayDoiCheDoSapXep.change(function () {
+        sortTangDan = !nutThayDoiCheDoSapXep.prop('checked');
+        loadDataTable()
+    })
+    nutXoaHang.click(function (e) {
+        let id = $(e.currentTarget).attr('id').split('-')
+        onCanhBao(alertDelete(), yeuCauXoaDenServer, id[id.length - 1])
+    })
+    nutXoaCacHangDaChon.click(function () {
+        let arrId = []
+        nutChonHang.toArray().forEach(
+            item => {
+                if ($(item).prop('checked')) {
+                    let id = $(item).attr('id').split('-');
+                    arrId = [...arrId, id[id.length - 1]]
+                }
+            }
+        )
+        onCanhBao(alertDeletes(arrId.length), yeuCauXoaDenServer, arrId)
     })
     $('.errorCL').hide()
     $('.successCL').hide()
@@ -518,7 +544,7 @@ var cancel = function (e) {
 var resert = function (e) {
     let editor = $(e).parent().parent().parent().parent().parent();
     if (editor.attr('id') == 'edit') {
-        edit(editor);
+        openEdit(editor);
     } else if (editor.attr('id') == 'add') {
         $('#add').remove();
         $('#content-add').html($('#content-add').html() + createForm({}, 'add'));
@@ -530,7 +556,7 @@ var resert = function (e) {
 }
 var toPage = function (index) {
     page = index;
-    load();
+    loadDataTable();
 }
 var thucHienHanhDongDenServer = function (element, action) {
     if (element) {
@@ -559,13 +585,15 @@ var thucHienHanhDongDenServer = function (element, action) {
                         $('#error-' + action + '-' + id).show()
                     }
                     if (data['success']) {
-                        loadDataTable()
-                        if (action == 'add') {
-                            $('#part-add').hide()
-                        } else if (action == 'edit') {
-                            cancel(element)
-                        }
-                        toast({ title: 'Thành công', message: data['success'], type: 'success', duration: 2000 })
+                        new Promise(f => loadDataTable(f))
+                            .then(f => {
+                                if (action == 'add') {
+                                    $('#part-add').hide()
+                                } else if (action == 'edit') {
+                                    cancel(element)
+                                }
+                                toast({ title: 'Thành công', message: data['success'], type: 'success', duration: 2000 })
+                            })
                     }
                 },
                 function (data) {
@@ -577,13 +605,14 @@ var thucHienHanhDongDenServer = function (element, action) {
     }
 }
 var yeuCauXoaDenServer = function (ma) {
-    let url = `${window.location.origin}/${xoaKhoangTrang(removeVietnameseTones(namePage))}/delete?ma=${ma}`;
+    let url = `${window.location.origin}/${xoaKhoangTrang(removeVietnameseTones(namePage))}/delete`;
     let success = function (data) {
         if (data['success']) {
-            countData--;
-            loadDataTable()
-            toast({ title: 'Thành công', message: data['success'], type: 'success', duration: 2000 })
-            $('#count-element').text(parseInt($('#count-element').text()) > 0 ? (parseInt($('#count-element').text()) - 1) : 0);
+            new Promise(f => loadDataTable(f))
+                .then(f => {
+                    toast({ title: 'Thành công', message: data['success'], type: 'success', duration: 2000 })
+                    $('#count-element').text(parseInt($('#count-element').text()) > 0 ? (parseInt($('#count-element').text()) - 1) : 0);
+                })
         }
         else if (data['error']) {
             toast({ title: 'Thất bại', message: data['error'], type: 'error', duration: 2000 })
@@ -594,7 +623,7 @@ var yeuCauXoaDenServer = function (ma) {
         console.log(message)
     }
     ajaxToServer(url,
-        {},
+        ma,
         success,
         error
     )
@@ -602,24 +631,37 @@ var yeuCauXoaDenServer = function (ma) {
 var ajaxToServer = function (url, data, success, error) {
     $.ajax({
         url: url,
-        data: data,
+        data: { mas: data },
         contentType: "application/json;charset=utf-8",
         dataType: 'json',
+        traditional: true,
         success: success,
         error: error
     })
 }
 var loadData = function (myResolve, myReject) {
-    let url = `${window.location.origin}/${xoaKhoangTrang(removeVietnameseTones(namePage))}/getAll?page=${page}&pageSize=${pageSize}`;
+    let url = `${window.location.origin}/${xoaKhoangTrang(removeVietnameseTones(namePage))}/getAll`;
+    let data = {
+        page: page,
+        pageSize: pageSize,
+        sortBy: sortBy,
+        sortTangDan: sortTangDan
+    }
+    for (let i = 0; i < count; i++)
+        data[nameItems[i]] = findBy[nameItems[i]]
     $.ajax({
         url: url,
-        type: "GET",
+        data: data,
         contentType: "application/json;charset=utf-8",
         dataType: "json",
         success: function (result) {
             datas = result["data"];
             countData = result["countData"]
-            if (myResolve)
+            let n = countData % pageSize == 0 ? countData / pageSize : countData / pageSize + 1;
+            n = parseInt(n)
+            if (page > n)
+                page = n;
+            if (myResolve && typeof myResolve == 'function')
                 myResolve()
         },
         error: function (errormessage) {
@@ -630,36 +672,97 @@ var loadData = function (myResolve, myReject) {
     });
 }
 var loadPage = function (f) {
+    let objs = {}
+    for (let i = 0; i < nameTiengViets.length; i++) {
+        objs[nameObj[nameTiengViets[i]].id] = findBy[nameItems[i]]
+    }
     root.html(createContent());
     $("#content-add").html($("#content-add").html() + createForm({}, "add"));
-    $("#content-search").html(
-        $("#content-search").html() + createForm({}, "search")
+    $('#content-search').html(
+        $('#content-search').html() + createForm(objs, "search")
     );
-    $("#content-search").slideUp(0);
-    $("#part-add").hide();
-    $(".header-sort-list").addClass("d-none");
-    $(".header-view-list").addClass("d-none");
-    f()
-};
-var loadTable = function () {
-    $(".table-responsive-xl").html(createTable());
-};
-var loadDataTable = function () {
-    new Promise(f =>
-    {
-        loadData(f)
-    }).then(f =>
-    {
-        loadTable(f)
-    }).then(f =>
-    {
-        $(document).ready(ready);
+    let nutDongYTimKiem = $('#search-submit');
+    let nutAnHienBoxNhapDuLieu = $('.btn-slide-form');
+    let nutDongForm = $('.btn-close-form');
+    let formThem = $('#part-add');
+    let idFormThem = 'content-add';
+    let nutMoForm = $('.function');
+    let formTimKiem = $('#content-search');
+    let oNhapDuLieuFormAdd = $('.input-add');
+    let oRadioButtonFormAdd = $('.input-radio-add');
+    let thongBaoNen = $('#alert-canh-bao');
+    formTimKiem.slideUp(0);
+    formThem.hide();
+    thongBaoNen.hide();
+    nutAnHienBoxNhapDuLieu.click(function (e) {
+        $($(e.currentTarget).parent().parent().parent().children()[1]).slideToggle();
+        $(e.currentTarget).children('i').attr('class',
+            $(e.currentTarget).children('i')
+                .attr('class') == 'fas fa-minus' ? 'fa-solid fa-plus' : 'fas fa-minus'
+        );
     })
+    nutDongForm.click(function (e) {
+        if ($(e.currentTarget).parent().parent().parent().attr('id') == idFormThem) {
+            formThem.hide()
+        }
+        else
+            $(e.currentTarget).parent().parent().parent().slideUp();
+    })
+    nutMoForm.click(function (e) {
+        if ($(e.currentTarget).attr('class').indexOf('search') != -1)
+            formTimKiem.slideDown();
+        else if ($(e.currentTarget).attr('class').indexOf('add') != -1) {
+            formThem.show()
+            oNhapDuLieuFormAdd.val('')
+            oRadioButtonFormAdd.prop('checked', false)
+        }
+    })
+    nutDongYTimKiem.click(function () {
+        for (let i = 0; i < count; i++) {
+            let idName = nameObj[nameTiengViets[i]].id + '-' + 'search'
+            findBy[nameItems[i]] = convertDataToServer(idName, i)
+            findBy[nameItems[i]] = findBy[nameItems[i]] ? findBy[nameItems[i]] : ''
+        }
+        loadDataTable()
+    })
+};
+var loadTable = function (f) {
+    $("#content-table").html(createTable());
+    if (f && typeof f == 'function') 
+        f()
+};
+var loadDataTable = function (f) {
+    new Promise(f => loadData(f))
+        .then(f => loadTable(f))
+        .then(f => $(document).ready(ready))
+    if (f && typeof f == 'function')
+        f()
 }
-var load = function () {
+var load = function (f) {
     new Promise(f => {
+        loadData(f)
+    }).then(f => {
         loadPage(f)
     }).then(f => {
-        loadDataTable()
+        loadTable()
+    }).then(f => {
+        $(document).ready(ready)
+    })
+    if (f && typeof f == 'function')
+        f()
+}
+var onCanhBao = function (content, fun, data) {
+    $('.Dialog_content__fC8ze').text(content);
+    $('#alert-canh-bao').show();
+    $('#canh-bao-cancel').click(function () {
+        $('#alert-canh-bao').hide();
+    });
+    $('.svg-inline--fa.fa-circle-xmark').click(function () {
+        $('#alert-canh-bao').hide();
+    })
+    $('#canh-bao-accept').click(function () {
+        $('#alert-canh-bao').hide();
+        fun(data);
+        fun = function () { }
     })
 }

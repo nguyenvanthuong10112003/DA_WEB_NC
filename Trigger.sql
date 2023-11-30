@@ -39,3 +39,5 @@ BEGIN
 END
 
 SELECT * FROM dbo.NhanSu
+
+SELECT * FROM dbo.TaiKhoan
