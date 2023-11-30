@@ -24,6 +24,11 @@ namespace ProgramWEB.Models.Object
             this.quyenQuanLy = quyenQuanLy;
             this.avatar = avatar;
         }
+        public void init()
+        {
+            if (context == null)
+                context = new QuanLyNhanSuContext();
+        }
         public static string login(TaiKhoan taiKhoan, string password)
         {
             if (taiKhoan == null)

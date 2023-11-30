@@ -7,20 +7,20 @@
       "RelativeMoniker": "D:0:0:{E4D827DD-A477-45DC-9B1D-3E1CEA412723}|ProgramWEB\\ProgramWEB.csproj|solutionrelative:programweb\\models\\object\\quanly.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{E4D827DD-A477-45DC-9B1D-3E1CEA412723}|ProgramWEB\\ProgramWEB.csproj|d:\\thuong\\web\\\u0111a web nc\\programweb\\programweb\\controllers\\nhansucontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{E4D827DD-A477-45DC-9B1D-3E1CEA412723}|ProgramWEB\\ProgramWEB.csproj|solutionrelative:programweb\\controllers\\nhansucontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{E4D827DD-A477-45DC-9B1D-3E1CEA412723}|ProgramWEB\\ProgramWEB.csproj|d:\\thuong\\web\\\u0111a web nc\\programweb\\programweb\\models\\object\\user.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{E4D827DD-A477-45DC-9B1D-3E1CEA412723}|ProgramWEB\\ProgramWEB.csproj|solutionrelative:programweb\\models\\object\\user.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{E4D827DD-A477-45DC-9B1D-3E1CEA412723}|ProgramWEB\\ProgramWEB.csproj|d:\\thuong\\web\\\u0111a web nc\\programweb\\programweb\\controllers\\usercontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{E4D827DD-A477-45DC-9B1D-3E1CEA412723}|ProgramWEB\\ProgramWEB.csproj|solutionrelative:programweb\\controllers\\usercontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{E4D827DD-A477-45DC-9B1D-3E1CEA412723}|ProgramWEB\\ProgramWEB.csproj|d:\\thuong\\web\\\u0111a web nc\\programweb\\programweb\\controllers\\homecontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{E4D827DD-A477-45DC-9B1D-3E1CEA412723}|ProgramWEB\\ProgramWEB.csproj|solutionrelative:programweb\\controllers\\homecontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E4D827DD-A477-45DC-9B1D-3E1CEA412723}|ProgramWEB\\ProgramWEB.csproj|d:\\thuong\\web\\\u0111a web nc\\programweb\\programweb\\models\\object\\user.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{E4D827DD-A477-45DC-9B1D-3E1CEA412723}|ProgramWEB\\ProgramWEB.csproj|solutionrelative:programweb\\models\\object\\user.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E4D827DD-A477-45DC-9B1D-3E1CEA412723}|ProgramWEB\\ProgramWEB.csproj|d:\\thuong\\web\\\u0111a web nc\\programweb\\programweb\\controllers\\nhansucontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{E4D827DD-A477-45DC-9B1D-3E1CEA412723}|ProgramWEB\\ProgramWEB.csproj|solutionrelative:programweb\\controllers\\nhansucontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{E4D827DD-A477-45DC-9B1D-3E1CEA412723}|ProgramWEB\\ProgramWEB.csproj|d:\\thuong\\web\\\u0111a web nc\\programweb\\programweb\\controllers\\managementcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
@@ -141,8 +141,8 @@
       "VerticalTabListWidth": 256,
       "DocumentGroups": [
         {
-          "DockedWidth": 403,
-          "SelectedChildIndex": 4,
+          "DockedWidth": 305,
+          "SelectedChildIndex": 3,
           "Children": [
             {
               "$type": "Document",
@@ -160,6 +160,45 @@
             {
               "$type": "Document",
               "DocumentIndex": 4,
+              "Title": "NhanSuController.cs",
+              "DocumentMoniker": "D:\\Thuong\\web\\\u0110A WEB NC\\ProgramWEB\\ProgramWEB\\Controllers\\NhanSuController.cs",
+              "RelativeDocumentMoniker": "ProgramWEB\\Controllers\\NhanSuController.cs",
+              "ToolTip": "D:\\Thuong\\web\\\u0110A WEB NC\\ProgramWEB\\ProgramWEB\\Controllers\\NhanSuController.cs",
+              "RelativeToolTip": "ProgramWEB\\Controllers\\NhanSuController.cs",
+              "ViewState": "AQIAAEkAAAAAAAAAAAAkwGwAAAAIAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2023-11-30T08:21:25.364Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "User.cs",
+              "DocumentMoniker": "D:\\Thuong\\web\\\u0110A WEB NC\\ProgramWEB\\ProgramWEB\\Models\\Object\\User.cs",
+              "RelativeDocumentMoniker": "ProgramWEB\\Models\\Object\\User.cs",
+              "ToolTip": "D:\\Thuong\\web\\\u0110A WEB NC\\ProgramWEB\\ProgramWEB\\Models\\Object\\User.cs",
+              "RelativeToolTip": "ProgramWEB\\Models\\Object\\User.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAB0AAAA0AAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2023-11-30T03:57:38.336Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "QuanLy.cs",
+              "DocumentMoniker": "D:\\Thuong\\web\\\u0110A WEB NC\\ProgramWEB\\ProgramWEB\\Models\\Object\\QuanLy.cs",
+              "RelativeDocumentMoniker": "ProgramWEB\\Models\\Object\\QuanLy.cs",
+              "ToolTip": "D:\\Thuong\\web\\\u0110A WEB NC\\ProgramWEB\\ProgramWEB\\Models\\Object\\QuanLy.cs",
+              "RelativeToolTip": "ProgramWEB\\Models\\Object\\QuanLy.cs",
+              "ViewState": "AQIAAGIAAAAAAAAAAAAswPYAAAAjAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2023-11-30T03:58:38.014Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
               "Title": "HomeController.cs",
               "DocumentMoniker": "D:\\Thuong\\web\\\u0110A WEB NC\\ProgramWEB\\ProgramWEB\\Controllers\\HomeController.cs",
               "RelativeDocumentMoniker": "ProgramWEB\\Controllers\\HomeController.cs",
@@ -173,45 +212,6 @@
             {
               "$type": "Document",
               "DocumentIndex": 1,
-              "Title": "NhanSuController.cs",
-              "DocumentMoniker": "D:\\Thuong\\web\\\u0110A WEB NC\\ProgramWEB\\ProgramWEB\\Controllers\\NhanSuController.cs",
-              "RelativeDocumentMoniker": "ProgramWEB\\Controllers\\NhanSuController.cs",
-              "ToolTip": "D:\\Thuong\\web\\\u0110A WEB NC\\ProgramWEB\\ProgramWEB\\Controllers\\NhanSuController.cs",
-              "RelativeToolTip": "ProgramWEB\\Controllers\\NhanSuController.cs",
-              "ViewState": "AQIAAEoAAAAAAAAAAAAkwGwAAAAIAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2023-11-30T08:21:25.364Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 2,
-              "Title": "User.cs",
-              "DocumentMoniker": "D:\\Thuong\\web\\\u0110A WEB NC\\ProgramWEB\\ProgramWEB\\Models\\Object\\User.cs",
-              "RelativeDocumentMoniker": "ProgramWEB\\Models\\Object\\User.cs",
-              "ToolTip": "D:\\Thuong\\web\\\u0110A WEB NC\\ProgramWEB\\ProgramWEB\\Models\\Object\\User.cs",
-              "RelativeToolTip": "ProgramWEB\\Models\\Object\\User.cs",
-              "ViewState": "AQIAAAoAAAAAAAAAAAA1wBIAAAAAAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2023-11-30T03:57:38.336Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 0,
-              "Title": "QuanLy.cs",
-              "DocumentMoniker": "D:\\Thuong\\web\\\u0110A WEB NC\\ProgramWEB\\ProgramWEB\\Models\\Object\\QuanLy.cs",
-              "RelativeDocumentMoniker": "ProgramWEB\\Models\\Object\\QuanLy.cs",
-              "ToolTip": "D:\\Thuong\\web\\\u0110A WEB NC\\ProgramWEB\\ProgramWEB\\Models\\Object\\QuanLy.cs",
-              "RelativeToolTip": "ProgramWEB\\Models\\Object\\QuanLy.cs",
-              "ViewState": "AQIAACYAAAAAAAAAAAA4wMoAAAAMAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2023-11-30T03:58:38.014Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 3,
               "Title": "UserController.cs",
               "DocumentMoniker": "D:\\Thuong\\web\\\u0110A WEB NC\\ProgramWEB\\ProgramWEB\\Controllers\\UserController.cs",
               "RelativeDocumentMoniker": "ProgramWEB\\Controllers\\UserController.cs",
@@ -232,8 +232,7 @@
               "RelativeToolTip": "ProgramWEB\\Controllers\\ManagementController.cs",
               "ViewState": "AQIAAAkAAAAAAAAAAAAAAAAAAAAAAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2023-11-30T08:23:04.327Z",
-              "EditorCaption": ""
+              "WhenOpened": "2023-11-30T08:23:04.327Z"
             },
             {
               "$type": "Document",
@@ -245,8 +244,7 @@
               "RelativeToolTip": "ProgramWEB\\Controllers\\ErrorController.cs",
               "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2023-11-30T08:22:54.944Z",
-              "EditorCaption": ""
+              "WhenOpened": "2023-11-30T08:22:54.944Z"
             },
             {
               "$type": "Document",
@@ -258,8 +256,7 @@
               "RelativeToolTip": "ProgramWEB\\Controllers\\DangKyController.cs",
               "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2023-11-30T08:22:52.886Z",
-              "EditorCaption": ""
+              "WhenOpened": "2023-11-30T08:22:52.886Z"
             },
             {
               "$type": "Document",
@@ -271,8 +268,7 @@
               "RelativeToolTip": "ProgramWEB\\Controllers\\BaseController.cs",
               "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2023-11-30T08:22:45.777Z",
-              "EditorCaption": ""
+              "WhenOpened": "2023-11-30T08:22:45.777Z"
             },
             {
               "$type": "Document",
@@ -284,8 +280,7 @@
               "RelativeToolTip": "ProgramWEB\\Views\\Management\\NhanSu.cshtml",
               "ViewState": "AQIAAAAAAAAAAAAAAAAAAAEAAAAkAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2023-11-30T08:20:12.388Z",
-              "EditorCaption": ""
+              "WhenOpened": "2023-11-30T08:20:12.388Z"
             },
             {
               "$type": "Document",
@@ -321,8 +316,7 @@
               "RelativeToolTip": "ProgramWEB\\Contents\\Controllers\\NhanSuController.cs",
               "ViewState": "AQIAAAQAAAAAAAAAAADwvxkAAAAQAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2023-11-27T06:52:39.801Z",
-              "EditorCaption": ""
+              "WhenOpened": "2023-11-27T06:52:39.801Z"
             },
             {
               "$type": "Document",
@@ -471,7 +465,7 @@
           ]
         },
         {
-          "DockedWidth": 305,
+          "DockedWidth": 403,
           "SelectedChildIndex": 0,
           "Children": [
             {
@@ -482,7 +476,7 @@
               "RelativeDocumentMoniker": "ProgramWEB\\Scripts\\management\\main.js",
               "ToolTip": "D:\\Thuong\\web\\\u0110A WEB NC\\ProgramWEB\\ProgramWEB\\Scripts\\management\\main.js",
               "RelativeToolTip": "ProgramWEB\\Scripts\\management\\main.js",
-              "ViewState": "AQIAAFYCAAAAAAAAAAAuwGsCAAAEAAAA",
+              "ViewState": "AQIAAGsCAAAAAAAAAAAuwGsCAAAEAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001646|",
               "WhenOpened": "2023-11-29T09:56:59.768Z",
               "EditorCaption": ""

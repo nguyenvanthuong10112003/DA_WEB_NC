@@ -26,7 +26,7 @@ namespace ProgramWEB.Models.Object
         {
             try
             {
-                context = new QuanLyNhanSuContext();
+                init();
                 if (context != null) 
                     return context.NhanSus;      
             }
@@ -40,11 +40,11 @@ namespace ProgramWEB.Models.Object
         {
             try
             {
-                context = new QuanLyNhanSuContext();
+                init();
                 if (context == null)
                     return null;
                 IEnumerable<NhanSu> results =
-                    (findBy != null ? findNhanSus(findBy)
+                    (findBy != null ? timKiemNhieuNhanSu(findBy)
                     : (from NhanSu in context.NhanSus select NhanSu));
                 results = ObjectHelper.OrderByDynamic<NhanSu>(results, sortBy, sortTangDan ? "asc" : "desc");
                 int p = results.Count();
@@ -63,11 +63,11 @@ namespace ProgramWEB.Models.Object
             }
             return null;
         }
-        public IEnumerable<NhanSu> findNhanSus(NhanSu findNhanSu = null)
+        public IEnumerable<NhanSu> timKiemNhieuNhanSu(NhanSu findNhanSu = null)
         {
             try
             {
-                context = new QuanLyNhanSuContext();
+                init();
                 if (context == null)
                     return null;
                 if (findNhanSu != null)
@@ -96,11 +96,22 @@ namespace ProgramWEB.Models.Object
             }
             return null;
         }
+        public NhanSu timKiemMotNhanSu(string maNhanSu)
+        {
+            try
+            {
+                init();
+                if (context == null)
+                    return null;
+                return context.NhanSus.Find(maNhanSu);
+            } catch { }
+            return null;
+        }
         public string themNhanSu(NhanSu nhanSu)
         {
             try
             {
-                context = new QuanLyNhanSuContext();
+                init();
                 if (context == null)
                     return errorDB;
                 NhanSu nhanSu1 = context.NhanSus.Where(
@@ -134,7 +145,7 @@ namespace ProgramWEB.Models.Object
         {
             try
             {
-                QuanLyNhanSuContext context = new QuanLyNhanSuContext();
+                init();
                 if (context == null)
                     return errorDB;
                 NhanSu nhanSu = context.NhanSus.Find(nhanSuNew.NS_Ma);
@@ -181,7 +192,7 @@ namespace ProgramWEB.Models.Object
         {
             try
             {
-                context = new QuanLyNhanSuContext();
+                init();
                 if (context == null)
                     return errorDB;
                 NhanSu nhanSu = context.NhanSus.Find(maNhanSu);
@@ -192,9 +203,6 @@ namespace ProgramWEB.Models.Object
                     return "Bạn không thể xóa người có quyền quản lý hệ thống";
                 if (taiKhoan != null && taiKhoan.TK_QuyenAdmin == true && this.quyenAdmin)
                     return "Bạn không thể xóa admin của hệ thống";
-                var entry = context.Entry(nhanSu);
-                if (entry.State == EntityState.Detached)
-                    context.NhanSus.Attach(nhanSu);
                 context.NhanSus.Remove(nhanSu);
                 int check = context.SaveChanges();
                 if (check > 0)
@@ -203,24 +211,50 @@ namespace ProgramWEB.Models.Object
             catch {}
             return errorDB;
         }
-        public string xoaNhieuNhanSu(string[]maNhanSus)
+        public string[] xoaNhieuNhanSu(string[]maNhanSus)
         {
+            string[] results = new string[] { };
             try
             {
                 if (maNhanSus == null)
-                    return "Thông tin gửi lên không hợp lệ";
-                string error = string.Empty;
-                foreach (string ma in maNhanSus)
-                    error += xoaNhanSu(ma);
-                return error;
+                    return null;
+                else
+                {
+                    init();
+                    string error = "";
+                    string success = "";
+                    List <NhanSu> nhanSus = new List<NhanSu>();
+                    foreach (string s in maNhanSus)
+                    {
+                        NhanSu nhanSu = timKiemMotNhanSu(s);
+                        if (nhanSu != null)
+                            nhanSus.Add(nhanSu);
+                        else
+                            error += ", " + s;
+                    }
+                    if (error.Length > 0)
+                        error = "Không tồn tại nhân sự có mã: " + error + ".";
+                    if (nhanSus.Count > 0)
+                    {
+                        context.NhanSus.RemoveRange(nhanSus);
+                        int check = context.SaveChanges();
+                        if (check > 0)
+                            success = "Xóa thành công " + check + " nhân sự.";
+                        error += "\nKhông thể xóa " + (maNhanSus.Length - check) + " nhân sự.";
+                    }
+                    results[0] = error;
+                    results[1] = success;
+                    return results;
+                }
             } catch { }
-            return errorDB;
+            results[0] = errorDB;
+            return results;
         }
         public TaiKhoan timTaiKhoanBangMaNhanSu(string maNhanSu)
         {
             try
             {
-                context = new QuanLyNhanSuContext();
+                init();
                 if (context == null)
                     return null;
                 return context.TaiKhoans.Where(item => item.NS_Ma == maNhanSu).FirstOrDefault();
