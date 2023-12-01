@@ -8,7 +8,6 @@ namespace ProgramWEB.Models.Object
 {
     public class User
     {
-        protected string errorDB { get; } = "Có lỗi xảy ra, vui lòng thử lại sau";
         public string username { set; get; }
         public string maNhanSu { set; get; }
         public bool quyenAdmin { set; get; }
@@ -34,9 +33,9 @@ namespace ProgramWEB.Models.Object
             if (taiKhoan == null)
                 return "Tài khoản không tồn tại.";
             if (!BCrypt.Net.BCrypt.Verify(password, taiKhoan.TK_MatKhau))
-                return "Mật khẩu đăng nhập không chính xác";
+                return "Mật khẩu đăng nhập không chính xác.";
             if (kiemTraBiKhoaVaMoKhoa(taiKhoan))
-                return "Tài khoản đang bị khóa, hãy chờ đến " + taiKhoan.TK_ThoiGianMoKhoa.ToString();
+                return "Tài khoản đang bị khóa, hãy chờ đến " + taiKhoan.TK_ThoiGianMoKhoa.ToString() + ".";
             return string.Empty;
         }
         public static bool kiemTraBiKhoaVaMoKhoa(TaiKhoan taiKhoan)

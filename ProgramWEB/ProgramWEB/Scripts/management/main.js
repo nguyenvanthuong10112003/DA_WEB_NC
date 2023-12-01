@@ -12,7 +12,7 @@ var createContent = function () {
         <!-- Main content -->
         <div class="functions">
             <ul class="list-function">
-                ${hanhDong.add ?
+                ${hanhDong && hanhDong.add ?
                 `
                 <li class="function add">
                     <i class="fa-solid fa-plus"></i>Thêm
@@ -21,7 +21,7 @@ var createContent = function () {
                 : ''}
                 <li class="function search">
                     <i class="fa-solid fa-magnifying-glass"></i>Tìm kiếm
-                </li>
+                </li>                
             </ul>
         </div>
         <div class="content">
@@ -51,7 +51,7 @@ var createContent = function () {
                 </div>
             </div>
         </div>
-        ${hanhDong.add ? 
+        ${hanhDong && hanhDong.add ? 
         `<div id="part-add">
                 <div class="card card-default" id="content-add">
                     <div>
@@ -127,10 +127,12 @@ var createTable = function () {
                                 </span>
                                 <ul class="header-sort-list position-absolute d-flex flex-column d-none z-3">
                                     ${usingIndex.reduce(
-                                        function (result,item) {
-                                            let id = nameObj[nameTiengViets[item]].id
-                                            let name = nameTiengViets[item]
-                                            let nameTT = nameItems[item]
+                                        function (result, item, index) {
+                                            if (!item)
+                                                return result;
+                                            let id = nameObj[nameTiengViets[index]].id
+                                            let name = nameTiengViets[index]
+                                            let nameTT = nameItems[index]
                                             return (
                                                 result +
                                             `
@@ -159,15 +161,15 @@ var createTable = function () {
                                         <label for="select-all">Chọn tất cả</label>
                                         <input class="view-item" type="checkbox" name="select-all" id="select-all">
                                     </li>
-                                    ${usingIndex.reduce(function (
-                                      result,
-                                      item
-                                    ) {
-                                        let name = nameTiengViets[item];
-                                        let id = nameObj[name].id 
-                                      return (
-                                        result +
-                                        `
+                                    ${usingIndex.reduce(
+                                        function (result, item, index) {
+                                            if (!item)
+                                                return result;
+                                            let name = nameTiengViets[index];
+                                            let id = nameObj[name].id 
+                                            return (
+                                            result +
+                                            `
                                             <li>
                                                 <label for="${id}-view">
                                                     ${name}
@@ -178,9 +180,9 @@ var createTable = function () {
                                                     value="${name}" 
                                                     ${nameObj[name].using ? "checked" : ""}/>
                                             </li>
-                                        `
-                                      );
-                                    },
+                                            `
+                                            );
+                                        },
                                     "")}
                                     <li id="btn-view">Hiển thị</li>
                                 </ul>
@@ -201,13 +203,15 @@ var createTable = function () {
                                                 <input type="checkbox" value="all" id="table-select-all">
                                             </label>
                                         </th>
-                                        ${nameTiengViets.reduce(function (result, item) {
+                                        ${usingIndex.reduce(function (result, item, index) {
+                                            if (!item)
+                                                return result;
                                             return (
                                                 result +
-                                                `<th class="${nameObj[item].using ? "" : "d-none"}">${item}</th>`
+                                                `<th class="${nameObj[nameTiengViets[index]].using ? "" : "d-none"}">${nameTiengViets[index]}</th>`
                                             );
                                         }, "")}
-                                        <th>Thao tác</th>
+                                        ${hanhDong ? `<th>Thao tác</th>` : ''}
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -217,19 +221,21 @@ var createTable = function () {
                                             return (
                                                 result +
                                                 `
-                                            <tr id="${id}">
-                                                <td>
-                                                    <label class="icheck-primary mb-0 d-block">
-                                                        <input id="table-select-${id}" type="checkbox" value="${id}" name="delete[]"
-                                                        class="records table-select">
-                                                    </label>
-                                                </td>
-                                                ${nameItems.reduce(function (result1, item1, index) {
-                                                    return result1 + createRowTable(item, item1, index, id);
-                                                }, "")}
-                                                ${createActionOnRow(id)}
-                                            </tr>
-                                            `
+                                                <tr id="${id}">
+                                                    <td>
+                                                        <label class="icheck-primary mb-0 d-block">
+                                                            <input id="table-select-${id}" type="checkbox" value="${id}" name="delete[]"
+                                                            class="records table-select">
+                                                        </label>
+                                                    </td>
+                                                    ${usingIndex.reduce(function (result1, item1, index) {
+                                                        if (!item1)
+                                                            return result1
+                                                        return result1 + createRowTable(item, nameItems[index], index, id);
+                                                    }, "")}
+                                                    ${hanhDong ? createActionOnRow(id) : ''}
+                                                </tr>
+                                                `
                                             );
                                         }, "")
                                         : ""
@@ -350,33 +356,32 @@ var createForm = function (result, thaotac) {
                                 <span><span>
                                 <button type="button" class="btn-close"><i class="fa-solid fa-xmark" style="color: #ffffff;"></i></button>
                             </div>`
-                            }
-                            ${nameTiengViets.reduce(function (
-                              result1,
-                              item,
-                              index
-                            ) {
-                              return (
-                                result1 +
-                                `<div class="col-md-6">
-                                    <div class="form-group">
-                                        <label>${item}</label>
-                                        ${createInputFormAddOrUpdate(
-                                          thaotac,
-                                          result,
-                                          item,
-                                          index, 
-                                          id
-                                        )}
-                                    </div>
-                                    ${
-                                      thaotac == "search"
-                                        ? ""
-                                        : `<span id="error-${nameObj[item].id}-${thaotac}-${id}" class="text-danger"></span>`
-                                    }
-                                </div>`
-                              );
-                            },
+        }
+                            ${usingIndex.reduce(
+                                function (result1, item, index) {
+                                    if (!item)
+                                        return result1
+                                    return (
+                                        result1 +
+                                        `<div class="col-md-6">
+                                            <div class="form-group">
+                                                <label>${nameTiengViets[index]}</label>
+                                                ${createInputFormAddOrUpdate(
+                                                  thaotac,
+                                                    result,
+                                                    nameTiengViets[index],
+                                                  index, 
+                                                  id
+                                                )}
+                                            </div>
+                                            ${
+                                              thaotac == "search"
+                                            ? ""
+                                            : `<span id="error-${nameObj[nameTiengViets[index]].id}-${thaotac}-${id}" class="text-danger"></span>`
+                                            }
+                                        </div>`
+                                    );
+                                },
                             "")}
                             <div class="col-md-12">
                                 <div class="form-group btns">
@@ -614,7 +619,7 @@ var yeuCauXoaDenServer = function (ma) {
                     $('#count-element').text(parseInt($('#count-element').text()) > 0 ? (parseInt($('#count-element').text()) - 1) : 0);
                 })
         }
-        else if (data['error']) {
+        if (data['error'] && data['error'].length > 0) {
             toast({ title: 'Thất bại', message: data['error'], type: 'error', duration: 2000 })
         }
     }
@@ -715,6 +720,10 @@ var loadPage = function (f) {
             formThem.show()
             oNhapDuLieuFormAdd.val('')
             oRadioButtonFormAdd.prop('checked', false)
+            let current = new Date()
+            $('.dateNowOutput').val(
+                toDateInput(current.getDate() + '-' + (current.getMonth() + 1) + '-' + current.getFullYear())
+            )
         }
     })
     nutDongYTimKiem.click(function () {

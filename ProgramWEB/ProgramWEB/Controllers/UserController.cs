@@ -81,7 +81,7 @@ namespace ProgramWEB.Controllers
             if (context == null)
                 return JsonConvert.SerializeObject(new
                 {
-                    error = "Có lỗi xảy ra, vui lòng thử lại sau."
+                    error = DefineError.loiHeThong
                 });
             TaiKhoan taiKhoan = context.TaiKhoans.Find(username);
             string message = Models.Object.User.login(taiKhoan, password);

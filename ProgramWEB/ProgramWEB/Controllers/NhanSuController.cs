@@ -57,10 +57,10 @@ namespace ProgramWEB.Controllers
                     success = "Thêm thành công."
                 });
             } catch { }
-            return JsonConvert.SerializeObject(new 
-            { 
-                error = "Có lỗi xảy ra, vui lòng thử lại sau."
-            });
+            return JsonConvert.SerializeObject(new
+            {
+                error = DefineError.loiHeThong
+            }); 
         }
         public string edit(NhanSu nhanSu)
         {
@@ -82,7 +82,7 @@ namespace ProgramWEB.Controllers
             catch { }
             return JsonConvert.SerializeObject(new
             {
-                error = "Có lỗi xảy ra, vui lòng thử lại sau."
+                error = DefineError.loiHeThong
             });
         }
         public string delete(string[] mas)
@@ -94,17 +94,34 @@ namespace ProgramWEB.Controllers
                     return JsonConvert.SerializeObject(new { error = "Bạn cần phải đăng nhập mới có thể sử dụng chức năng này" });
                 if (!user.quyenQuanLy)
                     return JsonConvert.SerializeObject(new { error = "Bạn không có quyền sử dụng chức năng này" });
-                string error = ((QuanLy)user).xoaNhieuNhanSu(mas);
-                if (!string.IsNullOrEmpty(error))
-                    return JsonConvert.SerializeObject(new { error = error });
-                return JsonConvert.SerializeObject(new
+                if (mas != null && mas.Length == 1)
                 {
-                    success = "Xóa nhân sự thành công"
-                });
+                    string error = ((QuanLy)user).xoaNhanSu(mas[0]);
+                    if (!string.IsNullOrEmpty(error))
+                        return JsonConvert.SerializeObject(new { error = error });
+                    return JsonConvert.SerializeObject(new
+                    {
+                        success = "Xóa nhân sự thành công"
+                    });
+                }
+                if (mas != null && mas.Length > 1 )
+                {
+                    string[] message = user.xoaNhieuNhanSu(mas);
+                    if (message.Length > 0)
+                    {
+                        string error = message[0];
+                        string success = message.Length > 1 ? message[1] : string.Empty;
+                        return JsonConvert.SerializeObject(new
+                        {   
+                            success = success,
+                            error = error
+                        });
+                    }
+                }
             } catch { }
             return JsonConvert.SerializeObject(new
             {
-                error = "Có lỗi xảy ra, vui lòng thử lại sau."
+                error = DefineError.loiHeThong
             });
         }
     }

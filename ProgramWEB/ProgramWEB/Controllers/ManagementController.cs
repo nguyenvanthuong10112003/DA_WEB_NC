@@ -5,6 +5,8 @@ using System.Linq;
 using System.Web.Mvc;
 using System.Text.Json;
 using ProgramWEB.Models;
+using System.Collections.Generic;
+using ProgramWEB.Models.Data;
 namespace ProgramWEB.Controllers
 {
     public class ManagementController : BaseController
@@ -14,16 +16,21 @@ namespace ProgramWEB.Controllers
         {
             return View(); 
         }
-        public ActionResult NhanSu()
+        public ActionResult NhanSu(string ma)
         {
-            User User = (User)Session[DefineSession.userSession];
-            if (!(User != null && User.quyenQuanLy))
+            QuanLy user = (QuanLy)Session[DefineSession.userSession];
+            if (!(user != null && user.quyenQuanLy))
                 return RedirectToAction("NotFound", "Error");
+            Dictionary<string, string> findBy = new Dictionary<string, string>();
+            if (!string.IsNullOrEmpty(ma))
+                findBy.Add(DefineTable.nhanSu.thuocTinhs[0], ma);  
             ViewBag.jsonString = ViewBag.jsonString = System.Text.Json.JsonSerializer.Serialize(new
             {
                 nameModel = DefineTable.nhanSu.thuocTinhs,
                 nameRender = DefineTable.nhanSu.tenTiengViet,
-                sortBy = DefineTable.nhanSu.thuocTinhs[0]
+                sortBy = DefineTable.nhanSu.thuocTinhs[0],
+                use = DefineTable.nhanSu.suDung,
+                findBy = findBy
             });
             return View();
         }
@@ -43,7 +50,7 @@ namespace ProgramWEB.Controllers
                 nameModel = DefineTable.taiKhoan.thuocTinhs,
                 nameRender = DefineTable.taiKhoan.tenTiengViet,
                 sortBy = DefineTable.taiKhoan.thuocTinhs[0],
-                action = new string[] {}
+                use = DefineTable.taiKhoan.suDung
             });
             return View();
         }

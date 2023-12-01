@@ -10,16 +10,24 @@ namespace ProgramWEB.Define.DB
         public string name { set; get; }
         public string[]thuocTinhs { set; get; }
         public string[]tenTiengViet { set; get; }
+        public bool[]suDung { set; get; }
         public Table() {
             name = "";
             thuocTinhs = new string[] {};
-            tenTiengViet = new string[] { };
+            tenTiengViet = new string[] {};
         }
         public Table(string name, string[]thuocTinhs, string[]tenTiengViet)
         {
             this.name = name;
             this.thuocTinhs = thuocTinhs;
             this.tenTiengViet = tenTiengViet;
+        }
+        public Table(string name, string[] thuocTinhs, string[] tenTiengViet, bool[]suDung)
+        {
+            this.name = name;
+            this.thuocTinhs = thuocTinhs;
+            this.tenTiengViet = tenTiengViet;
+            this.suDung = suDung;
         }
     }
 }

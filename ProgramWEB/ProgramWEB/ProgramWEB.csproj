@@ -222,10 +222,12 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManagementController.cs" />
     <Compile Include="Controllers\NhanSuController.cs" />
+    <Compile Include="Controllers\TaiKhoanController.cs" />
     <Compile Include="Controllers\UserController.cs" />
     <Compile Include="Define\DB\Proc.cs" />
     <Compile Include="Define\DB\Table.cs" />
     <Compile Include="Define\DefineCookie.cs" />
+    <Compile Include="Define\DefineError.cs" />
     <Compile Include="Define\DefinePage.cs" />
     <Compile Include="Define\DefineProc.cs" />
     <Compile Include="Define\DefineSession.cs" />
@@ -2787,6 +2789,7 @@
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Views\NhanSu\" />
+    <Folder Include="Views\TaiKhoan\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

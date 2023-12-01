@@ -34,6 +34,8 @@
         var nameItems = json["nameModel"];
         var nameTiengViets = json["nameRender"];
         var sortBy = json["sortBy"];
+        var usingIndex = json["use"];
+        var findBy = json["findBy"];
         var hanhDong = {
             view: true,
             add: true,
@@ -44,12 +46,7 @@
         var sortTangDan = true;
         var count = nameTiengViets.length;
         var datas = [{}];
-        var usingIndex = [];
         var nameObj = [{}];
-        var findBy = {};
-        for (let i = 0; i < count; i++) {
-            this.usingIndex[i] = i;
-        }
         for (let index = 0; index < count; index++) {
             this.nameObj[nameTiengViets[index]] = { type: "", id: "", using: "" }
             this.nameObj[nameTiengViets[index]].id = removeVietnameseTones(nameTiengViets[index].replace(/ /g, ''));
@@ -119,14 +116,32 @@
                         <input type="radio" name="${idName}" value="nu"
                             id="nu-${idName}" ${data == 'Nữ' || data == 'false' ? "checked" : ""} class="input-radio-${thaotac}" value='0'>
                         <label for="nu-${idName}">Nữ</label>
+                        ${
+                        thaotac != 'search' ? "" : 
+                        `
+                        <input type="radio" name="${idName}" value="all"
+                            id="${idName}-all" class="input-radio-${thaotac}" value='-1' ${!data ? 'checked' : ''}>
+                        <label for="${idName}-all">Tất cả</label>
+                        `
+                        }
                     </div>`
                 case 3:
-                case count - 1:
                     return `
                     <input type="date" name="${idName}" id="${idName}" class="form-control input-${thaotac}"
                         value="${data.length >= 8 ? toDateInput(data) : ""}"
                             placeholder="Nhập ${item.toLowerCase()}">
                     `
+                case count - 1:
+                    return thaotac == 'add' ? `
+                        <input type="date" name="${idName}" id="${idName}" class="form-control input-${thaotac} dateNowOutput"
+                            value="${data.length >= 8 ? toDateInput(data) : ""}"
+                                placeholder="Nhập ${item.toLowerCase()}">
+                        ` : 
+                        `
+                        <input type="date" name="${idName}" id="${idName}" class="form-control input-${thaotac}"
+                            value="${data.length >= 8 ? toDateInput(data) : ""}"
+                                placeholder="Nhập ${item.toLowerCase()}">
+                        `
                 case 5:
                     return `
                     <input type="email" name="${idName}" id="${idName}" class="form-control input-${thaotac}"

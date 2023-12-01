@@ -8,8 +8,8 @@ namespace ProgramWEB.Define
 {
     public class DefineTable
     {
-        public static Table nhanSu { get; } = new Table("NhanSu", 
-            new string[] {      
+        public static Table nhanSu { get; } = new Table("NhanSu",
+            new string[] {
              "NS_Ma",
              "NS_HoVaTen",
              "NS_GioiTinh",
@@ -21,7 +21,7 @@ namespace ProgramWEB.Define
              "NS_SoTaiKhoanNganHang",
              "NS_TenChuTaiKhoan",
              "NS_HocVan",
-             "NS_NgayVao" 
+             "NS_NgayVao"
             },
              new string[] {
              "Mã",
@@ -36,7 +36,21 @@ namespace ProgramWEB.Define
              "Tên chủ tài khoản",
              "Học vấn",
              "Ngày vào"
-            }
+            },
+             new bool[] {
+             true,
+             true,
+             true,
+             true,
+             true,
+             true,
+             true,
+             true,
+             true,
+             true,
+             true,
+             true
+             }
         );
         public static Table baoHiem { get; } = new Table("BaoHiem", 
             new string[] {
@@ -56,7 +70,17 @@ namespace ProgramWEB.Define
              "Nơi cấp",
              "Nơi khám bệnh",
              "Mã nhân sự"
-            }
+            },
+             new bool[]
+             {
+             true,
+             true,
+             true,
+             true,
+             true,
+             true,
+             true
+             }
         );
         public static Table taiKhoan { get; } = new Table("TaiKhoan", 
             new string[] {
@@ -82,7 +106,20 @@ namespace ProgramWEB.Define
              "Thời gian tạo mã",
              "Ảnh đại diện",
              "Mã nhân sự"
-            }
+            },
+             new bool[]
+             {
+             true,
+             false,
+             true,
+             true,
+             true,
+             true,
+             false,
+             false,
+             false,
+             true
+             }
         );
         public static Table hopDong { get; } = new Table("HopDong", 
             new string[] {

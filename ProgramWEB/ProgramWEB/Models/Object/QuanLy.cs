@@ -1,5 +1,6 @@
 ﻿using Newtonsoft.Json;
 using PagedList;
+using ProgramWEB.Define;
 using ProgramWEB.Libary;
 using ProgramWEB.Models.Data;
 using System;
@@ -22,6 +23,7 @@ namespace ProgramWEB.Models.Object
         public QuanLy(string username, string maNhanSu, bool quyenAdmin, bool quyenQuanLy, string avatar) : base(username, maNhanSu, quyenAdmin, quyenQuanLy, avatar)
         {
         }
+//Nhan su
         public IEnumerable<NhanSu> layDanhSachNhanSu()
         {
             try
@@ -100,6 +102,8 @@ namespace ProgramWEB.Models.Object
         {
             try
             {
+                if (string.IsNullOrEmpty(maNhanSu))
+                    return null;
                 init();
                 if (context == null)
                     return null;
@@ -111,9 +115,11 @@ namespace ProgramWEB.Models.Object
         {
             try
             {
+                if (nhanSu == null)
+                    return DefineError.loiDuLieuKhongHopLe;
                 init();
                 if (context == null)
-                    return errorDB;
+                    return DefineError.loiHeThong;
                 NhanSu nhanSu1 = context.NhanSus.Where(
                     item => item.NS_Ma == nhanSu.NS_Ma || item.NS_SoCCCD == nhanSu.NS_SoCCCD ||
                     item.NS_Email == nhanSu.NS_Email || item.NS_SoDienThoai == nhanSu.NS_SoDienThoai).FirstOrDefault();
@@ -122,7 +128,7 @@ namespace ProgramWEB.Models.Object
                     context.NhanSus.Add(nhanSu);
                     int check = context.SaveChanges();
                     if (check == 0)
-                        return errorDB;
+                        return DefineError.loiHeThong;
                     return string.Empty;
                 }
                 string error = "";
@@ -138,16 +144,18 @@ namespace ProgramWEB.Models.Object
             }
             catch
             {
-                return errorDB;
+                return DefineError.loiHeThong;
             }
         }
         public string suaNhanSu(NhanSu nhanSuNew)
         {
             try
             {
+                if (nhanSuNew == null)
+                    return DefineError.loiDuLieuKhongHopLe;
                 init();
                 if (context == null)
-                    return errorDB;
+                    return DefineError.loiHeThong;
                 NhanSu nhanSu = context.NhanSus.Find(nhanSuNew.NS_Ma);
                 if (nhanSu == null)
                     return "Nhân sự cần chỉnh sửa không tồn tại trong hệ thống";
@@ -171,7 +179,7 @@ namespace ProgramWEB.Models.Object
                     context.NhanSus.AddOrUpdate(nhanSu);
                     int check = context.SaveChanges();
                     if (check == 0)
-                        return errorDB;
+                        return DefineError.loiHeThong;
                     return string.Empty;
                 }
                 string error = "";
@@ -185,16 +193,18 @@ namespace ProgramWEB.Models.Object
             }
             catch
             {
-                return errorDB;
+                return DefineError.loiHeThong;
             }
         }
         public string xoaNhanSu(string maNhanSu)
         {
             try
             {
+                if (string.IsNullOrEmpty(maNhanSu))
+                    return DefineError.loiDuLieuKhongHopLe;
                 init();
                 if (context == null)
-                    return errorDB;
+                    return DefineError.loiHeThong;
                 NhanSu nhanSu = context.NhanSus.Find(maNhanSu);
                 if (nhanSu == null)
                     return "Nhân sự cần xóa không tồn tại.";
@@ -209,55 +219,131 @@ namespace ProgramWEB.Models.Object
                     return string.Empty;
             }
             catch {}
-            return errorDB;
+            return DefineError.loiHeThong;
         }
         public string[] xoaNhieuNhanSu(string[]maNhanSus)
         {
-            string[] results = new string[] { };
+            string[] results = new string[] {string.Empty, string.Empty};
             try
             {
                 if (maNhanSus == null)
                     return null;
                 else
                 {
-                    init();
                     string error = "";
                     string success = "";
-                    List <NhanSu> nhanSus = new List<NhanSu>();
+                    int countSuccess = 0;
                     foreach (string s in maNhanSus)
                     {
-                        NhanSu nhanSu = timKiemMotNhanSu(s);
-                        if (nhanSu != null)
-                            nhanSus.Add(nhanSu);
-                        else
-                            error += ", " + s;
+                        string message = xoaNhanSu(s);
+                        if (string.IsNullOrEmpty(message))
+                            countSuccess++;
                     }
-                    if (error.Length > 0)
-                        error = "Không tồn tại nhân sự có mã: " + error + ".";
-                    if (nhanSus.Count > 0)
-                    {
-                        context.NhanSus.RemoveRange(nhanSus);
-                        int check = context.SaveChanges();
-                        if (check > 0)
-                            success = "Xóa thành công " + check + " nhân sự.";
-                        error += "\nKhông thể xóa " + (maNhanSus.Length - check) + " nhân sự.";
-                    }
+                    if (countSuccess > 0)
+                        success = "Xoá thành công " + countSuccess + " nhân sự.";
+                    if (countSuccess < maNhanSus.Length)
+                        error = "Không thể xóa " + (maNhanSus.Length - countSuccess) + " nhân sự.";
                     results[0] = error;
                     results[1] = success;
                     return results;
                 }
             } catch { }
-            results[0] = errorDB;
+            results[0] = DefineError.loiHeThong;
             return results;
         }
+//Tai khoan
         public TaiKhoan timTaiKhoanBangMaNhanSu(string maNhanSu)
+        {
+            try
+            {
+                if (string.IsNullOrEmpty(maNhanSu))
+                    return null;
+                init();
+                if (context == null)
+                    return null;
+                return context.TaiKhoans.Where(item => item.NS_Ma == maNhanSu).FirstOrDefault();
+            }
+            catch { }
+            return null;
+        }
+        public IEnumerable<TaiKhoan> layDanhSachTaiKhoan()
+        {
+            try
+            {
+                init();
+                if (context != null)
+                    return context.TaiKhoans;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+            return null;
+        }
+        public List<IEnumerable<TaiKhoan>> layDanhSachTaiKhoan(TaiKhoan findBy = null, int page = 1, int pageSize = 10, string sortBy = "TK_TenDangNhap", bool sortTangDan = true)
         {
             try
             {
                 init();
                 if (context == null)
                     return null;
-                return context.TaiKhoans.Where(item => item.NS_Ma == maNhanSu).FirstOrDefault();
+                IEnumerable<TaiKhoan> results =
+                    (findBy != null ? timKiemNhieuTaiKhoan(findBy)
+                    : (from TaiKhoan in context.TaiKhoans select TaiKhoan));
+                results = ObjectHelper.OrderByDynamic<TaiKhoan>(results, sortBy, sortTangDan ? "asc" : "desc");
+                int p = results.Count();
+                pageSize = pageSize < p ? pageSize : p;
+                p = (p % pageSize) == 0 ? (p / pageSize) : (p / pageSize + 1);
+                page = page > p ? p : page;
+                return new List<IEnumerable<TaiKhoan>>()
+                {
+                    results,
+                    results.Count() > pageSize ? results.ToPagedList(page, pageSize) : results
+                };
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+            return null;
+        }
+        public IEnumerable<TaiKhoan> timKiemNhieuTaiKhoan(TaiKhoan findTaiKhoan = null)
+        {
+            try
+            {
+                init();
+                if (context == null)
+                    return null;
+                if (findTaiKhoan != null)
+                {
+                    return (from TaiKhoan in context.TaiKhoans
+                            where
+                            (findTaiKhoan.TK_TenDangNhap != null ? TaiKhoan.TK_TenDangNhap.StartsWith(findTaiKhoan.TK_TenDangNhap) : TaiKhoan != null) &&
+                            (findTaiKhoan.TK_ThoiGianMoKhoa != null ? TaiKhoan.TK_ThoiGianMoKhoa == findTaiKhoan.TK_ThoiGianMoKhoa : TaiKhoan != null) &&
+                            (findTaiKhoan.TK_BiKhoa != null ? TaiKhoan.TK_BiKhoa == findTaiKhoan.TK_BiKhoa : TaiKhoan != null) &&
+                            (findTaiKhoan.TK_QuyenAdmin != null ? TaiKhoan.TK_QuyenAdmin == findTaiKhoan.TK_QuyenAdmin : TaiKhoan != null) &&
+                            (findTaiKhoan.TK_QuyenQuanLy != null ? TaiKhoan.TK_QuyenQuanLy == findTaiKhoan.TK_QuyenQuanLy : TaiKhoan != null) &&
+                            (findTaiKhoan.NS_Ma != null ? TaiKhoan.NS_Ma.StartsWith(findTaiKhoan.NS_Ma) : TaiKhoan != null) 
+                            select TaiKhoan);
+                }
+                return context.TaiKhoans;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+            return null;
+        }
+        public TaiKhoan timKiemMotTaiKhoan(string username)
+        {
+            try
+            {
+                if (string.IsNullOrEmpty(maNhanSu))
+                    return null;
+                init();
+                if (context == null)
+                    return null;
+                return context.TaiKhoans.Find(username);
             }
             catch { }
             return null;

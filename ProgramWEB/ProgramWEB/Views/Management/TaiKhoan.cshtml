@@ -30,19 +30,17 @@
         var page = 1;
         var pageSize = 10;
         var json = JSON.parse("@ViewBag.jsonString".replace(/&quot;/g, '"'));
-        var countData = json["countData"];
+        var countData = -1;
         var nameItems = json["nameModel"];
         var nameTiengViets = json["nameRender"];
         var sortBy = json["sortBy"];
+        var usingIndex = json["use"];
         var sortTangDan = true;
         var count = nameTiengViets.length;
         var datas = [{}];
-        var usingIndex = [];
         var nameObj = [{}];
         var findBy = {};
-        for (let i = 0; i < count; i++) {
-            this.usingIndex[i] = i;
-        }
+        var hanhDong = false
         for (let index = 0; index < count; index++) {
             this.nameObj[nameTiengViets[index]] = { type: "", id: "", using: "" }
             this.nameObj[nameTiengViets[index]].id = removeVietnameseTones(nameTiengViets[index].replace(/ /g, ''));
@@ -55,17 +53,30 @@
             switch (index) {
                 case 2:
                     return `
-                        <td class="${using ? "" : "d-none"}"
-                            id="${idName}">${data != null ? ((data == true || data == 'true') ? 'Nam' : 'Nữ') : 'Không biết'}
-                        </td >
+                     <td class="${using ? "" : "d-none"} ${data == 'true' || data == true ? 'text-danger fw-bold' : ''}"
+                        id="${idName}">${data == 'true' || data == true ? 'Admin' : 'Không'}
+                     </td >
                     `
                 case 3:
-                case count - 1:
                     return `
-                        <td class="${using ? "" : "d-none"}"
-                            id="${idName}">${data ? toDateView(data) : ''}
-                        </td >
-                    `;
+                     <td class="${using ? "" : "d-none"} ${data == 'true' || data == true ? 'text-primary fw-bold' : ''}"
+                        id="${idName}">${data == 'true' || data == true ? 'Quản lý' : 'Không'}
+                     </td >
+                    `
+                case 4:
+                    return `
+                     <td class="${using ? "" : "d-none"} ${data == 'true' || data == true ? 'fw-bold' : ''}"
+                        id="${idName}">${data == 'true' || data == true ? 'Bị khóa' : 'Không'}
+                     </td >
+                    `
+                case count - 1: {
+                    let url = "@(DefinePage.management_NhanSu.url +  "?ma=")" + data;                                    
+                    return `
+                     <td class="${using ? "" : "d-none"}"
+                       id="${idName}">${data ? `<a href="${url}" class="text-decoration-underline text-primary">${data}</a>` : ''}
+                     </td >
+                    `
+                }
             }
             return `
             <td class="${using ? "" : "d-none"}"
@@ -75,41 +86,10 @@
         }
         var createInputFormAddOrUpdate = function (thaotac, result, item, index, id) {
             let data = result[nameObj[item].id] ? (result[nameObj[item].id]).trim() : "";
-            let idName = nameObj[item].id + '-' + thaotac + (thaotac == 'edit' ? '' : '-' + id);
-            switch (index) {
-                case 2:
-                    return `
-                    <div>
-                        <input type="radio" name="${idName}" value="nam"
-                            id="nam-${idName}" ${data == 'Nam' || data == 'true' ? "checked" : ""} class="input-radio-${thaotac}" value='1'>
-                        <label for="nam-${idName}">Nam</label>
-                        <input type="radio" name="${idName}" value="nu"
-                            id="nu-${idName}" ${data == 'Nữ' || data == 'false' ? "checked" : ""} class="input-radio-${thaotac}" value='0'>
-                        <label for="nu-${idName}">Nữ</label>
-                    </div>`
-                case 3:
-                case count - 1:
-                    return `
-                    <input type="date" name="${idName}" id="${idName}" class="form-control input-${thaotac}"
-                        value="${data.length >= 8 ? toDateInput(data) : ""}"
-                            placeholder="Nhập ${item.toLowerCase()}">
-                    `
-                case 5:
-                    return `
-                    <input type="email" name="${idName}" id="${idName}" class="form-control input-${thaotac}"
-                        value="${data}"
-                            placeholder="Nhập ${item.toLowerCase()}">
-                    `
-            }
+            let idName = nameObj[item].id + '-' + thaotac + (thaotac != 'search' ? '-' + id : '');
             return `<input type="text" name="${idName}" id="${idName}" class="form-control input-${thaotac}"
                 value="${data}"
                 placeholder="Nhập ${item.toLowerCase()}">`
-        }
-        var createActionOnRow = function (id) {
-            return `
-            <td class="d-flex flex-row flex-nowrap">
-            </td>
-            `
         }
         var convertDataToServer = function (item, index) {
             switch (index) {
@@ -121,28 +101,9 @@
         var checkDataToServer = function (item, index) {
             if (item == null || item.length == 0)
                 return "Trường này không được để trống"
-            switch (index) {
-                case 4: {
-                    var vnf_regex = /((09|03|07|08|05)+([0-9]{8})\b)/g;
-                    if (vnf_regex.test(item) == false) {
-                        return 'Số điện thoại của bạn không đúng định dạng!';
-                    } else {
-                        return undefined
-                    }
-                }
-                case 5: {
-                    if (validateEmail(item))
-                        return undefined
-                    return "Email nhập không đúng định dạng"
-                }
-                case 7: {
-                    if (item.length != 12)
-                        return "Số căn cước công dân phải chứa đúng 12 ký tự"
-                    return undefined
-                }
-            }
             return undefined;
         }
+        setting(namePage)
         load()
     </script>
 }

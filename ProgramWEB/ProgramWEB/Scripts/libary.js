@@ -52,7 +52,7 @@ var toDateInput = function (data) {
     let arr = data.split('-');
     if (arr.length < 3)
         return "";
-    return arr[2] + "-" + arr[1] + "-" + arr[0];
+    return to2(arr[2]) + "-" + to2(arr[1]) + "-" + to2(arr[0]);
 }
 var to2 = function (data) {
     if (data.length == 1)
