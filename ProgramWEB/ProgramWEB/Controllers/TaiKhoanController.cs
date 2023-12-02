@@ -16,12 +16,13 @@ namespace ProgramWEB.Controllers
         {
             try
             {
+                TaiKhoan tai = findBy;
                 QuanLy user = (QuanLy)Session[DefineSession.userSession];
                 if (user == null || !user.quyenQuanLy)
-                    return "";
+                    return string.Empty;
                 List<IEnumerable<TaiKhoan>> results = user.layDanhSachTaiKhoan(findBy, page, pageSize, sortBy, sortTangDan);
                 if (results == null)
-                    return "";
+                    return string.Empty;
                 return JsonConvert.SerializeObject(new
                 {
                     countData = results[0].Count(),
@@ -34,9 +35,9 @@ namespace ProgramWEB.Controllers
                 );
             }
             catch { }
-            return "";
+            return string.Empty;
         }
-        public string khoaTaiKhoan(string ma)
+        public string khoaTaiKhoan(string username, int time = -1)
         {
             try
             {
@@ -44,10 +45,31 @@ namespace ProgramWEB.Controllers
                 if (user == null || !user.quyenAdmin)
                     return JsonConvert.SerializeObject(new
                     {
-                        error = "Bạn không có quyền sử dụng chức năng này"
+                        error = DefineError.khongCoQuyen
                     });
+
             } catch { }
-            return DefineError.loiHeThong;
+            return JsonConvert.SerializeObject(new
+            {
+                error = DefineError.loiHeThong
+            }); 
+        }
+        public string capQuyen(string username, bool huy = false)
+        {
+            try
+            {
+                Admin user = (Admin)Session[DefineSession.userSession];
+                if (user == null || !user.quyenAdmin)
+                    return JsonConvert.SerializeObject(new
+                    {
+                        error = DefineError.khongCoQuyen
+                    });
+            }
+            catch { }
+            return JsonConvert.SerializeObject(new
+            {
+                error = DefineError.loiHeThong
+            });
         }
     }
 }

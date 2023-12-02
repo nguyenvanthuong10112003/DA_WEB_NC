@@ -9,5 +9,6 @@ namespace ProgramWEB.Define
     {
         public static string loiHeThong { get; } = "Có lỗi xảy ra, vui lòng thử lại sau.";
         public static string loiDuLieuKhongHopLe { get; } = "Thông tin gửi lên không hợp lệ.";
+        public static string khongCoQuyen { get; } = "Bạn không có quyền sử dụng chức năng này.";
     }
 }

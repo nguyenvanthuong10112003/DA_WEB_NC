@@ -29,6 +29,7 @@ namespace ProgramWEB.Define
         public static Page management_ViPham { get; } = new Page("ThanhVien", "/Management/ViPham");
         public static Page management_KhenThuong { get; } = new Page("ThanhVien", "/Management/KhenThuong");
         public static Page management_TaiKhoan { get; } = new Page("TaiKhoan", "/Management/TaiKhoan");
+        public static Page management_BaoHiem { get; } = new Page("BaoHiem", "/Management/BaoHiem");
         public static Page thanhvien { get; } = new Page("ThanhVien", "/ThanhVien/Index");
         public static Page profile_ThanhVien { get; } = new Page("Profile", "/ThanhVien/Profile");
         public static Page caLam { get; } = new Page("CaLam", "/CaLam/Index");

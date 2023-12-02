@@ -104,9 +104,12 @@ var createTable = function () {
                         " " + namePage
                         }</b>
                         <div class="header-functions d-flex flex-row align-items-center">
-                            <span class="tablet-mr-10 page-size form-outline d-flex flex-nowrap align-items-center" style="margin-right: 10px">
+                            ${hanhDong ? hanhDong.delete ? 
+                            `<span class="tablet-mr-10 page-size form-outline d-flex flex-nowrap align-items-center" style="margin-right: 10px">
                                 <button type="button" disabled id="btn-delete-rows" class="btn btn-danger" style="border-radius: 30px; padding-left: 16px; padding-right: 16px; font-weight: 600">Xóa</button>
-                            </span>
+                             </span>`
+                            :
+                            '' : ''}
                             <span class="tablet-mr-10 page-size form-outline d-flex flex-nowrap align-items-center" style="border: 1px solid #d5d5d5; border-radius: 40px; padding: 8px; margin-right: 10px">
                                 <label for="so-luong-hang" style="font-size: 16px; font-weight: 600">Số lượng hàng &nbsp;</label>
                                 <input type="number" name="so-luong-hang" id="so-luong-hang" class="form-control" style="max-width: 50px; padding: 0" min="1" 
@@ -211,7 +214,7 @@ var createTable = function () {
                                                 `<th class="${nameObj[nameTiengViets[index]].using ? "" : "d-none"}">${nameTiengViets[index]}</th>`
                                             );
                                         }, "")}
-                                        ${hanhDong ? `<th>Thao tác</th>` : ''}
+                                        ${hanhDong ? typeof createActionOnRow == 'function' ? `<th>Thao tác</th>` : '' : ''}
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -233,7 +236,7 @@ var createTable = function () {
                                                             return result1
                                                         return result1 + createRowTable(item, nameItems[index], index, id);
                                                     }, "")}
-                                                    ${hanhDong ? createActionOnRow(id) : ''}
+                                                    ${hanhDong ? typeof createActionOnRow == 'function' ? createActionOnRow(id) : '' : ''}
                                                 </tr>
                                                 `
                                             );
@@ -583,8 +586,9 @@ var thucHienHanhDongDenServer = function (element, action) {
         }
         if (can) {
             let url = window.location.origin + '/' + xoaKhoangTrang(removeVietnameseTones(namePage)) + '/' + action;
-            ajaxToServer(url, obj,
-                function (data) {
+            ajaxToServer({
+                url: url, data: obj,
+                success: function (data) {
                     if (data['error']) {
                         $('#error-' + action + '-' + id).text(data['error'])
                         $('#error-' + action + '-' + id).show()
@@ -601,11 +605,11 @@ var thucHienHanhDongDenServer = function (element, action) {
                             })
                     }
                 },
-                function (data) {
+                error: function (data) {
                     alert('error')
                     console.log(data)
                 }
-            )
+            })
         }
     }
 }
@@ -627,21 +631,22 @@ var yeuCauXoaDenServer = function (ma) {
         alert('error')
         console.log(message)
     }
-    ajaxToServer(url,
-        ma,
-        success,
-        error
-    )
-}
-var ajaxToServer = function (url, data, success, error) {
-    $.ajax({
+    ajaxToServer({
         url: url,
-        data: { mas: data },
+        data: ma,
+        success: success,
+        error: error
+    })
+}
+var ajaxToServer = function (data) {
+    $.ajax({
+        url: data.url,
+        data: typeof data.data == 'object' ? data.data : { mas: data.data },
         contentType: "application/json;charset=utf-8",
         dataType: 'json',
         traditional: true,
-        success: success,
-        error: error
+        success: data.success,
+        error: data.error
     })
 }
 var loadData = function (myResolve, myReject) {
@@ -760,8 +765,11 @@ var load = function (f) {
     if (f && typeof f == 'function')
         f()
 }
-var onCanhBao = function (content, fun, data) {
+var onCanhBao = function (content, fun, data, htmlContent, jsContent) {
     $('.Dialog_content__fC8ze').text(content);
+    if (htmlContent) {
+        $('.Dialog_content__fC8ze').html($('.Dialog_content__fC8ze').html() + htmlContent)
+    }
     $('#alert-canh-bao').show();
     $('#canh-bao-cancel').click(function () {
         $('#alert-canh-bao').hide();
@@ -771,6 +779,8 @@ var onCanhBao = function (content, fun, data) {
     })
     $('#canh-bao-accept').click(function () {
         $('#alert-canh-bao').hide();
+        if (jsContent && typeof jsContent == 'function')
+            data = jsContent(data)
         fun(data);
         fun = function () { }
     })

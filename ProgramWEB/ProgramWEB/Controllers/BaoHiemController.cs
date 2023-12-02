@@ -1,30 +1,25 @@
-﻿using ProgramWEB.Models.Data;
-using System.Web.Mvc;
-using Newtonsoft.Json;
-using ProgramWEB.Models.Object;
+﻿using Newtonsoft.Json;
 using ProgramWEB.Define;
-using System.Linq;
-using Newtonsoft.Json.Converters;
-using Microsoft.Ajax.Utilities;
-using System.Collections.Generic;
-using PagedList;
-using System.Globalization;
-using System.Collections;
+using ProgramWEB.Models.Data;
+using ProgramWEB.Models.Object;
 using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web;
+using System.Web.Mvc;
 
 namespace ProgramWEB.Controllers
 {
-    public class NhanSuController : BaseController
+    public class BaoHiemController : Controller
     {
-        public string getAll(NhanSu findBy = null, int page = 1, int pageSize = 10, string sortBy = "NS_Ma", bool sortTangDan = true)
+        public string getAll(BaoHiem findBy = null, int page = 1, int pageSize = 10, string sortBy = "BH_Ma", bool sortTangDan = true)
         {
             try
             {
-                NhanSu ns = findBy;
                 QuanLy user = (QuanLy)Session[DefineSession.userSession];
                 if (user == null || !user.quyenQuanLy)
                     return "";
-                List<IEnumerable<NhanSu>> results = user.layDanhSachNhanSu(findBy, page, pageSize, sortBy, sortTangDan);
+                List<IEnumerable<BaoHiem>> results = user.layDanhSachBaoHiem(findBy, page, pageSize, sortBy, sortTangDan);
                 if (results == null)
                     return "";
                 return JsonConvert.SerializeObject(new
@@ -41,7 +36,7 @@ namespace ProgramWEB.Controllers
             catch { }
             return "";
         }
-        public string add(NhanSu nhanSu)
+        public string add(BaoHiem baoHiem)
         {
             try
             {
@@ -50,20 +45,21 @@ namespace ProgramWEB.Controllers
                     return JsonConvert.SerializeObject(new { error = "Bạn cần phải đăng nhập mới có thể sử dụng chức năng này." });
                 if (!user.quyenQuanLy)
                     return JsonConvert.SerializeObject(new { error = "Bạn không có quyền sử dụng chức năng này." });
-                string error = ((QuanLy)user).themNhanSu(nhanSu);
+                string error = ((QuanLy)user).themBaoHiem(baoHiem);
                 if (!string.IsNullOrEmpty(error))
                     return JsonConvert.SerializeObject(new { error = error });
                 return JsonConvert.SerializeObject(new
                 {
                     success = "Thêm thành công."
                 });
-            } catch { }
+            }
+            catch { }
             return JsonConvert.SerializeObject(new
             {
                 error = DefineError.loiHeThong
-            }); 
+            });
         }
-        public string edit(NhanSu nhanSu)
+        public string edit(BaoHiem baoHiem)
         {
             try
             {
@@ -72,7 +68,7 @@ namespace ProgramWEB.Controllers
                     return JsonConvert.SerializeObject(new { error = "Bạn cần phải đăng nhập mới có thể sử dụng chức năng này" });
                 if (!user.quyenQuanLy)
                     return JsonConvert.SerializeObject(new { error = "Bạn không có quyền sử dụng chức năng này" });
-                string error = ((QuanLy)user).suaNhanSu(nhanSu);
+                string error = ((QuanLy)user).themBaoHiem(baoHiem);
                 if (!string.IsNullOrEmpty(error))
                     return JsonConvert.SerializeObject(new { error = error });
                 return JsonConvert.SerializeObject(new
@@ -97,7 +93,7 @@ namespace ProgramWEB.Controllers
                     return JsonConvert.SerializeObject(new { error = "Bạn không có quyền sử dụng chức năng này" });
                 if (mas != null && mas.Length == 1)
                 {
-                    string error = ((QuanLy)user).xoaNhanSu(mas[0]);
+                    string error = ((QuanLy)user).xoaBaoHiem(mas[0]);
                     if (!string.IsNullOrEmpty(error))
                         return JsonConvert.SerializeObject(new { error = error });
                     return JsonConvert.SerializeObject(new
@@ -105,7 +101,7 @@ namespace ProgramWEB.Controllers
                         success = "Xóa thành công"
                     });
                 }
-                if (mas != null && mas.Length > 1 )
+                if (mas != null && mas.Length > 1)
                 {
                     string[] message = user.xoaNhieuNhanSu(mas);
                     if (message.Length > 0)
@@ -113,13 +109,14 @@ namespace ProgramWEB.Controllers
                         string error = message[0];
                         string success = message.Length > 1 ? message[1] : string.Empty;
                         return JsonConvert.SerializeObject(new
-                        {   
+                        {
                             success = success,
                             error = error
                         });
                     }
                 }
-            } catch { }
+            }
+            catch { }
             return JsonConvert.SerializeObject(new
             {
                 error = DefineError.loiHeThong

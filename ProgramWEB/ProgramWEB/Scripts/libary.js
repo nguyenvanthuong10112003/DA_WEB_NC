@@ -33,8 +33,9 @@ const validateEmail = (email) => {
             /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|.(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
         );
 };
+var quiChuanDate = '2023-09-04'
 var toDateView = function (data) {
-    if (data == null || data.length < 8)
+    if (data == null || data.length < quiChuanDate.length)
         return "";
     for (let i = 0; i < data.length; i++)
         if ((data[i] > '9' || data[i] < '0') && data[i] != '-')  {
@@ -47,13 +48,31 @@ var toDateView = function (data) {
     return to2(arr[2]) + "-" + to2(arr[1]) + "-" + to2(arr[0]);
 }
 var toDateInput = function (data) {
-    if (data == null || data.length < 8)
+    if (data == null || data.length < quiChuanDate.length)
         return "";
     let arr = data.split('-');
     if (arr.length < 3)
         return "";
     return to2(arr[2]) + "-" + to2(arr[1]) + "-" + to2(arr[0]);
 }
+var quiChuanDateTime = '2023-09-04T06:06:06'
+var toDateTimeView = function (data) {
+    if (data == null || data.length < quiChuanDateTime.length)
+        return "";
+    let arr = data.substr(0, 10).split('-');
+    if (arr.length < 3)
+        return "";
+    return data.substr(11, data.length) + ' ' + to2(arr[2]) + "-" + to2(arr[1]) + "-" + to2(arr[0]);
+}
+var toDateTimeInput = function (data) {
+    if (data == null || data.length < quiChuanDateTime.length)
+        return "";
+    let arr = data.substr(9, data.length).split('-');
+    if (arr.length < 3)
+        return "";
+    return to2(arr[2]) + "-" + to2(arr[1]) + "-" + to2(arr[0]) + 'T' + data.substr(0, 8);
+}
+
 var to2 = function (data) {
     if (data.length == 1)
         return '0' + data;

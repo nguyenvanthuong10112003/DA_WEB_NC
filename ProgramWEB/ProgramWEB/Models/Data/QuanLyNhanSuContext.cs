@@ -11,6 +11,7 @@ namespace ProgramWEB.Models.Data
             : base("name=QuanLyNhanSuContext")
         {
         }
+
         public virtual DbSet<BaoHiem> BaoHiems { get; set; }
         public virtual DbSet<BoPhan> BoPhans { get; set; }
         public virtual DbSet<CaLam> CaLams { get; set; }
@@ -235,11 +236,6 @@ namespace ProgramWEB.Models.Data
 
             modelBuilder.Entity<NhanSu>()
                 .HasMany(e => e.LichSuLamViecs)
-                .WithRequired(e => e.NhanSu)
-                .WillCascadeOnDelete(false);
-
-            modelBuilder.Entity<NhanSu>()
-                .HasMany(e => e.TaiKhoans)
                 .WithRequired(e => e.NhanSu)
                 .WillCascadeOnDelete(false);
 

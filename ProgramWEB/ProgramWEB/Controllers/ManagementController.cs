@@ -18,20 +18,30 @@ namespace ProgramWEB.Controllers
         }
         public ActionResult NhanSu(string ma)
         {
-            QuanLy user = (QuanLy)Session[DefineSession.userSession];
-            if (!(user != null && user.quyenQuanLy))
-                return RedirectToAction("NotFound", "Error");
-            Dictionary<string, string> findBy = new Dictionary<string, string>();
-            if (!string.IsNullOrEmpty(ma))
-                findBy.Add(DefineTable.nhanSu.thuocTinhs[0], ma);  
-            ViewBag.jsonString = ViewBag.jsonString = System.Text.Json.JsonSerializer.Serialize(new
+            try
             {
-                nameModel = DefineTable.nhanSu.thuocTinhs,
-                nameRender = DefineTable.nhanSu.tenTiengViet,
-                sortBy = DefineTable.nhanSu.thuocTinhs[0],
-                use = DefineTable.nhanSu.suDung,
-                findBy = findBy
-            });
+                QuanLy user = (QuanLy)Session[DefineSession.userSession];
+                if (!(user != null && user.quyenQuanLy))
+                    return RedirectToAction("NotFound", "Error");
+                Dictionary<string, string> findBy = new Dictionary<string, string>();
+                if (!string.IsNullOrEmpty(ma))
+                    findBy.Add(DefineTable.nhanSu.thuocTinhs[0], ma);
+                Dictionary<string, bool> action = new Dictionary<string, bool>();
+                action.Add("add", true);
+                action.Add("edit", true);
+                action.Add("delete", true);
+                action.Add("search", true);
+                action.Add("view", true);
+                ViewBag.jsonString = ViewBag.jsonString = System.Text.Json.JsonSerializer.Serialize(new
+                {
+                    nameModel = DefineTable.nhanSu.thuocTinhs,
+                    nameRender = DefineTable.nhanSu.tenTiengViet,
+                    sortBy = DefineTable.nhanSu.thuocTinhs[0],
+                    use = DefineTable.nhanSu.suDung,
+                    findBy = findBy,
+                    action = action
+                });
+            } catch { }
             return View();
         }
 
@@ -42,16 +52,56 @@ namespace ProgramWEB.Controllers
         
         public ActionResult TaiKhoan()
         {
-            User User = (User)Session[DefineSession.userSession];
-            if (!(User != null && User.quyenQuanLy))
-                return RedirectToAction("NotFound", "Error");
-            ViewBag.jsonString = ViewBag.jsonString = System.Text.Json.JsonSerializer.Serialize(new
+            try
             {
-                nameModel = DefineTable.taiKhoan.thuocTinhs,
-                nameRender = DefineTable.taiKhoan.tenTiengViet,
-                sortBy = DefineTable.taiKhoan.thuocTinhs[0],
-                use = DefineTable.taiKhoan.suDung
-            });
+                QuanLy user = (QuanLy)Session[DefineSession.userSession];
+                if (!(user != null && user.quyenQuanLy))
+                    return RedirectToAction("NotFound", "Error");
+                Dictionary<string, bool> action = new Dictionary<string, bool>();
+                action.Add("search", true);
+                try
+                {
+                    Admin admin = (Admin)user;
+                    if (admin != null)
+                    {
+                        action.Add("capVaHuyQuyen", true);
+                        action.Add("khoaTaiKhoan", true);
+                    }
+                }
+                catch { }
+                ViewBag.jsonString = ViewBag.jsonString = System.Text.Json.JsonSerializer.Serialize(new
+                {
+                    nameModel = DefineTable.taiKhoan.thuocTinhs,
+                    nameRender = DefineTable.taiKhoan.tenTiengViet,
+                    sortBy = DefineTable.taiKhoan.thuocTinhs[0],
+                    use = DefineTable.taiKhoan.suDung,
+                    action = action
+                });
+            } catch { }
+            return View();
+        }
+        public ActionResult BaoHiem()
+        {
+            try
+            {
+                QuanLy user = (QuanLy)Session[DefineSession.userSession];
+                if (!(user != null && user.quyenQuanLy))
+                    return RedirectToAction("NotFound", "Error");
+                Dictionary<string, bool> action = new Dictionary<string, bool>();
+                action.Add("add", true);
+                action.Add("edit", true);
+                action.Add("delete", true);
+                action.Add("search", true);
+                ViewBag.jsonString = ViewBag.jsonString = System.Text.Json.JsonSerializer.Serialize(new
+                {
+                    nameModel = DefineTable.baoHiem.thuocTinhs,
+                    nameRender = DefineTable.baoHiem.tenTiengViet,
+                    sortBy = DefineTable.baoHiem.thuocTinhs[0],
+                    use = DefineTable.baoHiem.suDung,
+                    action = action
+                });
+            }
+            catch { }
             return View();
         }
     }

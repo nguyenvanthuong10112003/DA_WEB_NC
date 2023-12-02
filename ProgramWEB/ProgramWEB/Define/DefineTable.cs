@@ -105,7 +105,7 @@ namespace ProgramWEB.Define
              "Mã xác thực",
              "Thời gian tạo mã",
              "Ảnh đại diện",
-             "Mã nhân sự"
+             "Mã chủ tài khoản"
             },
              new bool[]
              {

@@ -21,50 +21,55 @@ namespace ProgramWEB.Controllers
         {
             if (ModelState.IsValid)
             {
-                if (Session[DefineSession.userSession] != null)
+                try
                 {
+                    if (Session[DefineSession.userSession] != null)
+                    {
+                        return RedirectToAction("Index", "Home");
+                    }
+                    //Lay du lieu tu cookie
+                    if (Request.Cookies[DefineCookie.cookieUsername] == null || Request.Cookies[DefineCookie.cookiePassword] == null)
+                        return View();
+                    var username = Request.Cookies[DefineCookie.cookieUsername].Value;
+                    var password = Request.Cookies[DefineCookie.cookiePassword].Value;
+                    if (string.IsNullOrEmpty(username) || string.IsNullOrEmpty(password))
+                        return View();
+                    QuanLyNhanSuContext context = new QuanLyNhanSuContext();
+                    if (context == null)
+                        return View();
+                    TaiKhoan taiKhoan = context.TaiKhoans.Where(item => item.TK_TenDangNhap == username).FirstOrDefault();
+                    if (taiKhoan == null || taiKhoan.TK_MatKhau != password || Models.Object.User.kiemTraBiKhoaVaMoKhoa(taiKhoan))
+                    {
+                        //Xoa khoi cookie
+                        removeFromCookie(new string[] { DefineCookie.cookieUsername, DefineCookie.cookiePassword });
+                        return View();
+                    }
+                    //Them vao session
+                    User userSession;
+                    if (taiKhoan.TK_QuyenAdmin == true)
+                    {
+                        userSession = new Admin(taiKhoan.TK_TenDangNhap, taiKhoan.NS_Ma.Trim(),
+                        taiKhoan.TK_QuyenAdmin.GetValueOrDefault(), taiKhoan.TK_QuyenQuanLy.GetValueOrDefault(), taiKhoan.TK_AnhDaiDien);
+                    }
+                    else if (taiKhoan.TK_QuyenQuanLy == true)
+                    {
+                        userSession = new QuanLy(taiKhoan.TK_TenDangNhap, taiKhoan.NS_Ma.Trim(),
+                        taiKhoan.TK_QuyenAdmin.GetValueOrDefault(), taiKhoan.TK_QuyenQuanLy.GetValueOrDefault(), taiKhoan.TK_AnhDaiDien);
+                    }
+                    else
+                    {
+                        userSession = new User(taiKhoan.TK_TenDangNhap, taiKhoan.NS_Ma.Trim(),
+                        taiKhoan.TK_QuyenAdmin.GetValueOrDefault(), taiKhoan.TK_QuyenQuanLy.GetValueOrDefault(), taiKhoan.TK_AnhDaiDien);
+                    }
+                    Session.Add(DefineSession.userSession, userSession);
+                    string[] beforeURL = (string[])Session[DefineSession.beforeUrlSession];
+                    if (beforeURL != null)
+                    {
+                        Session.Remove(DefineSession.beforeUrlSession);
+                        return RedirectToAction(beforeURL[0], beforeURL[1]);
+                    }
                     return RedirectToAction("Index", "Home");
-                }
-                //Lay du lieu tu cookie
-                if (Request.Cookies[DefineCookie.cookieUsername] == null || Request.Cookies[DefineCookie.cookiePassword] == null)
-                    return View();
-                var username = Request.Cookies[DefineCookie.cookieUsername].Value;
-                var password = Request.Cookies[DefineCookie.cookiePassword].Value;
-                if (string.IsNullOrEmpty(username) || string.IsNullOrEmpty(password))
-                    return View();
-                QuanLyNhanSuContext context = new QuanLyNhanSuContext();
-                if (context == null)
-                    return View();
-                TaiKhoan taiKhoan = context.TaiKhoans.Where(item => item.TK_TenDangNhap == username).FirstOrDefault();
-                if (taiKhoan == null || taiKhoan.TK_MatKhau != password || Models.Object.User.kiemTraBiKhoaVaMoKhoa(taiKhoan))
-                {
-                    //Xoa khoi cookie
-                    removeFromCookie(new string[] { DefineCookie.cookieUsername, DefineCookie.cookiePassword });
-                    return View();
-                }
-                //Them vao session
-                User userSession;
-                if (taiKhoan.TK_QuyenAdmin == true)
-                {
-                    userSession = new Admin(taiKhoan.TK_TenDangNhap, taiKhoan.NS_Ma.Trim(),
-                    taiKhoan.TK_QuyenAdmin.GetValueOrDefault(), taiKhoan.TK_QuyenQuanLy.GetValueOrDefault(), taiKhoan.TK_AnhDaiDien);
-                } else if (taiKhoan.TK_QuyenQuanLy == true)
-                {
-                    userSession = new QuanLy(taiKhoan.TK_TenDangNhap, taiKhoan.NS_Ma.Trim(),
-                    taiKhoan.TK_QuyenAdmin.GetValueOrDefault(), taiKhoan.TK_QuyenQuanLy.GetValueOrDefault(), taiKhoan.TK_AnhDaiDien);
-                } else
-                {
-                    userSession = new User(taiKhoan.TK_TenDangNhap, taiKhoan.NS_Ma.Trim(),
-                    taiKhoan.TK_QuyenAdmin.GetValueOrDefault(), taiKhoan.TK_QuyenQuanLy.GetValueOrDefault(), taiKhoan.TK_AnhDaiDien);
-                }
-                Session.Add(DefineSession.userSession, userSession);
-                string[] beforeURL = (string[])Session[DefineSession.beforeUrlSession];
-                if (beforeURL != null)
-                {
-                    Session.Remove(DefineSession.beforeUrlSession);
-                    return RedirectToAction(beforeURL[0], beforeURL[1]);
-                }
-                return RedirectToAction("Index", "Home");
+                } catch { }
             }
             return View();
         }

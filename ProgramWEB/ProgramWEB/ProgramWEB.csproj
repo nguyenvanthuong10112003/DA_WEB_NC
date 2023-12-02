@@ -216,6 +216,7 @@
     <Content Include="Scripts\caulendar\popper.js" />
     <Content Include="Contents\error\throw-error\css\style.css" />
     <Content Include="Contents\alert-f8\style.css" />
+    <Compile Include="Controllers\BaoHiemController.cs" />
     <Compile Include="Controllers\BaseController.cs" />
     <Compile Include="Controllers\DangKyController.cs" />
     <Compile Include="Controllers\ErrorController.cs" />
@@ -241,6 +242,7 @@
     <Compile Include="Libary\DateHelper.cs" />
     <Compile Include="Libary\EmailHelper.cs" />
     <Compile Include="Libary\Validate.cs" />
+    <Compile Include="Libary\ObjectHelper.cs" />
     <Compile Include="Models\Data\BaoHiem.cs" />
     <Compile Include="Models\Data\BoPhan.cs" />
     <Compile Include="Models\Data\CaLam.cs" />
@@ -254,7 +256,6 @@
     <Compile Include="Models\Data\LichSuLamViec.cs" />
     <Compile Include="Models\Data\NgayNghi.cs" />
     <Compile Include="Models\Data\NhanSu.cs" />
-    <Compile Include="Libary\ObjectHelper.cs" />
     <Compile Include="Models\Data\PhongBan.cs" />
     <Compile Include="Models\Data\QuanLyNhanSuContext.cs" />
     <Compile Include="Models\Data\sysdiagram.cs" />
@@ -2788,6 +2789,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Views\BaoHiem\" />
     <Folder Include="Views\NhanSu\" />
     <Folder Include="Views\TaiKhoan\" />
   </ItemGroup>
@@ -2796,6 +2798,7 @@
     <Content Include="Views\DangKy\LichLamViec.cshtml" />
     <Content Include="Views\Management\PhongBan.cshtml" />
     <Content Include="Views\Management\TaiKhoan.cshtml" />
+    <Content Include="Views\Management\BaoHiem.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{3259AA49-8AA1-44D3-9025-A0B520596A8C}" />

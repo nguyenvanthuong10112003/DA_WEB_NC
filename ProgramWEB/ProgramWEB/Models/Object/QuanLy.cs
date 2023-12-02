@@ -251,6 +251,213 @@ namespace ProgramWEB.Models.Object
             results[0] = DefineError.loiHeThong;
             return results;
         }
+//Bao Hiem
+        public IEnumerable<BaoHiem> layDanhSachBaoHiem()
+        {
+            try
+            {
+                init();
+                if (context != null)
+                    return context.BaoHiems;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+            return null;
+        }
+        public List<IEnumerable<BaoHiem>> layDanhSachBaoHiem(BaoHiem findBy = null, int page = 1, int pageSize = 10, string sortBy = "BH_Ma", bool sortTangDan = true)
+        {
+            try
+            {
+                init();
+                if (context == null)
+                    return null;
+                IEnumerable<BaoHiem> results =
+                    (findBy != null ? timKiemNhieuBaoHiem(findBy)
+                    : (from BaoHiem in context.BaoHiems select BaoHiem));
+                results = ObjectHelper.OrderByDynamic<BaoHiem>(results, sortBy, sortTangDan ? "asc" : "desc");
+                int p = results.Count();
+                pageSize = pageSize < p ? pageSize : p;
+                p = (p % pageSize) == 0 ? (p / pageSize) : (p / pageSize + 1);
+                page = page > p ? p : page;
+                return new List<IEnumerable<BaoHiem>>()
+                {
+                    results,
+                    results.Count() > pageSize ? results.ToPagedList(page, pageSize) : results
+                };
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+            return null;
+        }
+        public IEnumerable<BaoHiem> timKiemNhieuBaoHiem(BaoHiem find = null)
+        {
+            try
+            {
+                init();
+                if (context == null)
+                    return null;
+                if (find != null)
+                {
+                    return (from BaoHiem in context.BaoHiems
+                            where
+                            (find.BH_Ma != null ? BaoHiem.BH_Ma.StartsWith(find.BH_Ma) : BaoHiem != null) &&
+                            (find.BH_SoBaoHiem != null ? BaoHiem.BH_SoBaoHiem.StartsWith(find.BH_SoBaoHiem) : BaoHiem != null) &&
+                            BaoHiem.BH_NgayCap == find.BH_NgayCap &&
+                            BaoHiem.BH_NgayHetHan == find.BH_NgayHetHan &&
+                            (find.BH_NoiCap != null ? BaoHiem.BH_NoiCap.StartsWith(find.BH_NoiCap) : BaoHiem != null) &&
+                            (find.BH_NoiKhamBenh != null ? BaoHiem.BH_NoiKhamBenh.StartsWith(find.BH_NoiKhamBenh) : BaoHiem != null) &&
+                            (find.NS_Ma != null ? BaoHiem.NS_Ma.StartsWith(find.NS_Ma) : BaoHiem != null)
+                            select BaoHiem);
+                }
+                return context.BaoHiems;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+            return null;
+        }
+        public BaoHiem timKiemMotBaoHiem(string ma)
+        {
+            try
+            {
+                if (string.IsNullOrEmpty(ma))
+                    return null;
+                init();
+                if (context == null)
+                    return null;
+                return context.BaoHiems.Find(ma);
+            }
+            catch { }
+            return null;
+        }
+        public string themBaoHiem(BaoHiem baoHiem)
+        {
+            try
+            {
+                if (baoHiem == null)
+                    return DefineError.loiDuLieuKhongHopLe;
+                init();
+                if (context == null)
+                    return DefineError.loiHeThong;
+                BaoHiem baoHiem1 = context.BaoHiems.Where(
+                    item => item.BH_SoBaoHiem == baoHiem.BH_SoBaoHiem).FirstOrDefault();
+                if (baoHiem1 == null)
+                {
+                    context.BaoHiems.Add(baoHiem);
+                    int check = context.SaveChanges();
+                    if (check == 0)
+                        return DefineError.loiHeThong;
+                    return string.Empty;
+                }
+                string error = "";
+                if (baoHiem1.BH_Ma == baoHiem.BH_Ma)
+                    error += "[Mã bảo hiểm]";
+                if (baoHiem1.BH_SoBaoHiem == baoHiem.BH_SoBaoHiem)
+                    error += "[Số bảo hiểm]";
+                return error + " đã tồn tại";
+            }
+            catch
+            {
+                return DefineError.loiHeThong;
+            }
+        }
+        public string suaBaoHiem(BaoHiem New)
+        {
+            try
+            {
+                if (New == null)
+                    return DefineError.loiDuLieuKhongHopLe;
+                init();
+                if (context == null)
+                    return DefineError.loiHeThong;
+                BaoHiem Old = context.BaoHiems.Find(New.BH_Ma);
+                if (Old == null)
+                    return "Bảo hiểm cần chỉnh sửa không tồn tại trong hệ thống";
+                BaoHiem check = context.BaoHiems.Where(
+                    item => item.BH_Ma != New.BH_Ma 
+                    && (item.BH_SoBaoHiem == New.BH_SoBaoHiem)).FirstOrDefault();
+                if (check == null)
+                {
+                    Old.BH_SoBaoHiem = New.BH_SoBaoHiem;
+                    Old.BH_NgayCap = New.BH_NgayCap;
+                    Old.BH_NgayHetHan = New.BH_NgayHetHan;
+                    Old.BH_NoiCap = New.BH_NoiCap;
+                    Old.BH_NoiKhamBenh = New.BH_NoiKhamBenh;
+                    Old.NS_Ma = New.NS_Ma;
+                    context.BaoHiems.AddOrUpdate(Old);
+                    int checkSuccess = context.SaveChanges();
+                    if (checkSuccess == 0)
+                        return DefineError.loiHeThong;
+                    return string.Empty;
+                }
+                string error = "";
+                if (check.BH_Ma == check.BH_Ma)
+                    error += "[Mã bảo hiểm]";
+                if (check.BH_SoBaoHiem == check.BH_SoBaoHiem)
+                    error += "[Số bảo hiểm]";
+                return error + " đã tồn tại";
+            }
+            catch
+            {
+                return DefineError.loiHeThong;
+            }
+        }
+        public string xoaBaoHiem(string ma)
+        {
+            try
+            {
+                if (string.IsNullOrEmpty(ma))
+                    return DefineError.loiDuLieuKhongHopLe;
+                init();
+                if (context == null)
+                    return DefineError.loiHeThong;
+                BaoHiem xoa = context.BaoHiems.Find(ma);
+                if (xoa == null)
+                    return "Bảo hiểm cần xóa không tồn tại.";
+                context.BaoHiems.Remove(xoa);
+                int check = context.SaveChanges();
+                if (check > 0)
+                    return string.Empty;
+            }
+            catch { }
+            return DefineError.loiHeThong;
+        }
+        public string[] xoaNhieuBaoHiem(string[] mas)
+        {
+            string[] results = new string[] { string.Empty, string.Empty };
+            try
+            {
+                if (mas == null)
+                    return null;
+                else
+                {
+                    string error = "";
+                    string success = "";
+                    int countSuccess = 0;
+                    foreach (string s in mas)
+                    {
+                        string message = xoaBaoHiem(s);
+                        if (string.IsNullOrEmpty(message))
+                            countSuccess++;
+                    }
+                    if (countSuccess > 0)
+                        success = "Xoá thành công " + countSuccess + " bảo hiểm.";
+                    if (countSuccess < mas.Length)
+                        error = "Không thể xóa " + (mas.Length - countSuccess) + " bảo hiểm.";
+                    results[0] = error;
+                    results[1] = success;
+                    return results;
+                }
+            }
+            catch { }
+            results[0] = DefineError.loiHeThong;
+            return results;
+        }
 //Tai khoan
         public TaiKhoan timTaiKhoanBangMaNhanSu(string maNhanSu)
         {
@@ -292,7 +499,10 @@ namespace ProgramWEB.Models.Object
                     : (from TaiKhoan in context.TaiKhoans select TaiKhoan));
                 results = ObjectHelper.OrderByDynamic<TaiKhoan>(results, sortBy, sortTangDan ? "asc" : "desc");
                 int p = results.Count();
-                pageSize = pageSize < p ? pageSize : p;
+                if (p == 0)
+                    pageSize = 0;
+                else
+                    pageSize = pageSize < p ? pageSize : p;
                 p = (p % pageSize) == 0 ? (p / pageSize) : (p / pageSize + 1);
                 page = page > p ? p : page;
                 return new List<IEnumerable<TaiKhoan>>()
