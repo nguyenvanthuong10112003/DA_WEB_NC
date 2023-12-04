@@ -28,7 +28,7 @@ namespace ProgramWEB.Models.Object
             if (context == null)
                 context = new QuanLyNhanSuContext();
         }
-        public static string login(TaiKhoan taiKhoan, string password)
+        public static string login(Data.TaiKhoan taiKhoan, string password)
         {
             if (taiKhoan == null)
                 return "Tài khoản không tồn tại.";
@@ -38,7 +38,7 @@ namespace ProgramWEB.Models.Object
                 return "Tài khoản đang bị khóa, hãy chờ đến " + taiKhoan.TK_ThoiGianMoKhoa.ToString() + ".";
             return string.Empty;
         }
-        public static bool kiemTraBiKhoaVaMoKhoa(TaiKhoan taiKhoan)
+        public static bool kiemTraBiKhoaVaMoKhoa(Data.TaiKhoan taiKhoan)
         {
             if (taiKhoan == null)
                 return true;

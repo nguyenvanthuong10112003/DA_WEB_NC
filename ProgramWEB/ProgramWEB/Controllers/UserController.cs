@@ -37,7 +37,7 @@ namespace ProgramWEB.Controllers
                     QuanLyNhanSuContext context = new QuanLyNhanSuContext();
                     if (context == null)
                         return View();
-                    TaiKhoan taiKhoan = context.TaiKhoans.Where(item => item.TK_TenDangNhap == username).FirstOrDefault();
+                    Models.Data.TaiKhoan taiKhoan = context.TaiKhoans.Where(item => item.TK_TenDangNhap == username).FirstOrDefault();
                     if (taiKhoan == null || taiKhoan.TK_MatKhau != password || Models.Object.User.kiemTraBiKhoaVaMoKhoa(taiKhoan))
                     {
                         //Xoa khoi cookie
@@ -88,7 +88,7 @@ namespace ProgramWEB.Controllers
                 {
                     error = DefineError.loiHeThong
                 });
-            TaiKhoan taiKhoan = context.TaiKhoans.Find(username);
+            Models.Data.TaiKhoan taiKhoan = context.TaiKhoans.Find(username);
             string message = Models.Object.User.login(taiKhoan, password);
             if (!string.IsNullOrEmpty(message))
                 return JsonConvert.SerializeObject(new

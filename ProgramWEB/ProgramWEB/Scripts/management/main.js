@@ -129,18 +129,15 @@ var createTable = function () {
                                     </i>Sắp xếp
                                 </span>
                                 <ul class="header-sort-list position-absolute d-flex flex-column d-none z-3">
-                                    ${usingIndex.reduce(
+                                    ${nameTiengViets.reduce(
                                         function (result, item, index) {
-                                            if (!item)
-                                                return result;
-                                            let id = nameObj[nameTiengViets[index]].id
-                                            let name = nameTiengViets[index]
+                                            let id = nameObj[item].id
                                             let nameTT = nameItems[index]
                                             return (
                                                 result +
                                             `
                                             <li>
-                                                <label for="${id}-sort">${name}</label>
+                                                <label for="${id}-sort">${item}</label>
                                                 <input class="sort-item" type="radio" name="sortBy" 
                                                 id="${id}-sort"
                                                 value="${nameTT}"
@@ -164,24 +161,21 @@ var createTable = function () {
                                         <label for="select-all">Chọn tất cả</label>
                                         <input class="view-item" type="checkbox" name="select-all" id="select-all">
                                     </li>
-                                    ${usingIndex.reduce(
+                                    ${nameTiengViets.reduce(
                                         function (result, item, index) {
-                                            if (!item)
-                                                return result;
-                                            let name = nameTiengViets[index];
-                                            let id = nameObj[name].id 
+                                            let id = nameObj[item].id 
                                             return (
                                             result +
                                             `
                                             <li>
                                                 <label for="${id}-view">
-                                                    ${name}
+                                                    ${item}
                                                 </label>
                                                 <input class="view-item" type="checkbox"
                                                     name="view" 
                                                     id="${id}-view"
-                                                    value="${name}" 
-                                                    ${nameObj[name].using ? "checked" : ""}/>
+                                                    value="${item}" 
+                                                    ${nameObj[item].using ? "checked" : ""}/>
                                             </li>
                                             `
                                             );
@@ -206,15 +200,13 @@ var createTable = function () {
                                                 <input type="checkbox" value="all" id="table-select-all">
                                             </label>
                                         </th>
-                                        ${usingIndex.reduce(function (result, item, index) {
-                                            if (!item)
-                                                return result;
+                                        ${nameTiengViets.reduce(function (result, item, index) {
                                             return (
                                                 result +
-                                                `<th class="${nameObj[nameTiengViets[index]].using ? "" : "d-none"}">${nameTiengViets[index]}</th>`
+                                                `<th class="${nameObj[item].using ? "" : "d-none"}">${item}</th>`
                                             );
                                         }, "")}
-                                        ${hanhDong ? typeof createActionOnRow == 'function' ? `<th>Thao tác</th>` : '' : ''}
+                                        ${hanhDong && (hanhDong.edit || hanhDong.delete) ? typeof createActionOnRow == 'function' ? `<th>Thao tác</th>` : '' : ''}
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -231,12 +223,10 @@ var createTable = function () {
                                                             class="records table-select">
                                                         </label>
                                                     </td>
-                                                    ${usingIndex.reduce(function (result1, item1, index) {
-                                                        if (!item1)
-                                                            return result1
-                                                        return result1 + createRowTable(item, nameItems[index], index, id);
+                                                    ${nameItems.reduce(function (result1, item1, index) {
+                                                    return result1 + createRowTable(item, item1, index, id);
                                                     }, "")}
-                                                    ${hanhDong ? typeof createActionOnRow == 'function' ? createActionOnRow(id) : '' : ''}
+                                                    ${hanhDong && (hanhDong.edit || hanhDong.delete) ? typeof createActionOnRow == 'function' ? createActionOnRow(id) : '' : ''}
                                                 </tr>
                                                 `
                                             );
@@ -332,91 +322,105 @@ var createTable = function () {
     `
 };
 var createForm = function (result, thaotac) {
-  let html = "";
   if (result) {
     let id = result[nameObj[nameTiengViets[0]].id];
     if (id) id = id.trim();
     let gioitinh = {};
     return hanhDong[thaotac] ? `
-                <div class="card-body form-input" id="${thaotac}">
-                    <h3 class="card-title">${
-                      thaotac == "edit"
-                        ? "Sửa thông tin"
-                        : thaotac == "add"
-                        ? "Thêm " + namePage
-                        : "Tìm kiếm"
-                    } </h3>
-                    <form method="GET" action="#" id="form-${id}">
-                        <div class="row">
-                            ${
-                              thaotac == "search"
-                                ? ""
-                                : `<div class="alert alert-danger bg-danger text-light border-0 alert-dismissible fade show errorCL" id="error-${thaotac}-${id}" role="alert">
-                                <span><span>
-                                <button type="button" class="btn-close"><i class="fa-solid fa-xmark" style="color: #ffffff;"></i></button>
-                            </div>
-                            <div class="alert alert-success bg-success text-light border-0 alert-dismissible fade show successCL" id="success-${thaotac}-${id}" role="alert">
-                                <span><span>
-                                <button type="button" class="btn-close"><i class="fa-solid fa-xmark" style="color: #ffffff;"></i></button>
-                            </div>`
-        }
-                            ${usingIndex.reduce(
-                                function (result1, item, index) {
-                                    if (!item)
-                                        return result1
-                                    return (
-                                        result1 +
-                                        `<div class="col-md-6">
-                                            <div class="form-group">
-                                                <label>${nameTiengViets[index]}</label>
-                                                ${createInputFormAddOrUpdate(
-                                                  thaotac,
-                                                    result,
-                                                    nameTiengViets[index],
-                                                  index, 
-                                                  id
-                                                )}
-                                            </div>
-                                            ${
-                                              thaotac == "search"
-                                            ? ""
-                                            : `<span id="error-${nameObj[nameTiengViets[index]].id}-${thaotac}-${id}" class="text-danger"></span>`
-                                            }
-                                        </div>`
-                                    );
-                                },
-                            "")}
-                            <div class="col-md-12">
-                                <div class="form-group btns">
-                                    <button class="btn btn-primary" id="${thaotac}-submit" onclick="thucHienHanhDongDenServer(this, '${thaotac}')" type="button">
-                                        ${
-                                          thaotac == "edit"
-                                            ? "Xác nhận"
-                                            : thaotac == "add"
-                                            ? "Thêm"
-                                            : "Tìm kiếm"
-                                        }
-                                    </button>
-                                    <button class="btn btn-danger"
-                                            type="button" onclick="resert(this)">
-                                        Đặt lại
-                                    </button>
-                                        ${
-                                          thaotac == "edit"
-                                            ? `<button class="btn btn-secondary cancel"
-                                            type="button" onclick="cancel(this)">
-                                        Hủy
-                                    </button>`
-                                            : ""
-                                        }
+    <div class="card-body form-input" id="${thaotac}">
+        <h3 class="card-title">${
+            thaotac == "edit"
+            ? "Sửa thông tin"
+            : thaotac == "add"
+            ? "Thêm " + namePage
+            : "Tìm kiếm"
+        } </h3>
+        <form method="GET" action="#" id="form-${id}">
+            <div class="row">
+                ${thaotac == "search" ? "" :
+                    `<div class="alert alert-danger bg-danger text-light border-0 alert-dismissible fade show errorCL" id="error-${thaotac}-${id}" role="alert">
+                        <span><span>
+                        <button type="button" class="btn-close"><i class="fa-solid fa-xmark" style="color: #ffffff;"></i></button>
+                    </div>
+                    <div class="alert alert-success bg-success text-light border-0 alert-dismissible fade show successCL" id="success-${thaotac}-${id}" role="alert">
+                        <span><span>
+                        <button type="button" class="btn-close"><i class="fa-solid fa-xmark" style="color: #ffffff;"></i></button>
+                    </div>`
+                }
+                ${nameTiengViets.reduce(
+                    function (result1, item, index) {
+                        return (
+                            result1 +
+                            `<div class="col-md-6">
+                                <div class="form-group">
+                                    <label>${item}</label>
+                                    ${createInputFormAddOrUpdate(
+                                        thaotac,
+                                        result,
+                                        item,
+                                        index, 
+                                        id
+                                    )}
                                 </div>
-                            </div>
-                        </div>
-                    </form>
+                                ${
+                                    thaotac == "search"
+                                ? ""
+                                : `<span id="error-${nameObj[item].id}-${thaotac}-${id}" class="text-danger"></span>`
+                                }
+                            </div>`
+                        );
+                    },
+                "")}
+                <div class="col-md-12">
+                    <div class="form-group btns">
+                        <button class="btn btn-primary" id="${thaotac}-submit" onclick="thucHienHanhDongDenServer(this, '${thaotac}')" type="button">
+                            ${
+                                thaotac == "edit"
+                                ? "Xác nhận"
+                                : thaotac == "add"
+                                ? "Thêm"
+                                : "Tìm kiếm"
+                            }
+                        </button>
+                        <button class="btn btn-danger btn-resert-form" id="btn-resert-form-${thaotac}"
+                                type="button">
+                            Đặt lại
+                        </button>
+                            ${
+                                thaotac == "edit"
+                                ? `<button class="btn btn-secondary cancel"
+                                type="button" onclick="cancel(this)">
+                            Hủy
+                        </button>`
+                                : ""
+                            }
+                    </div>
                 </div>
-        ` : '';
+            </div>
+        </form>
+    </div>
+    ` : '';
   }
 };
+var createActionOnRow = function (id) {
+    return `
+            <td class="d-flex flex-row flex-nowrap">
+                ${hanhDong.edit ?
+                `<a href="#!"
+                        class="btn btn-primary btn-sm mr-1 edit" onclick="openEdit(this)">
+                        <i class="fas fa-edit"></i>
+                        Sửa
+                </a>` : ''}
+                ${hanhDong.delete ?
+                `<a href="#!"
+                    class="btn btn-sm mr-1 nut-xoa-hang" id="nut-xoa-hang-${id}"
+                    style="background-color: red; color: white; margin-left: 5px">
+                    <i class="fas fa-times" style="color: white"></i>
+                    Xóa
+                </a>` : ''}
+            </td>
+            `
+}
 var ready = function () {
     let danhSachHienThi = $('.header-view-list');
     let danhSachSapXep = $('.header-sort-list');
@@ -538,6 +542,17 @@ var openEdit = function (e) {
     $('.form-edit').remove();
     edit.html(edit.html() + `<td colspan="${count + 2}" id="form-edit-${id}" class="form-edit">${createForm(result, 'edit')}</td>`);
     ready()
+    $('.btn-resert-form').click(function () {
+        let id = $(this).attr('id');
+        id = id.split('-')
+        let thaoTac = id[id.length - 1];
+        if (thaoTac == 'edit') {
+            id = $(this).parent().parent().parent().parent().attr('id');
+            id = id.split('-')
+            id = id[id.length - 1]
+            openEdit($('#' + id).children().children()[0]);
+        }
+    }) 
 }
 var cancel = function (e) {
     let edit = $(e).parent().parent().parent().parent().parent().parent().parent();
@@ -548,19 +563,6 @@ var cancel = function (e) {
             edit.children(`#${nameObj[item].id}-${id}`).addClass('d-none');
     }
     edit.children(`#form-edit-${id}`).addClass('d-none');
-}
-var resert = function (e) {
-    let editor = $(e).parent().parent().parent().parent().parent();
-    if (editor.attr('id') == 'edit') {
-        openEdit(editor);
-    } else if (editor.attr('id') == 'add') {
-        $('#add').remove();
-        $('#content-add').html($('#content-add').html() + createForm({}, 'add'));
-    } else if (editor.attr('id') == 'search') {
-        $('#search').remove();
-        $('#content-search').html($('#content-search').html() + createForm({}, 'search'));
-    }
-    ready()
 }
 var toPage = function (index) {
     page = index;
@@ -584,6 +586,7 @@ var thucHienHanhDongDenServer = function (element, action) {
                 can = false;
             }
         }
+
         if (can) {
             let url = window.location.origin + '/' + xoaKhoangTrang(removeVietnameseTones(namePage)) + '/' + action;
             ajaxToServer({
@@ -658,7 +661,7 @@ var loadData = function (myResolve, myReject) {
         sortTangDan: sortTangDan
     }
     for (let i = 0; i < count; i++)
-        data[nameItems[i]] = findBy[nameItems[i]]
+        data[nameItems[i]] = findBy[nameItems[i]];
     $.ajax({
         url: url,
         data: data,
@@ -701,9 +704,12 @@ var loadPage = function (f) {
     let oNhapDuLieuFormAdd = $('.input-add');
     let oRadioButtonFormAdd = $('.input-radio-add');
     let thongBaoNen = $('#alert-canh-bao');
+    let nutResertForm = $('.btn-resert-form')
     formTimKiem.slideUp(0);
     formThem.hide();
     thongBaoNen.hide();
+    $('.errorCL').hide()
+    $('.successCL').hide()
     nutAnHienBoxNhapDuLieu.click(function (e) {
         $($(e.currentTarget).parent().parent().parent().children()[1]).slideToggle();
         $(e.currentTarget).children('i').attr('class',
@@ -725,6 +731,8 @@ var loadPage = function (f) {
             formThem.show()
             oNhapDuLieuFormAdd.val('')
             oRadioButtonFormAdd.prop('checked', false)
+            for (let item of nameTiengViets)
+                $('error' + nameObj[item].id + '-add-undefined').val('')
             let current = new Date()
             $('.dateNowOutput').val(
                 toDateInput(current.getDate() + '-' + (current.getMonth() + 1) + '-' + current.getFullYear())
@@ -739,6 +747,18 @@ var loadPage = function (f) {
         }
         loadDataTable()
     })
+    nutResertForm.click(function () {
+        let id = $(this).attr('id');
+        id = id.split('-')
+        let thaoTac = id[id.length - 1];
+        loadPage()
+        if (thaoTac == 'search') {
+            $('#content-search').slideDown(0);
+        } else if (thaoTac == 'add') {
+            $('#part-add').show();
+        }
+    })
+    loadTable()
 };
 var loadTable = function (f) {
     $("#content-table").html(createTable());
@@ -757,8 +777,6 @@ var load = function (f) {
         loadData(f)
     }).then(f => {
         loadPage(f)
-    }).then(f => {
-        loadTable()
     }).then(f => {
         $(document).ready(ready)
     })

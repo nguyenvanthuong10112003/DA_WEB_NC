@@ -9,18 +9,18 @@ using System.Web.Mvc;
 
 namespace ProgramWEB.Controllers
 {
-    public class BaoHiemController : BaseController
+    public class NgayNghiController : Controller
     {
-        public string getAll(BaoHiem findBy = null, int page = 1, int pageSize = 10, string sortBy = "BH_Ma", bool sortTangDan = true)
+        public string getAll(NgayNghi findBy = null, int page = 1, int pageSize = 10, string sortBy = "NN_Ngay", bool sortTangDan = true)
         {
             try
             {
                 QuanLy user = (QuanLy)Session[DefineSession.userSession];
                 if (user == null || !user.quyenQuanLy)
-                    return "";
-                List<IEnumerable<BaoHiem>> results = user.layDanhSachBaoHiem(findBy, page, pageSize, sortBy, sortTangDan);
+                    return string.Empty;
+                List<IEnumerable<NgayNghi>> results = user.layDanhSachNgayNghi(findBy, page, pageSize, sortBy, sortTangDan);
                 if (results == null)
-                    return "";
+                    return string.Empty;
                 return JsonConvert.SerializeObject(new
                 {
                     countData = results[0].Count(),
@@ -33,20 +33,20 @@ namespace ProgramWEB.Controllers
                 );
             }
             catch { }
-            return "";
+            return string.Empty;
         }
-        public string add(BaoHiem baoHiem)
+        public string add(NgayNghi NgayNghi)
         {
             try
             {
-                QuanLy user = (QuanLy)Session[DefineSession.userSession];
+                Admin user = (Admin)Session[DefineSession.userSession];
                 if (user == null)
                     return JsonConvert.SerializeObject(new { error = DefineError.canDangNhap });
-                if (!user.quyenQuanLy)
+                if (!user.quyenAdmin)
                     return JsonConvert.SerializeObject(new { error = DefineError.khongCoQuyen });
-                string error = ((QuanLy)user).themBaoHiem(baoHiem);
-                if (!string.IsNullOrEmpty(error))
-                    return JsonConvert.SerializeObject(new { error = error });
+                //string error = ((Admin)user).themNgayNghi(NgayNghi);
+                //if (!string.IsNullOrEmpty(error))
+                //  return JsonConvert.SerializeObject(new { error = error });
                 return JsonConvert.SerializeObject(new
                 {
                     success = "Thêm thành công."
@@ -58,18 +58,19 @@ namespace ProgramWEB.Controllers
                 error = DefineError.loiHeThong
             });
         }
-        public string edit(BaoHiem baoHiem)
+        public string edit(NgayNghi NgayNghi)
         {
             try
             {
-                QuanLy user = (QuanLy)Session[DefineSession.userSession];
+                Admin user = (Admin)Session[DefineSession.userSession];
                 if (user == null)
                     return JsonConvert.SerializeObject(new { error = DefineError.canDangNhap });
-                if (!user.quyenQuanLy)
+                if (!user.quyenAdmin)
                     return JsonConvert.SerializeObject(new { error = DefineError.khongCoQuyen });
-                string error = ((QuanLy)user).suaBaoHiem(baoHiem);
-                if (!string.IsNullOrEmpty(error))
-                    return JsonConvert.SerializeObject(new { error = error });
+
+                //string error = ((QuanLy)user).suaNgayNghi(NgayNghi);
+                //if (!string.IsNullOrEmpty(error))
+                //  return JsonConvert.SerializeObject(new { error = error });
                 return JsonConvert.SerializeObject(new
                 {
                     success = "Sửa thành công"
@@ -85,35 +86,37 @@ namespace ProgramWEB.Controllers
         {
             try
             {
-                QuanLy user = (QuanLy)Session[DefineSession.userSession];
+                Admin user = (Admin)Session[DefineSession.userSession];
                 if (user == null)
                     return JsonConvert.SerializeObject(new { error = DefineError.canDangNhap });
-                if (!user.quyenQuanLy)
+                if (!user.quyenAdmin)
                     return JsonConvert.SerializeObject(new { error = DefineError.khongCoQuyen });
-                if (mas != null && mas.Length == 1)
-                {
-                    string error = ((QuanLy)user).xoaBaoHiem(mas[0]);
-                    if (!string.IsNullOrEmpty(error))
-                        return JsonConvert.SerializeObject(new { error = error });
-                    return JsonConvert.SerializeObject(new
-                    {
-                        success = "Xóa thành công"
-                    });
-                }
-                if (mas != null && mas.Length > 1)
-                {
-                    string[] message = user.xoaNhieuBaoHiem(mas);
-                    if (message.Length > 0)
-                    {
-                        string error = message[0];
-                        string success = message.Length > 1 ? message[1] : string.Empty;
-                        return JsonConvert.SerializeObject(new
-                        {
-                            success = success,
-                            error = error
-                        });
-                    }
-                }
+
+                //if (mas != null && mas.Length == 1)
+                //{
+                //    //string error = ((QuanLy)user).xoaNgayNghi(mas[0]);
+                //    //if (!string.IsNullOrEmpty(error))
+                //        //return JsonConvert.SerializeObject(new { error = error });
+                //    return JsonConvert.SerializeObject(new
+                //    {
+                //        success = "Xóa thành công"
+                //    });
+                //}
+                //if (mas != null && mas.Length > 1)
+                //{
+                //    //string[] message = user.xoaNhieuNhanSu(mas);
+                //    //if (message.Length > 0)
+                //    //{
+                //       // string error = message[0];
+                //        //string success = message.Length > 1 ? message[1] : string.Empty;
+                //        return JsonConvert.SerializeObject(new
+                //        {
+                //        //    success = success,
+                //          //  error = error
+                //        });
+                //    }
+                //}
+                return string.Empty;
             }
             catch { }
             return JsonConvert.SerializeObject(new

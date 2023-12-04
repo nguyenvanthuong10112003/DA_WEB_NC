@@ -218,11 +218,18 @@
     <Content Include="Contents\alert-f8\style.css" />
     <Compile Include="Controllers\BaoHiemController.cs" />
     <Compile Include="Controllers\BaseController.cs" />
+    <Compile Include="Controllers\BoPhanController.cs" />
+    <Compile Include="Controllers\CaLamController.cs" />
     <Compile Include="Controllers\DangKyController.cs" />
     <Compile Include="Controllers\ErrorController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\HopDongController.cs" />
+    <Compile Include="Controllers\KhenThuongKyLuatController.cs" />
+    <Compile Include="Controllers\LichSuLamViecController.cs" />
     <Compile Include="Controllers\ManagementController.cs" />
+    <Compile Include="Controllers\NgayNghiController.cs" />
     <Compile Include="Controllers\NhanSuController.cs" />
+    <Compile Include="Controllers\PhongBanController.cs" />
     <Compile Include="Controllers\TaiKhoanController.cs" />
     <Compile Include="Controllers\UserController.cs" />
     <Compile Include="Define\DB\Proc.cs" />
@@ -239,6 +246,7 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Libary\ArrayHelper.cs" />
+    <Compile Include="Libary\Convert.cs" />
     <Compile Include="Libary\DateHelper.cs" />
     <Compile Include="Libary\EmailHelper.cs" />
     <Compile Include="Libary\Validate.cs" />
@@ -251,7 +259,7 @@
     <Compile Include="Models\Data\DangKyNghiLam.cs" />
     <Compile Include="Models\Data\DuyetDangKy.cs" />
     <Compile Include="Models\Data\HopDong.cs" />
-    <Compile Include="Models\Data\KhenThuongKyluat.cs" />
+    <Compile Include="Models\Data\KhenThuongKyLuat.cs" />
     <Compile Include="Models\Data\LichSuHanhDong.cs" />
     <Compile Include="Models\Data\LichSuLamViec.cs" />
     <Compile Include="Models\Data\NgayNghi.cs" />
@@ -261,7 +269,18 @@
     <Compile Include="Models\Data\sysdiagram.cs" />
     <Compile Include="Models\Data\TaiKhoan.cs" />
     <Compile Include="Models\Object\Admin.cs" />
+    <Compile Include="Models\Object\BaoHiem.cs" />
+    <Compile Include="Models\Object\BoPhan.cs" />
+    <Compile Include="Models\Object\CaLam.cs" />
+    <Compile Include="Models\Object\HopDong.cs" />
+    <Compile Include="Models\Object\KhenThuongKyLuat.cs" />
+    <Compile Include="Models\Object\LichSuLamViec.cs" />
+    <Compile Include="Models\Object\NgayNghi.cs" />
+    <Compile Include="Models\Object\NhanSu.cs" />
+    <Compile Include="Models\Object\PhongBan.cs" />
     <Compile Include="Models\Object\QuanLy.cs" />
+    <Compile Include="Models\Object\Rong.cs" />
+    <Compile Include="Models\Object\TaiKhoan.cs" />
     <Compile Include="Models\Object\User.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -2790,7 +2809,14 @@
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Views\BaoHiem\" />
+    <Folder Include="Views\BoPhan\" />
+    <Folder Include="Views\CaLam\" />
+    <Folder Include="Views\HopDong\" />
+    <Folder Include="Views\KhenThuongKyLuat\" />
+    <Folder Include="Views\LichSuLamViec\" />
+    <Folder Include="Views\NgayNghi\" />
     <Folder Include="Views\NhanSu\" />
+    <Folder Include="Views\PhongBan\" />
     <Folder Include="Views\TaiKhoan\" />
   </ItemGroup>
   <ItemGroup>
@@ -2799,6 +2825,12 @@
     <Content Include="Views\Management\PhongBan.cshtml" />
     <Content Include="Views\Management\TaiKhoan.cshtml" />
     <Content Include="Views\Management\BaoHiem.cshtml" />
+    <Content Include="Views\Management\HopDong.cshtml" />
+    <Content Include="Views\Management\LichSuLamViec.cshtml" />
+    <Content Include="Views\Management\KhenThuongKyLuat.cshtml" />
+    <Content Include="Views\Management\BoPhan.cshtml" />
+    <Content Include="Views\Management\CaLam.cshtml" />
+    <Content Include="Views\Management\NgayNghi.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{3259AA49-8AA1-44D3-9025-A0B520596A8C}" />

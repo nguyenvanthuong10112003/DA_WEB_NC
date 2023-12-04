@@ -1,5 +1,6 @@
 ﻿@{
-    ViewBag.Title = "Quản lý nhân sự"; Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewBag.Title = "Quản lý nhân sự"; 
+    Layout = "~/Views/Shared/_Layout.cshtml";
     ViewBag.pageNow =
     new LocationPage(DefinePage.home,
         new LocationPage(DefinePage.management,
@@ -34,7 +35,6 @@
         var nameItems = json["nameModel"];
         var nameTiengViets = json["nameRender"];
         var sortBy = json["sortBy"];
-        var usingIndex = json["use"];
         var findBy = json["findBy"];
         var hanhDong = json["action"];
         var sortTangDan = true;

@@ -7,7 +7,7 @@ namespace ProgramWEB.Models.Data
     using System.Data.Entity.Spatial;
 
     [Table("KhenThuongKyluat")]
-    public partial class KhenThuongKyluat
+    public partial class KhenThuongKyLuat
     {
         [Key]
         [StringLength(10)]

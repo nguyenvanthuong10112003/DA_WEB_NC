@@ -1,10 +1,10 @@
 ﻿@{
-    ViewBag.Title = "Quản lý lịch sử làm việc"; 
+    ViewBag.Title = "Quản lý ngày nghỉ";
     Layout = "~/Views/Shared/_Layout.cshtml";
     ViewBag.pageNow =
     new LocationPage(DefinePage.home,
         new LocationPage(DefinePage.management,
-            new LocationPage(DefinePage.management_BaoHiem)));
+            new LocationPage(DefinePage.management_NgayNghi)));
 }
 @section cssContent {
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css" integrity="sha512-+4zCK9k+qNFUR5X+cKL9EIR+ZOhtIloNl9GIKS57V1MyNsYpYcUrUeQc9vNfzsWfV28IaLL3i96P9sdNyeRssA==" crossorigin="anonymous" />
@@ -25,7 +25,7 @@
         $('#main').addClass('gird wide');
         var root = $('.content-wrapper');
         var dauCach = '&nbsp;';
-        var namePage = 'bảo hiểm';
+        var namePage = 'ngày nghỉ';
         var error;
         var success;
         var page = 1;
@@ -51,19 +51,11 @@
             let idName = nameObj[nameTiengViets[index]].id + '-' + id;
             let data = item[item1];
             switch (index) {
-                case 2:
-                case 3:
+                case 0:
                     return `
                         <td class="${using ? "" : "d-none"}"
-                            id="${idName}">${data ? toDateView(data) : ''}
-                        </td >
-                    `;
-                case count - 1:
-                    let url = "@(DefinePage.management_NhanSu.url +  "?ma=")" + data;
-                    return `
-                         <td class="${using ? "" : "d-none"}" id="${idName}"
-                         >${data ? `<a href="${url}" class="text-decoration-underline text-primary">${data}</a>` : ''}</td >
-                    `
+                            id="${idName}">${data ? toDateView(data) : ''} 
+                        </td >`
             }
             return `
             <td class="${using ? "" : "d-none"}"
@@ -75,8 +67,7 @@
             let data = result[nameObj[item].id] ? (result[nameObj[item].id]).trim() : "";
             let idName = nameObj[item].id + '-' + thaotac + (thaotac != 'search' ? '-' + id : '');
             switch (index) {
-                case 2:
-                case 3:
+                case 0:
                     return `
                     <input type="date" name="${idName}" id="${idName}" class="form-control input-${thaotac}"
                         value="${data.length >= 8 ? toDateInput(data) : ""}"

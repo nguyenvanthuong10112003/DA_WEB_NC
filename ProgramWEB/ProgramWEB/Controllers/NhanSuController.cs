@@ -1,6 +1,4 @@
-﻿using ProgramWEB.Models.Data;
-using System.Web.Mvc;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 using ProgramWEB.Models.Object;
 using ProgramWEB.Define;
 using System.Linq;
@@ -20,7 +18,6 @@ namespace ProgramWEB.Controllers
         {
             try
             {
-                NhanSu ns = findBy;
                 QuanLy user = (QuanLy)Session[DefineSession.userSession];
                 if (user == null || !user.quyenQuanLy)
                     return "";
@@ -47,9 +44,9 @@ namespace ProgramWEB.Controllers
             {
                 QuanLy user = (QuanLy)Session[DefineSession.userSession];
                 if (user == null)
-                    return JsonConvert.SerializeObject(new { error = "Bạn cần phải đăng nhập mới có thể sử dụng chức năng này." });
+                    return JsonConvert.SerializeObject(new { error = DefineError.canDangNhap });
                 if (!user.quyenQuanLy)
-                    return JsonConvert.SerializeObject(new { error = "Bạn không có quyền sử dụng chức năng này." });
+                    return JsonConvert.SerializeObject(new { error = DefineError.khongCoQuyen });
                 string error = ((QuanLy)user).themNhanSu(nhanSu);
                 if (!string.IsNullOrEmpty(error))
                     return JsonConvert.SerializeObject(new { error = error });
@@ -69,9 +66,9 @@ namespace ProgramWEB.Controllers
             {
                 QuanLy user = (QuanLy)Session[DefineSession.userSession];
                 if (user == null)
-                    return JsonConvert.SerializeObject(new { error = "Bạn cần phải đăng nhập mới có thể sử dụng chức năng này" });
+                    return JsonConvert.SerializeObject(new { error = DefineError.canDangNhap });
                 if (!user.quyenQuanLy)
-                    return JsonConvert.SerializeObject(new { error = "Bạn không có quyền sử dụng chức năng này" });
+                    return JsonConvert.SerializeObject(new { error = DefineError.khongCoQuyen });
                 string error = ((QuanLy)user).suaNhanSu(nhanSu);
                 if (!string.IsNullOrEmpty(error))
                     return JsonConvert.SerializeObject(new { error = error });
@@ -92,9 +89,9 @@ namespace ProgramWEB.Controllers
             {
                 QuanLy user = (QuanLy)Session[DefineSession.userSession];
                 if (user == null)
-                    return JsonConvert.SerializeObject(new { error = "Bạn cần phải đăng nhập mới có thể sử dụng chức năng này" });
+                    return JsonConvert.SerializeObject(new { error = DefineError.canDangNhap });
                 if (!user.quyenQuanLy)
-                    return JsonConvert.SerializeObject(new { error = "Bạn không có quyền sử dụng chức năng này" });
+                    return JsonConvert.SerializeObject(new { error = DefineError.khongCoQuyen });
                 if (mas != null && mas.Length == 1)
                 {
                     string error = ((QuanLy)user).xoaNhanSu(mas[0]);

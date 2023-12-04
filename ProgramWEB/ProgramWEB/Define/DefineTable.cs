@@ -36,21 +36,7 @@ namespace ProgramWEB.Define
              "Tên chủ tài khoản",
              "Học vấn",
              "Ngày vào"
-            },
-             new bool[] {
-             true,
-             true,
-             true,
-             true,
-             true,
-             true,
-             true,
-             true,
-             true,
-             true,
-             true,
-             true
-             }
+            }
         );
         public static Table baoHiem { get; } = new Table("BaoHiem", 
             new string[] {
@@ -69,57 +55,26 @@ namespace ProgramWEB.Define
              "Ngày hết hạn",
              "Nơi cấp",
              "Nơi khám bệnh",
-             "Mã nhân sự"
-            },
-             new bool[]
-             {
-             true,
-             true,
-             true,
-             true,
-             true,
-             true,
-             true
-             }
+             "Mã chủ bảo hiểm"
+            }
         );
         public static Table taiKhoan { get; } = new Table("TaiKhoan", 
             new string[] {
              "TK_TenDangNhap",
-             "TK_MatKhau",
              "TK_QuyenAdmin",
              "TK_QuyenQuanLy",
              "TK_BiKhoa",
              "TK_ThoiGianMoKhoa",
-             "TK_MaXacThuc",
-             "TK_ThoiGianTaoMa",
-             "TK_AnhDaiDien",
              "NS_Ma"
             },
              new string[] {
              "Tên đăng nhập",
-             "Mật khẩu",
              "Quyền admin",
              "Quyền quản lý",
              "Trạng thái khóa",
              "Thời gian mở khóa",
-             "Mã xác thực",
-             "Thời gian tạo mã",
-             "Ảnh đại diện",
              "Mã chủ tài khoản"
-            },
-             new bool[]
-             {
-             true,
-             false,
-             true,
-             true,
-             true,
-             true,
-             false,
-             false,
-             false,
-             true
-             }
+            }
         );
         public static Table hopDong { get; } = new Table("HopDong", 
             new string[] {
@@ -140,7 +95,7 @@ namespace ProgramWEB.Define
              "Lương",
              "Đơn vị tính lương",
              "Công việc",
-             "Mã nhân sự"
+             "Mã người ký hợp đồng"
             }
         );
         public static Table lichSuLamViec { get; } = new Table("LichSuLamViec", 
@@ -158,7 +113,7 @@ namespace ProgramWEB.Define
              "Ngày kết thúc",
              "Chức vụ",
              "Mã nhân sự",
-             "Mã bộ phận"
+             "Mã bộ phận làm việc"
             }
         );
         public static Table lichSuHanhDong { get; } = new Table("LichSuHanhDong", 

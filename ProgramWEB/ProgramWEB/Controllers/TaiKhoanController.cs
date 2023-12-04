@@ -1,12 +1,9 @@
 ﻿using Newtonsoft.Json;
 using ProgramWEB.Define;
-using ProgramWEB.Models.Data;
 using ProgramWEB.Models.Object;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Web;
-using System.Web.Mvc;
 
 namespace ProgramWEB.Controllers
 {
@@ -16,7 +13,6 @@ namespace ProgramWEB.Controllers
         {
             try
             {
-                TaiKhoan tai = findBy;
                 QuanLy user = (QuanLy)Session[DefineSession.userSession];
                 if (user == null || !user.quyenQuanLy)
                     return string.Empty;
@@ -42,11 +38,10 @@ namespace ProgramWEB.Controllers
             try
             {
                 Admin user = (Admin)Session[DefineSession.userSession];
-                if (user == null || !user.quyenAdmin)
-                    return JsonConvert.SerializeObject(new
-                    {
-                        error = DefineError.khongCoQuyen
-                    });
+                if (user == null)
+                    return JsonConvert.SerializeObject(new { error = DefineError.canDangNhap });
+                if (!user.quyenAdmin)
+                    return JsonConvert.SerializeObject(new { error = DefineError.khongCoQuyen });
 
             } catch { }
             return JsonConvert.SerializeObject(new
@@ -59,11 +54,10 @@ namespace ProgramWEB.Controllers
             try
             {
                 Admin user = (Admin)Session[DefineSession.userSession];
-                if (user == null || !user.quyenAdmin)
-                    return JsonConvert.SerializeObject(new
-                    {
-                        error = DefineError.khongCoQuyen
-                    });
+                if (user == null)
+                    return JsonConvert.SerializeObject(new { error = DefineError.canDangNhap });
+                if (!user.quyenAdmin)
+                    return JsonConvert.SerializeObject(new { error = DefineError.khongCoQuyen });
             }
             catch { }
             return JsonConvert.SerializeObject(new

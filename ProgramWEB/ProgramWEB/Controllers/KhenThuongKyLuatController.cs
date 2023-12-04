@@ -9,16 +9,16 @@ using System.Web.Mvc;
 
 namespace ProgramWEB.Controllers
 {
-    public class BaoHiemController : BaseController
+    public class KhenThuongKyLuatController : Controller
     {
-        public string getAll(BaoHiem findBy = null, int page = 1, int pageSize = 10, string sortBy = "BH_Ma", bool sortTangDan = true)
+        public string getAll(KhenThuongKyLuat findBy = null, int page = 1, int pageSize = 10, string sortBy = "KTKL_Ma", bool sortTangDan = true)
         {
             try
             {
                 QuanLy user = (QuanLy)Session[DefineSession.userSession];
                 if (user == null || !user.quyenQuanLy)
                     return "";
-                List<IEnumerable<BaoHiem>> results = user.layDanhSachBaoHiem(findBy, page, pageSize, sortBy, sortTangDan);
+                List<IEnumerable<KhenThuongKyLuat>> results = user.layDanhSachKhenThuongKyLuat(findBy, page, pageSize, sortBy, sortTangDan);
                 if (results == null)
                     return "";
                 return JsonConvert.SerializeObject(new
@@ -35,7 +35,7 @@ namespace ProgramWEB.Controllers
             catch { }
             return "";
         }
-        public string add(BaoHiem baoHiem)
+        public string add(KhenThuongKyLuat KhenThuongKyLuat)
         {
             try
             {
@@ -44,7 +44,7 @@ namespace ProgramWEB.Controllers
                     return JsonConvert.SerializeObject(new { error = DefineError.canDangNhap });
                 if (!user.quyenQuanLy)
                     return JsonConvert.SerializeObject(new { error = DefineError.khongCoQuyen });
-                string error = ((QuanLy)user).themBaoHiem(baoHiem);
+                string error = ((QuanLy)user).themKhenThuongKyLuat(KhenThuongKyLuat);
                 if (!string.IsNullOrEmpty(error))
                     return JsonConvert.SerializeObject(new { error = error });
                 return JsonConvert.SerializeObject(new
@@ -58,7 +58,7 @@ namespace ProgramWEB.Controllers
                 error = DefineError.loiHeThong
             });
         }
-        public string edit(BaoHiem baoHiem)
+        public string edit(KhenThuongKyLuat KhenThuongKyLuat)
         {
             try
             {
@@ -67,7 +67,7 @@ namespace ProgramWEB.Controllers
                     return JsonConvert.SerializeObject(new { error = DefineError.canDangNhap });
                 if (!user.quyenQuanLy)
                     return JsonConvert.SerializeObject(new { error = DefineError.khongCoQuyen });
-                string error = ((QuanLy)user).suaBaoHiem(baoHiem);
+                string error = ((QuanLy)user).suaKhenThuongKyLuat(KhenThuongKyLuat);
                 if (!string.IsNullOrEmpty(error))
                     return JsonConvert.SerializeObject(new { error = error });
                 return JsonConvert.SerializeObject(new
@@ -92,7 +92,7 @@ namespace ProgramWEB.Controllers
                     return JsonConvert.SerializeObject(new { error = DefineError.khongCoQuyen });
                 if (mas != null && mas.Length == 1)
                 {
-                    string error = ((QuanLy)user).xoaBaoHiem(mas[0]);
+                    string error = ((QuanLy)user).xoaKhenThuongKyLuat(mas[0]);
                     if (!string.IsNullOrEmpty(error))
                         return JsonConvert.SerializeObject(new { error = error });
                     return JsonConvert.SerializeObject(new
@@ -102,7 +102,7 @@ namespace ProgramWEB.Controllers
                 }
                 if (mas != null && mas.Length > 1)
                 {
-                    string[] message = user.xoaNhieuBaoHiem(mas);
+                    string[] message = user.xoaNhieuKhenThuongKyLuat(mas);
                     if (message.Length > 0)
                     {
                         string error = message[0];

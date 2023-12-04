@@ -20,7 +20,7 @@ namespace ProgramWEB.Models.Data
         public virtual DbSet<DangKyNghiLam> DangKyNghiLams { get; set; }
         public virtual DbSet<DuyetDangKy> DuyetDangKies { get; set; }
         public virtual DbSet<HopDong> HopDongs { get; set; }
-        public virtual DbSet<KhenThuongKyluat> KhenThuongKyluats { get; set; }
+        public virtual DbSet<KhenThuongKyLuat> KhenThuongKyLuats { get; set; }
         public virtual DbSet<LichSuHanhDong> LichSuHanhDongs { get; set; }
         public virtual DbSet<LichSuLamViec> LichSuLamViecs { get; set; }
         public virtual DbSet<NgayNghi> NgayNghis { get; set; }
@@ -146,12 +146,12 @@ namespace ProgramWEB.Models.Data
                 .IsFixedLength()
                 .IsUnicode(false);
 
-            modelBuilder.Entity<KhenThuongKyluat>()
+            modelBuilder.Entity<KhenThuongKyLuat>()
                 .Property(e => e.KTKL_Ma)
                 .IsFixedLength()
                 .IsUnicode(false);
 
-            modelBuilder.Entity<KhenThuongKyluat>()
+            modelBuilder.Entity<KhenThuongKyLuat>()
                 .Property(e => e.NS_Ma)
                 .IsFixedLength()
                 .IsUnicode(false);
@@ -208,11 +208,6 @@ namespace ProgramWEB.Models.Data
             modelBuilder.Entity<NhanSu>()
                 .Property(e => e.NS_TenChuTaiKhoan)
                 .IsUnicode(false);
-
-            modelBuilder.Entity<NhanSu>()
-                .HasMany(e => e.BaoHiems)
-                .WithRequired(e => e.NhanSu)
-                .WillCascadeOnDelete(false);
 
             modelBuilder.Entity<NhanSu>()
                 .HasMany(e => e.ChamCongs)

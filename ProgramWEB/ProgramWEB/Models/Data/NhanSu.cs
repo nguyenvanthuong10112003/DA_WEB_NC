@@ -19,7 +19,7 @@ namespace ProgramWEB.Models.Data
             DangKyNghiLams = new HashSet<DangKyNghiLam>();
             DuyetDangKies = new HashSet<DuyetDangKy>();
             HopDongs = new HashSet<HopDong>();
-            KhenThuongKyluats = new HashSet<KhenThuongKyluat>();
+            KhenThuongKyluats = new HashSet<KhenThuongKyLuat>();
             LichSuHanhDongs = new HashSet<LichSuHanhDong>();
             LichSuLamViecs = new HashSet<LichSuLamViec>();
             PhongBans = new HashSet<PhongBan>();
@@ -88,7 +88,7 @@ namespace ProgramWEB.Models.Data
         public virtual ICollection<HopDong> HopDongs { get; set; }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<KhenThuongKyluat> KhenThuongKyluats { get; set; }
+        public virtual ICollection<KhenThuongKyLuat> KhenThuongKyluats { get; set; }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<LichSuHanhDong> LichSuHanhDongs { get; set; }
