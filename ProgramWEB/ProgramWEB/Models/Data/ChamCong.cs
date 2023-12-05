@@ -10,8 +10,7 @@ namespace ProgramWEB.Models.Data
     public partial class ChamCong
     {
         [Key]
-        [StringLength(10)]
-        public string CC_Ma { get; set; }
+        public long CC_Ma { get; set; }
 
         public DateTime CC_ThoiGianDen { get; set; }
 

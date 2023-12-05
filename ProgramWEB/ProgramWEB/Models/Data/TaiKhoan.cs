@@ -17,11 +17,11 @@ namespace ProgramWEB.Models.Data
         [Required]
         public string TK_MatKhau { get; set; }
 
-        public bool? TK_QuyenAdmin { get; set; }
+        public bool TK_QuyenAdmin { get; set; }
 
-        public bool? TK_QuyenQuanLy { get; set; }
+        public bool TK_QuyenQuanLy { get; set; }
 
-        public bool? TK_BiKhoa { get; set; }
+        public bool TK_BiKhoa { get; set; }
 
         public DateTime? TK_ThoiGianMoKhoa { get; set; }
 

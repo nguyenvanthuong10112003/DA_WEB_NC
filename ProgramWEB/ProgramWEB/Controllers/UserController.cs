@@ -49,17 +49,17 @@ namespace ProgramWEB.Controllers
                     if (taiKhoan.TK_QuyenAdmin == true)
                     {
                         userSession = new Admin(taiKhoan.TK_TenDangNhap, taiKhoan.NS_Ma.Trim(),
-                        taiKhoan.TK_QuyenAdmin.GetValueOrDefault(), taiKhoan.TK_QuyenQuanLy.GetValueOrDefault(), taiKhoan.TK_AnhDaiDien);
+                        taiKhoan.TK_QuyenAdmin, taiKhoan.TK_QuyenQuanLy, taiKhoan.TK_AnhDaiDien);
                     }
                     else if (taiKhoan.TK_QuyenQuanLy == true)
                     {
                         userSession = new QuanLy(taiKhoan.TK_TenDangNhap, taiKhoan.NS_Ma.Trim(),
-                        taiKhoan.TK_QuyenAdmin.GetValueOrDefault(), taiKhoan.TK_QuyenQuanLy.GetValueOrDefault(), taiKhoan.TK_AnhDaiDien);
+                        taiKhoan.TK_QuyenAdmin, taiKhoan.TK_QuyenQuanLy, taiKhoan.TK_AnhDaiDien);
                     }
                     else
                     {
                         userSession = new User(taiKhoan.TK_TenDangNhap, taiKhoan.NS_Ma.Trim(),
-                        taiKhoan.TK_QuyenAdmin.GetValueOrDefault(), taiKhoan.TK_QuyenQuanLy.GetValueOrDefault(), taiKhoan.TK_AnhDaiDien);
+                        taiKhoan.TK_QuyenAdmin, taiKhoan.TK_QuyenQuanLy, taiKhoan.TK_AnhDaiDien);
                     }
                     Session.Add(DefineSession.userSession, userSession);
                     string[] beforeURL = (string[])Session[DefineSession.beforeUrlSession];
@@ -99,17 +99,17 @@ namespace ProgramWEB.Controllers
             if (taiKhoan.TK_QuyenAdmin == true)
             {
                 userSession = new Admin(taiKhoan.TK_TenDangNhap, taiKhoan.NS_Ma.Trim(),
-                taiKhoan.TK_QuyenAdmin.GetValueOrDefault(), taiKhoan.TK_QuyenQuanLy.GetValueOrDefault(), taiKhoan.TK_AnhDaiDien);
+                taiKhoan.TK_QuyenAdmin, taiKhoan.TK_QuyenQuanLy, taiKhoan.TK_AnhDaiDien);
             }
             else if (taiKhoan.TK_QuyenQuanLy == true)
             {
                 userSession = new QuanLy(taiKhoan.TK_TenDangNhap, taiKhoan.NS_Ma.Trim(),
-                taiKhoan.TK_QuyenAdmin.GetValueOrDefault(), taiKhoan.TK_QuyenQuanLy.GetValueOrDefault(), taiKhoan.TK_AnhDaiDien);
+                taiKhoan.TK_QuyenAdmin, taiKhoan.TK_QuyenQuanLy, taiKhoan.TK_AnhDaiDien);
             }
             else
             {
                 userSession = new User(taiKhoan.TK_TenDangNhap, taiKhoan.NS_Ma.Trim(),
-                taiKhoan.TK_QuyenAdmin.GetValueOrDefault(), taiKhoan.TK_QuyenQuanLy.GetValueOrDefault(), taiKhoan.TK_AnhDaiDien);
+                taiKhoan.TK_QuyenAdmin, taiKhoan.TK_QuyenQuanLy, taiKhoan.TK_AnhDaiDien);
             }
             Session.Add(DefineSession.userSession, userSession);
             if (keepLogin)

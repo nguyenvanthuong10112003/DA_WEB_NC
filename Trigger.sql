@@ -41,3 +41,17 @@ END
 SELECT * FROM dbo.NhanSu
 
 SELECT * FROM dbo.TaiKhoan
+
+
+
+GO
+CREATE TRIGGER TRIGGER_DuyetDangKy
+ON dbo.DuyetDangKy
+FOR DELETE
+AS 
+BEGIN
+	UPDATE dbo.DangKyCaLam SET DKCL_DaDuocDuyet = 0 
+	WHERE DDK_Ma IN (SELECT d.DDK_Ma FROM Deleted d)
+	UPDATE dbo.DangKyNghiLam SET DKNL_DaDuocDuyet = 0 
+	WHERE DDK_Ma IN (SELECT d.DDK_Ma FROM Deleted d)
+END

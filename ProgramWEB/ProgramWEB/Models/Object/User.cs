@@ -42,7 +42,7 @@ namespace ProgramWEB.Models.Object
         {
             if (taiKhoan == null)
                 return true;
-            if (taiKhoan.TK_BiKhoa == false || taiKhoan.TK_BiKhoa == null)
+            if (taiKhoan.TK_BiKhoa == false)
                 return false;
             if (taiKhoan.TK_ThoiGianMoKhoa == null || taiKhoan.TK_ThoiGianMoKhoa > DateTime.Now)
                 return true;

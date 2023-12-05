@@ -203,7 +203,8 @@ namespace ProgramWEB.Define
              "DKCL_ThoiGianDangKy",
              "DKCL_DaDuocDuyet",
              "NS_Ma",
-             "CL_Ma"
+             "CL_Ma",
+             "DDK_Ma"
             },
             new string[] {
              "Mã",
@@ -211,7 +212,8 @@ namespace ProgramWEB.Define
              "Thời gian",
              "Trạng thái",
              "Mã người đăng ký",
-             "Mã ca làm"
+             "Mã ca làm",
+             "Mã duyệt đăng ký"
             }
         );
         public static Table dangKyNghiLam { get; } = new Table("DangKyNghiLam", 
@@ -233,22 +235,18 @@ namespace ProgramWEB.Define
              "Lý do nghỉ",
              "Trạng thái",
              "Mã người đăng ký",
-             "Mã duyệt đăng ký ca làm"
+             "Mã duyệt đăng ký"
             }
         );
         public static Table duyetDangKy { get; } = new Table("DuyetDangKy", 
             new string[] {
              "DDK_Ma",
              "DDK_ThoiGian",
-             "DKCL_Ma",
-             "DKNL_Ma",
              "NS_Ma"
             },
             new string[] {
              "Mã",
              "Thời gian duyệt",
-             "Mã đăng ký ca làm",
-             "Mã đăng ký nghỉ",
              "Mã người duyệt"
             }
         );

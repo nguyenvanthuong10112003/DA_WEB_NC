@@ -210,6 +210,7 @@
     <Content Include="Contents\kh\style.css" />
     <Content Include="Contents\loader\style.css" />
     <Content Include="Contents\main\css\caulendar.css" />
+    <Content Include="Contents\main\css\home-management.css" />
     <Content Include="Content\PagedList.css" />
     <Content Include="Images\avatar.png" />
     <Content Include="Scripts\caulendar\main.js" />
@@ -220,7 +221,11 @@
     <Compile Include="Controllers\BaseController.cs" />
     <Compile Include="Controllers\BoPhanController.cs" />
     <Compile Include="Controllers\CaLamController.cs" />
+    <Compile Include="Controllers\ChamCongController.cs" />
+    <Compile Include="Controllers\DangKyCaLamController.cs" />
     <Compile Include="Controllers\DangKyController.cs" />
+    <Compile Include="Controllers\DangKyNghiLamController.cs" />
+    <Compile Include="Controllers\DuyetDangKyController.cs" />
     <Compile Include="Controllers\ErrorController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\HopDongController.cs" />
@@ -260,18 +265,20 @@
     <Compile Include="Models\Data\DuyetDangKy.cs" />
     <Compile Include="Models\Data\HopDong.cs" />
     <Compile Include="Models\Data\KhenThuongKyLuat.cs" />
-    <Compile Include="Models\Data\LichSuHanhDong.cs" />
     <Compile Include="Models\Data\LichSuLamViec.cs" />
     <Compile Include="Models\Data\NgayNghi.cs" />
     <Compile Include="Models\Data\NhanSu.cs" />
     <Compile Include="Models\Data\PhongBan.cs" />
     <Compile Include="Models\Data\QuanLyNhanSuContext.cs" />
-    <Compile Include="Models\Data\sysdiagram.cs" />
     <Compile Include="Models\Data\TaiKhoan.cs" />
     <Compile Include="Models\Object\Admin.cs" />
     <Compile Include="Models\Object\BaoHiem.cs" />
     <Compile Include="Models\Object\BoPhan.cs" />
     <Compile Include="Models\Object\CaLam.cs" />
+    <Compile Include="Models\Object\ChamCong.cs" />
+    <Compile Include="Models\Object\DangKyCaLam.cs" />
+    <Compile Include="Models\Object\DangKyNghiLam.cs" />
+    <Compile Include="Models\Object\DuyetDangKy.cs" />
     <Compile Include="Models\Object\HopDong.cs" />
     <Compile Include="Models\Object\KhenThuongKyLuat.cs" />
     <Compile Include="Models\Object\LichSuLamViec.cs" />
@@ -2811,6 +2818,10 @@
     <Folder Include="Views\BaoHiem\" />
     <Folder Include="Views\BoPhan\" />
     <Folder Include="Views\CaLam\" />
+    <Folder Include="Views\ChamCong\" />
+    <Folder Include="Views\DangKyCaLam\" />
+    <Folder Include="Views\DangKyNghiLam\" />
+    <Folder Include="Views\DuyetDangKy\" />
     <Folder Include="Views\HopDong\" />
     <Folder Include="Views\KhenThuongKyLuat\" />
     <Folder Include="Views\LichSuLamViec\" />
@@ -2818,6 +2829,7 @@
     <Folder Include="Views\NhanSu\" />
     <Folder Include="Views\PhongBan\" />
     <Folder Include="Views\TaiKhoan\" />
+    <Folder Include="Views\ThongTinNhanSu\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
@@ -2826,11 +2838,15 @@
     <Content Include="Views\Management\TaiKhoan.cshtml" />
     <Content Include="Views\Management\BaoHiem.cshtml" />
     <Content Include="Views\Management\HopDong.cshtml" />
-    <Content Include="Views\Management\LichSuLamViec.cshtml" />
     <Content Include="Views\Management\KhenThuongKyLuat.cshtml" />
     <Content Include="Views\Management\BoPhan.cshtml" />
     <Content Include="Views\Management\CaLam.cshtml" />
     <Content Include="Views\Management\NgayNghi.cshtml" />
+    <Content Include="Views\Management\ChamCong.cshtml" />
+    <Content Include="Views\Management\DuyetDangKy.cshtml" />
+    <Content Include="Views\Management\LichSuLamViec.cshtml" />
+    <Content Include="Views\Management\DangKyCaLam.cshtml" />
+    <Content Include="Views\Management\DangKyNghiLam.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{3259AA49-8AA1-44D3-9025-A0B520596A8C}" />

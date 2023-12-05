@@ -19,6 +19,7 @@ namespace ProgramWEB.Models.Data
         [Column(TypeName = "date")]
         public DateTime? HD_NgayKetThuc { get; set; }
 
+        [Required]
         [StringLength(30)]
         public string HD_HinhThucLamViec { get; set; }
 
@@ -28,6 +29,7 @@ namespace ProgramWEB.Models.Data
         [StringLength(20)]
         public string HD_DonViTinhuong { get; set; }
 
+        [Required]
         [StringLength(30)]
         public string HD_CongViec { get; set; }
 

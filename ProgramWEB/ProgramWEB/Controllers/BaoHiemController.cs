@@ -35,7 +35,7 @@ namespace ProgramWEB.Controllers
             catch { }
             return "";
         }
-        public string add(BaoHiem baoHiem)
+        public string add(BaoHiem BaoHiem)
         {
             try
             {
@@ -44,7 +44,7 @@ namespace ProgramWEB.Controllers
                     return JsonConvert.SerializeObject(new { error = DefineError.canDangNhap });
                 if (!user.quyenQuanLy)
                     return JsonConvert.SerializeObject(new { error = DefineError.khongCoQuyen });
-                string error = ((QuanLy)user).themBaoHiem(baoHiem);
+                string error = ((QuanLy)user).themBaoHiem(BaoHiem);
                 if (!string.IsNullOrEmpty(error))
                     return JsonConvert.SerializeObject(new { error = error });
                 return JsonConvert.SerializeObject(new
@@ -58,7 +58,7 @@ namespace ProgramWEB.Controllers
                 error = DefineError.loiHeThong
             });
         }
-        public string edit(BaoHiem baoHiem)
+        public string edit(BaoHiem BaoHiem)
         {
             try
             {
@@ -67,7 +67,7 @@ namespace ProgramWEB.Controllers
                     return JsonConvert.SerializeObject(new { error = DefineError.canDangNhap });
                 if (!user.quyenQuanLy)
                     return JsonConvert.SerializeObject(new { error = DefineError.khongCoQuyen });
-                string error = ((QuanLy)user).suaBaoHiem(baoHiem);
+                string error = ((QuanLy)user).suaBaoHiem(BaoHiem);
                 if (!string.IsNullOrEmpty(error))
                     return JsonConvert.SerializeObject(new { error = error });
                 return JsonConvert.SerializeObject(new

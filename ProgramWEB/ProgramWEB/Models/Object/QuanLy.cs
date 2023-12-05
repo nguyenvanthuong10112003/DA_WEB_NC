@@ -85,7 +85,7 @@ namespace ProgramWEB.Models.Object
                             where
                             (!string.IsNullOrEmpty(findNhanSu.NS_Ma) ? NhanSu.NS_Ma.StartsWith(findNhanSu.NS_Ma) : NhanSu != null) &&
                             (!string.IsNullOrEmpty(findNhanSu.NS_HoVaTen) ? NhanSu.NS_HoVaTen.StartsWith(findNhanSu.NS_HoVaTen) : NhanSu != null) &&
-                            (findNhanSu.NS_GioiTinh != null ? NhanSu.NS_GioiTinh.Value == findNhanSu.NS_GioiTinh.Value : NhanSu != null) &&
+                            (findNhanSu.NS_GioiTinh != null ? NhanSu.NS_GioiTinh == findNhanSu.NS_GioiTinh : NhanSu != null) &&
                             (findNhanSu.NS_NgaySinh != null ? NhanSu.NS_NgaySinh == findNhanSu.NS_NgaySinh : NhanSu != null) &&
                             (!string.IsNullOrEmpty(findNhanSu.NS_SoDienThoai) ? NhanSu.NS_SoDienThoai.StartsWith(findNhanSu.NS_SoDienThoai) : NhanSu != null) &&
                             (!string.IsNullOrEmpty(findNhanSu.NS_Email) ? NhanSu.NS_Email.StartsWith(findNhanSu.NS_Email) : NhanSu != null) &&
@@ -344,32 +344,32 @@ namespace ProgramWEB.Models.Object
             catch { }
             return null;
         }
-        public string themBaoHiem(Object.BaoHiem baoHiem)
+        public string themBaoHiem(Object.BaoHiem BaoHiem)
         {
             try
             {
-                if (baoHiem == null)
+                if (BaoHiem == null)
                     return DefineError.loiDuLieuKhongHopLe;
                 init();
                 if (context == null)
                     return DefineError.loiHeThong;
-                Data.BaoHiem baoHiem1 = context.BaoHiems.Where(
-                    item => item.BH_Ma == baoHiem.BH_Ma || 
-                    item.BH_SoBaoHiem == baoHiem.BH_SoBaoHiem).FirstOrDefault();
-                if (baoHiem1 == null)
+                Data.BaoHiem BaoHiem1 = context.BaoHiems.Where(
+                    item => item.BH_Ma == BaoHiem.BH_Ma || 
+                    item.BH_SoBaoHiem == BaoHiem.BH_SoBaoHiem).FirstOrDefault();
+                if (BaoHiem1 == null)
                 {
-                    baoHiem1 = new Data.BaoHiem();
-                    Convert<Data.BaoHiem, Object.BaoHiem>.ConvertObj(ref baoHiem1, baoHiem);
-                    context.BaoHiems.Add(baoHiem1);
+                    BaoHiem1 = new Data.BaoHiem();
+                    Convert<Data.BaoHiem, Object.BaoHiem>.ConvertObj(ref BaoHiem1, BaoHiem);
+                    context.BaoHiems.Add(BaoHiem1);
                     int check = context.SaveChanges();
                     if (check == 0)
                         return DefineError.loiHeThong;
                     return string.Empty;
                 }
                 string error = "";
-                if (baoHiem1.BH_Ma == baoHiem.BH_Ma)
+                if (BaoHiem1.BH_Ma == BaoHiem.BH_Ma)
                     error += "[Mã bảo hiểm]";
-                if (baoHiem1.BH_SoBaoHiem == baoHiem.BH_SoBaoHiem)
+                if (BaoHiem1.BH_SoBaoHiem == BaoHiem.BH_SoBaoHiem)
                     error += "[Số bảo hiểm]";
                 return error + " đã tồn tại";
             }
@@ -1565,6 +1565,434 @@ namespace ProgramWEB.Models.Object
                     return null;
                 Object.NgayNghi convert = new NgayNghi();
                 Convert<Object.NgayNghi, Data.NgayNghi>.ConvertObj(ref convert, context.NgayNghis.Find(ma));
+                return convert;
+            }
+            catch { }
+            return null;
+        }
+//Cham cong
+        public IEnumerable<Object.ChamCong> layDanhSachChamCong()
+        {
+            try
+            {
+                init();
+                if (context != null)
+                    return Convert<Object.ChamCong, Data.ChamCong>.ConvertObjs(context.ChamCongs);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+            return null;
+        }
+        public List<IEnumerable<Object.ChamCong>> layDanhSachChamCong(Object.ChamCong findBy = null, int page = 1, int pageSize = 10, string sortBy = "CC_Ma", bool sortTangDan = true)
+        {
+            try
+            {
+                init();
+                if (context == null)
+                    return null;
+                IEnumerable<Object.ChamCong> results =
+                    (findBy != null ? timKiemNhieuChamCong(findBy)
+                    : Convert<Object.ChamCong, Data.ChamCong>.ConvertObjs(from ChamCong in context.ChamCongs select ChamCong));
+                results = ObjectHelper.OrderByDynamic<Object.ChamCong>(results, sortBy, sortTangDan ? "asc" : "desc");
+                int p = results.Count();
+                if (p == 0)
+                    return new List<IEnumerable<Object.ChamCong>>()
+                    {
+                        new List<Object.ChamCong>(),
+                        new List<Object.ChamCong>()
+                    };
+                else
+                    pageSize = pageSize < p ? pageSize : p;
+                p = (p % pageSize) == 0 ? (p / pageSize) : (p / pageSize + 1);
+                page = page > p ? p : page <= 0 ? 1 : page;
+                return new List<IEnumerable<Object.ChamCong>>()
+                {
+                    results,
+                    results.Count() > pageSize ? results.ToPagedList(page, pageSize) : results
+                };
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+            return null;
+        }
+        public IEnumerable<Object.ChamCong> timKiemNhieuChamCong(Object.ChamCong find = null)
+        {
+            try
+            {
+                init();
+                if (context == null)
+                    return null;
+                if (find != null)
+                {
+                    return Convert<Object.ChamCong, Data.ChamCong>.ConvertObjs(from ChamCong in context.ChamCongs
+                        where
+                        (find.CC_Ma != null ? ChamCong.CC_Ma == find.CC_Ma : ChamCong != null) &&
+                        (find.CC_ThoiGianDen != null ? ChamCong.CC_ThoiGianDen == find.CC_ThoiGianDen : ChamCong != null) &&
+                        (find.CC_ThoiGianVe != null ? ChamCong.CC_ThoiGianVe == find.CC_ThoiGianVe : ChamCong != null) &&
+                        (find.CC_Ngay != null ? ChamCong.CC_Ngay == find.CC_Ngay : ChamCong != null) &&
+                        (!string.IsNullOrEmpty(find.NS_Ma) ? ChamCong.NS_Ma.StartsWith(find.NS_Ma) : ChamCong != null)
+                        select ChamCong);
+                }
+                return Convert<Object.ChamCong, Data.ChamCong>.ConvertObjs(context.ChamCongs);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+            return null;
+        }
+        public Object.ChamCong timKiemMotChamCong(string ma)
+        {
+            try
+            {
+                if (string.IsNullOrEmpty(ma))
+                    return null;
+                init();
+                if (context == null)
+                    return null;
+                Object.ChamCong convert = new ChamCong();
+                Convert<Object.ChamCong, Data.ChamCong>.ConvertObj(ref convert, context.ChamCongs.Find(ma));
+                return convert;
+            }
+            catch { }
+            return null;
+        }
+//Dang Ky Ca Lam
+        public IEnumerable<Object.DangKyCaLam> layDanhSachDangKyCaLam()
+        {
+            try
+            {
+                init();
+                if (context != null)
+                    return Convert<Object.DangKyCaLam, Data.DangKyCaLam>.ConvertObjs(context.DangKyCaLams);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+            return null;
+        }
+        public List<IEnumerable<Object.DangKyCaLam>> layDanhSachDangKyCaLam(Object.DangKyCaLam findBy = null, int page = 1, int pageSize = 10, string sortBy = "DKCL_Ma", bool sortTangDan = true)
+        {
+            try
+            {
+                init();
+                if (context == null)
+                    return null;
+                IEnumerable<Object.DangKyCaLam> results =
+                    (findBy != null ? timKiemNhieuDangKyCaLam(findBy)
+                    : Convert<Object.DangKyCaLam, Data.DangKyCaLam>.ConvertObjs(from DangKyCaLam in context.DangKyCaLams select DangKyCaLam));
+                results = ObjectHelper.OrderByDynamic<Object.DangKyCaLam>(results, sortBy, sortTangDan ? "asc" : "desc");
+                int p = results.Count();
+                if (p == 0)
+                    return new List<IEnumerable<Object.DangKyCaLam>>()
+                    {
+                        new List<Object.DangKyCaLam>(),
+                        new List<Object.DangKyCaLam>()
+                    };
+                else
+                    pageSize = pageSize < p ? pageSize : p;
+                p = (p % pageSize) == 0 ? (p / pageSize) : (p / pageSize + 1);
+                page = page > p ? p : page <= 0 ? 1 : page;
+                return new List<IEnumerable<Object.DangKyCaLam>>()
+                {
+                    results,
+                    results.Count() > pageSize ? results.ToPagedList(page, pageSize) : results
+                };
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+            return null;
+        }
+        public IEnumerable<Object.DangKyCaLam> timKiemNhieuDangKyCaLam(Object.DangKyCaLam find = null)
+        {
+            try
+            {
+                init();
+                if (context == null)
+                    return null;
+                if (find != null)
+                {
+                    return Convert<Object.DangKyCaLam, Data.DangKyCaLam>.ConvertObjs(from DangKyCaLam in context.DangKyCaLams
+                        where
+                        (!string.IsNullOrEmpty(find.DKCL_Ma) ? DangKyCaLam.DKCL_Ma.StartsWith(find.DKCL_Ma) : DangKyCaLam != null) &&
+                        (find.DKCL_Ngay != null ? DangKyCaLam.DKCL_Ngay == find.DKCL_Ngay : DangKyCaLam != null) &&
+                        (find.DKCL_ThoiGianDangKy != null ? DangKyCaLam.DKCL_ThoiGianDangKy == find.DKCL_ThoiGianDangKy : DangKyCaLam != null) &&
+                        (find.DKCL_DaDuocDuyet != null ? DangKyCaLam.DKCL_DaDuocDuyet == find.DKCL_DaDuocDuyet : DangKyCaLam != null) &&
+                        (!string.IsNullOrEmpty(find.NS_Ma) ? DangKyCaLam.NS_Ma.StartsWith(find.NS_Ma) : DangKyCaLam != null) &&
+                        (!string.IsNullOrEmpty(find.CL_Ma) ? DangKyCaLam.CL_Ma.StartsWith(find.CL_Ma) : DangKyCaLam != null) 
+                        select DangKyCaLam);
+                }
+                return Convert<Object.DangKyCaLam, Data.DangKyCaLam>.ConvertObjs(context.DangKyCaLams);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+            return null;
+        }
+        public Object.DangKyCaLam timKiemMotDangKyCaLam(string ma)
+        {
+            try
+            {
+                if (string.IsNullOrEmpty(ma))
+                    return null;
+                init();
+                if (context == null)
+                    return null;
+                Object.DangKyCaLam convert = new DangKyCaLam();
+                Convert<Object.DangKyCaLam, Data.DangKyCaLam>.ConvertObj(ref convert, context.DangKyCaLams.Find(ma));
+                return convert;
+            }
+            catch { }
+            return null;
+        }
+        public string duyetDangKyCaLam(string maDK)
+        {
+            try
+            {
+                if (string.IsNullOrEmpty(maDK))
+                    return DefineError.loiDuLieuKhongHopLe;
+                Data.DangKyCaLam dangKyCaLam = context.DangKyCaLams.Find(maDK);
+                if (dangKyCaLam == null)
+                    return DefineError.khongTonTai;
+                if (dangKyCaLam.DKCL_DaDuocDuyet && dangKyCaLam.DDK_Ma != null)
+                    return "Đăng ký này đã được duyệt rồi.";
+                if (dangKyCaLam.NS_Ma.Trim() == this.maNhanSu.Trim())
+                    return "Bạn không thể tự duyệt đăng ký của chính bản thân.";
+                Data.DuyetDangKy duyetDangKy = new Data.DuyetDangKy();
+                duyetDangKy.NS_Ma = this.maNhanSu;
+                duyetDangKy.DDK_ThoiGian = DateTime.Now;
+                context.DuyetDangKies.Add(duyetDangKy);
+                int check = context.SaveChanges();
+                if (check == 0)
+                    return DefineError.loiHeThong;
+                dangKyCaLam.DKCL_DaDuocDuyet = true;
+                dangKyCaLam.DDK_Ma = duyetDangKy.DDK_Ma;
+                context.DangKyCaLams.AddOrUpdate(dangKyCaLam);
+                check = context.SaveChanges();
+                if (check == 0)
+                    return DefineError.loiHeThong;
+                return string.Empty;
+            }
+            catch { }
+            return DefineError.loiHeThong;
+        }
+//Dang Ky Nghi Lam
+        public IEnumerable<Object.DangKyNghiLam> layDanhSachDangKyNghiLam()
+        {
+            try
+            {
+                init();
+                if (context != null)
+                    return Convert<Object.DangKyNghiLam, Data.DangKyNghiLam>.ConvertObjs(context.DangKyNghiLams);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+            return null;
+        }
+        public List<IEnumerable<Object.DangKyNghiLam>> layDanhSachDangKyNghiLam(Object.DangKyNghiLam findBy = null, int page = 1, int pageSize = 10, string sortBy = "DKCL_Ma", bool sortTangDan = true)
+        {
+            try
+            {
+                init();
+                if (context == null)
+                    return null;
+                IEnumerable<Object.DangKyNghiLam> results =
+                    (findBy != null ? timKiemNhieuDangKyNghiLam(findBy)
+                    : Convert<Object.DangKyNghiLam, Data.DangKyNghiLam>.ConvertObjs(from DangKyNghiLam in context.DangKyNghiLams select DangKyNghiLam));
+                results = ObjectHelper.OrderByDynamic<Object.DangKyNghiLam>(results, sortBy, sortTangDan ? "asc" : "desc");
+                int p = results.Count();
+                if (p == 0)
+                    return new List<IEnumerable<Object.DangKyNghiLam>>()
+                    {
+                        new List<Object.DangKyNghiLam>(),
+                        new List<Object.DangKyNghiLam>()
+                    };
+                else
+                    pageSize = pageSize < p ? pageSize : p;
+                p = (p % pageSize) == 0 ? (p / pageSize) : (p / pageSize + 1);
+                page = page > p ? p : page <= 0 ? 1 : page;
+                return new List<IEnumerable<Object.DangKyNghiLam>>()
+                {
+                    results,
+                    results.Count() > pageSize ? results.ToPagedList(page, pageSize) : results
+                };
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+            return null;
+        }
+        public IEnumerable<Object.DangKyNghiLam> timKiemNhieuDangKyNghiLam(Object.DangKyNghiLam find = null)
+        {
+            try
+            {
+                init();
+                if (context == null)
+                    return null;
+                if (find != null)
+                {
+                    return Convert<Object.DangKyNghiLam, Data.DangKyNghiLam>.ConvertObjs(from DangKyNghiLam in context.DangKyNghiLams
+                        where
+                        (!string.IsNullOrEmpty(find.DKNL_Ma) ? DangKyNghiLam.DKNL_Ma.StartsWith(find.DKNL_Ma) : DangKyNghiLam != null) &&
+                        (find.DKNL_Ngay != null ? DangKyNghiLam.DKNL_Ngay == find.DKNL_Ngay : DangKyNghiLam != null) &&
+                        (find.DKNL_ThoiGianDangKy != null ? DangKyNghiLam.DKNL_ThoiGianDangKy == find.DKNL_ThoiGianDangKy : DangKyNghiLam != null) &&
+                        (find.DKNL_NghiCoPhep != null ? DangKyNghiLam.DKNL_NghiCoPhep == find.DKNL_NghiCoPhep : DangKyNghiLam != null) &&
+                        (!string.IsNullOrEmpty(find.DKNL_LyDoNghi) ? DangKyNghiLam.DKNL_LyDoNghi.StartsWith(find.DKNL_LyDoNghi) : DangKyNghiLam != null) &&
+                        (find.DKNL_DaDuocDuyet != null ? DangKyNghiLam.DKNL_DaDuocDuyet == find.DKNL_DaDuocDuyet : DangKyNghiLam != null) &&
+                        (!string.IsNullOrEmpty(find.NS_Ma) ? DangKyNghiLam.NS_Ma.StartsWith(find.NS_Ma) : DangKyNghiLam != null) &&
+                        (find.DDK_Ma != null ? DangKyNghiLam.DDK_Ma == find.DDK_Ma : DangKyNghiLam != null) 
+                        select DangKyNghiLam);
+                }
+                return Convert<Object.DangKyNghiLam, Data.DangKyNghiLam>.ConvertObjs(context.DangKyNghiLams);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+            return null;
+        }
+        public Object.DangKyNghiLam timKiemMotDangKyNghiLam(string ma)
+        {
+            try
+            {
+                if (string.IsNullOrEmpty(ma))
+                    return null;
+                init();
+                if (context == null)
+                    return null;
+                Object.DangKyNghiLam convert = new DangKyNghiLam();
+                Convert<Object.DangKyNghiLam, Data.DangKyNghiLam>.ConvertObj(ref convert, context.DangKyNghiLams.Find(ma));
+                return convert;
+            }
+            catch { }
+            return null;
+        }
+        public string duyetDangKyNghiLam(string maDK)
+        {
+            try
+            {
+                if (string.IsNullOrEmpty(maDK))
+                    return DefineError.loiDuLieuKhongHopLe;
+                Data.DangKyNghiLam dangKyNghiLam = context.DangKyNghiLams.Find(maDK);
+                if (dangKyNghiLam == null)
+                    return DefineError.khongTonTai;
+                if (dangKyNghiLam.DKNL_DaDuocDuyet && dangKyNghiLam.DDK_Ma != null && dangKyNghiLam.DDK_Ma.Value >= 0)
+                    return "Đăng ký này đã được duyệt rồi.";
+                if (dangKyNghiLam.NS_Ma.Trim() == this.maNhanSu.Trim())
+                    return "Bạn không thể tự duyệt đăng ký của chính bản thân.";
+                Data.DuyetDangKy duyetDangKy = new Data.DuyetDangKy();
+                duyetDangKy.NS_Ma = this.maNhanSu;
+                duyetDangKy.DDK_ThoiGian = DateTime.Now;
+                context.DuyetDangKies.Add(duyetDangKy);
+                int check = context.SaveChanges();
+                if (check == 0)
+                    return DefineError.loiHeThong;
+                dangKyNghiLam.DKNL_DaDuocDuyet = true;
+                dangKyNghiLam.DDK_Ma = duyetDangKy.DDK_Ma;
+                context.DangKyNghiLams.AddOrUpdate(dangKyNghiLam);
+                check = context.SaveChanges();
+                if (check == 0)
+                    return DefineError.loiHeThong;
+                return string.Empty;
+            }
+            catch { }
+            return DefineError.loiHeThong;
+        }
+//Duyet dang ky
+        public IEnumerable<Object.DuyetDangKy> layDanhSachDuyetDangKy()
+        {
+            try
+            {
+                init();
+                if (context != null)
+                    return Convert<Object.DuyetDangKy, Data.DuyetDangKy>.ConvertObjs(context.DuyetDangKies);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+            return null;
+        }
+        public List<IEnumerable<Object.DuyetDangKy>> layDanhSachDuyetDangKy(Object.DuyetDangKy findBy = null, int page = 1, int pageSize = 10, string sortBy = "DKCL_Ma", bool sortTangDan = true)
+        {
+            try
+            {
+                init();
+                if (context == null)
+                    return null;
+                IEnumerable<Object.DuyetDangKy> results =
+                    (findBy != null ? timKiemNhieuDuyetDangKy(findBy)
+                    : Convert<Object.DuyetDangKy, Data.DuyetDangKy>.ConvertObjs(from DuyetDangKy in context.DuyetDangKies select DuyetDangKy));
+                results = ObjectHelper.OrderByDynamic<Object.DuyetDangKy>(results, sortBy, sortTangDan ? "asc" : "desc");
+                int p = results.Count();
+                if (p == 0)
+                    return new List<IEnumerable<Object.DuyetDangKy>>()
+                    {
+                        new List<Object.DuyetDangKy>(),
+                        new List<Object.DuyetDangKy>()
+                    };
+                else
+                    pageSize = pageSize < p ? pageSize : p;
+                p = (p % pageSize) == 0 ? (p / pageSize) : (p / pageSize + 1);
+                page = page > p ? p : page <= 0 ? 1 : page;
+                return new List<IEnumerable<Object.DuyetDangKy>>()
+                {
+                    results,
+                    results.Count() > pageSize ? results.ToPagedList(page, pageSize) : results
+                };
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+            return null;
+        }
+        public IEnumerable<Object.DuyetDangKy> timKiemNhieuDuyetDangKy(Object.DuyetDangKy find = null)
+        {
+            try
+            {
+                init();
+                if (context == null)
+                    return null;
+                if (find != null)
+                {
+                    return Convert<Object.DuyetDangKy, Data.DuyetDangKy>.ConvertObjs(from DuyetDangKy in context.DuyetDangKies
+                            where
+                            (find.DDK_Ma != null ? DuyetDangKy.DDK_Ma == find.DDK_Ma : DuyetDangKy != null) &&
+                            (find.DDK_ThoiGian != null ? DuyetDangKy.DDK_ThoiGian == find.DDK_ThoiGian : DuyetDangKy != null) &&
+                            (!string.IsNullOrEmpty(find.NS_Ma) ? DuyetDangKy.NS_Ma.StartsWith(find.NS_Ma) : DuyetDangKy != null)
+                            select DuyetDangKy);
+                }
+                return Convert<Object.DuyetDangKy, Data.DuyetDangKy>.ConvertObjs(context.DuyetDangKies);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+            return null;
+        }
+        public Object.DuyetDangKy timKiemMotDuyetDangKy(string ma)
+        {
+            try
+            {
+                if (string.IsNullOrEmpty(ma))
+                    return null;
+                init();
+                if (context == null)
+                    return null;
+                Object.DuyetDangKy convert = new DuyetDangKy();
+                Convert<Object.DuyetDangKy, Data.DuyetDangKy>.ConvertObj(ref convert, context.DuyetDangKies.Find(ma));
                 return convert;
             }
             catch { }

@@ -9,12 +9,6 @@ namespace ProgramWEB.Models.Data
     [Table("DangKyCaLam")]
     public partial class DangKyCaLam
     {
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public DangKyCaLam()
-        {
-            DuyetDangKies = new HashSet<DuyetDangKy>();
-        }
-
         [Key]
         [StringLength(10)]
         public string DKCL_Ma { get; set; }
@@ -24,20 +18,22 @@ namespace ProgramWEB.Models.Data
 
         public DateTime? DKCL_ThoiGianDangKy { get; set; }
 
-        public bool? DKCL_DaDuocDuyet { get; set; }
+        public bool DKCL_DaDuocDuyet { get; set; }
 
         [Required]
         [StringLength(10)]
         public string NS_Ma { get; set; }
 
+        [Required]
         [StringLength(10)]
         public string CL_Ma { get; set; }
 
+        public long? DDK_Ma { get; set; }
+
         public virtual CaLam CaLam { get; set; }
 
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<DuyetDangKy> DuyetDangKies { get; set; }
-
         public virtual NhanSu NhanSu { get; set; }
+
+        public virtual DuyetDangKy DuyetDangKy { get; set; }
     }
 }

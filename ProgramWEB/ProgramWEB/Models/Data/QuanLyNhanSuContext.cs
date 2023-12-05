@@ -21,12 +21,10 @@ namespace ProgramWEB.Models.Data
         public virtual DbSet<DuyetDangKy> DuyetDangKies { get; set; }
         public virtual DbSet<HopDong> HopDongs { get; set; }
         public virtual DbSet<KhenThuongKyLuat> KhenThuongKyLuats { get; set; }
-        public virtual DbSet<LichSuHanhDong> LichSuHanhDongs { get; set; }
         public virtual DbSet<LichSuLamViec> LichSuLamViecs { get; set; }
         public virtual DbSet<NgayNghi> NgayNghis { get; set; }
         public virtual DbSet<NhanSu> NhanSus { get; set; }
         public virtual DbSet<PhongBan> PhongBans { get; set; }
-        public virtual DbSet<sysdiagram> sysdiagrams { get; set; }
         public virtual DbSet<TaiKhoan> TaiKhoans { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
@@ -67,11 +65,6 @@ namespace ProgramWEB.Models.Data
                 .IsUnicode(false);
 
             modelBuilder.Entity<ChamCong>()
-                .Property(e => e.CC_Ma)
-                .IsFixedLength()
-                .IsUnicode(false);
-
-            modelBuilder.Entity<ChamCong>()
                 .Property(e => e.NS_Ma)
                 .IsFixedLength()
                 .IsUnicode(false);
@@ -101,40 +94,10 @@ namespace ProgramWEB.Models.Data
                 .IsFixedLength()
                 .IsUnicode(false);
 
-            modelBuilder.Entity<DangKyNghiLam>()
-                .Property(e => e.DDK_Ma)
-                .IsFixedLength()
-                .IsUnicode(false);
-
-            modelBuilder.Entity<DangKyNghiLam>()
-                .HasMany(e => e.DuyetDangKies)
-                .WithOptional(e => e.DangKyNghiLam)
-                .HasForeignKey(e => e.DKNL_Ma);
-
-            modelBuilder.Entity<DuyetDangKy>()
-                .Property(e => e.DDK_Ma)
-                .IsFixedLength()
-                .IsUnicode(false);
-
-            modelBuilder.Entity<DuyetDangKy>()
-                .Property(e => e.DKCL_Ma)
-                .IsFixedLength()
-                .IsUnicode(false);
-
-            modelBuilder.Entity<DuyetDangKy>()
-                .Property(e => e.DKNL_Ma)
-                .IsFixedLength()
-                .IsUnicode(false);
-
             modelBuilder.Entity<DuyetDangKy>()
                 .Property(e => e.NS_Ma)
                 .IsFixedLength()
                 .IsUnicode(false);
-
-            modelBuilder.Entity<DuyetDangKy>()
-                .HasMany(e => e.DangKyNghiLams)
-                .WithOptional(e => e.DuyetDangKy)
-                .HasForeignKey(e => e.DDK_Ma);
 
             modelBuilder.Entity<HopDong>()
                 .Property(e => e.HD_Ma)
@@ -152,16 +115,6 @@ namespace ProgramWEB.Models.Data
                 .IsUnicode(false);
 
             modelBuilder.Entity<KhenThuongKyLuat>()
-                .Property(e => e.NS_Ma)
-                .IsFixedLength()
-                .IsUnicode(false);
-
-            modelBuilder.Entity<LichSuHanhDong>()
-                .Property(e => e.LSHD_Ma)
-                .IsFixedLength()
-                .IsUnicode(false);
-
-            modelBuilder.Entity<LichSuHanhDong>()
                 .Property(e => e.NS_Ma)
                 .IsFixedLength()
                 .IsUnicode(false);
@@ -209,31 +162,6 @@ namespace ProgramWEB.Models.Data
                 .Property(e => e.NS_TenChuTaiKhoan)
                 .IsUnicode(false);
 
-            modelBuilder.Entity<NhanSu>()
-                .HasMany(e => e.ChamCongs)
-                .WithRequired(e => e.NhanSu)
-                .WillCascadeOnDelete(false);
-
-            modelBuilder.Entity<NhanSu>()
-                .HasMany(e => e.DangKyCaLams)
-                .WithRequired(e => e.NhanSu)
-                .WillCascadeOnDelete(false);
-
-            modelBuilder.Entity<NhanSu>()
-                .HasMany(e => e.DangKyNghiLams)
-                .WithRequired(e => e.NhanSu)
-                .WillCascadeOnDelete(false);
-
-            modelBuilder.Entity<NhanSu>()
-                .HasMany(e => e.HopDongs)
-                .WithRequired(e => e.NhanSu)
-                .WillCascadeOnDelete(false);
-
-            modelBuilder.Entity<NhanSu>()
-                .HasMany(e => e.LichSuLamViecs)
-                .WithRequired(e => e.NhanSu)
-                .WillCascadeOnDelete(false);
-
             modelBuilder.Entity<PhongBan>()
                 .Property(e => e.PB_Ma)
                 .IsFixedLength()
@@ -243,11 +171,6 @@ namespace ProgramWEB.Models.Data
                 .Property(e => e.NS_Ma)
                 .IsFixedLength()
                 .IsUnicode(false);
-
-            modelBuilder.Entity<PhongBan>()
-                .HasMany(e => e.BoPhans)
-                .WithRequired(e => e.PhongBan)
-                .WillCascadeOnDelete(false);
 
             modelBuilder.Entity<TaiKhoan>()
                 .Property(e => e.TK_TenDangNhap)

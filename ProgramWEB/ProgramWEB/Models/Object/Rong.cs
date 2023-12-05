@@ -11,6 +11,7 @@ namespace ProgramWEB.Models.Object
 {
     public class Rong
     {
+        //Dang Ky Ca Lam
 
     }
 }

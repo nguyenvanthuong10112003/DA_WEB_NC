@@ -1,6 +1,4 @@
-﻿var namePage;
-var setting = (namePage) => this.namePage = namePage
-var alertDelete = () => "Việc xóa " + namePage + " sẽ xóa tất cả các thông tin liên quan, bạn có chắc chắn muốn xóa không?"
+﻿var alertDelete = () => "Việc xóa " + namePage + " sẽ xóa tất cả các thông tin liên quan, bạn có chắc chắn muốn xóa không?"
 var alertDeletes = (item) => "Việc xóa " + namePage + " sẽ xóa tất cả các thông tin liên quan, bạn có chắc chắn muốn xóa " + item + " bản ghi đã chọn không?"
 var noiDungCanhBao = $('Dialog_content__fC8ze');
 var createContent = function () {

@@ -6,7 +6,7 @@ namespace ProgramWEB.Models.Data
     using System.ComponentModel.DataAnnotations.Schema;
     using System.Data.Entity.Spatial;
 
-    [Table("KhenThuongKyluat")]
+    [Table("KhenThuongKyLuat")]
     public partial class KhenThuongKyLuat
     {
         [Key]

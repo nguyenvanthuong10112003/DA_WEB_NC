@@ -14,6 +14,110 @@ namespace ProgramWEB.Controllers
         // GET: Management
         public ActionResult Index()
         {
+            QuanLy user = (QuanLy)Session[DefineSession.userSession];
+            if (!(user != null && user.quyenQuanLy))
+                return RedirectToAction("NotFound", "Error");
+            List<Dictionary<string, object>> listManagement = new List<Dictionary<string, object>>();
+            List<Dictionary<string, object>> listItem = new List<Dictionary<string, object>>();
+            Dictionary<string, object> item1 = new Dictionary<string, object>();
+            Dictionary<string, object> item = new Dictionary<string, object>();
+            //Nhan Su
+            item.Add("define", DefinePage.management_NhanSu);
+            item.Add("count", user.layDanhSachNhanSu().Count());
+            listItem.Add(item);
+
+            //Bao hiem
+            item = new Dictionary<string, object>();
+            item.Add("define", DefinePage.management_BaoHiem);
+            item.Add("count", user.layDanhSachBaoHiem().Count());
+            listItem.Add(item);
+
+            //Tai khoan
+            item = new Dictionary<string, object>();
+            item.Add("define", DefinePage.management_TaiKhoan);
+            item.Add("count", user.layDanhSachTaiKhoan().Count());
+            listItem.Add(item);
+
+            item1.Add("name", "Quản lý thông tin nhân sự");
+            item1.Add("data", listItem);
+            listManagement.Add(item1);
+            item1= new Dictionary<string, object>();
+            listItem = new List<Dictionary<string, object>>();
+
+            //Dang Ky ca lam
+            item = new Dictionary<string, object>();
+            item.Add("define", DefinePage.management_DangKyCaLam);
+            item.Add("count", user.layDanhSachDangKyCaLam().Count());
+            listItem.Add(item);
+
+            //Dang ký nghi lam
+            item = new Dictionary<string, object>();
+            item.Add("define", DefinePage.management_DangKyNghiLam);
+            item.Add("count", user.layDanhSachDangKyNghiLam().Count());
+            listItem.Add(item);
+
+            //Cham cong
+            item = new Dictionary<string, object>();
+            item.Add("define", DefinePage.management_ChamCong);
+            item.Add("count", user.layDanhSachChamCong().Count());
+            listItem.Add(item);
+
+            //Khen thuong ky luat
+            item = new Dictionary<string, object>();
+            item.Add("define", DefinePage.management_KhenThuongKyLuat);
+            item.Add("count", user.layDanhSachKhenThuongKyLuat().Count());
+            listItem.Add(item);
+
+            //Lich su lam viec
+            item = new Dictionary<string, object>();
+            item.Add("define", DefinePage.management_LichSuLamViec);
+            item.Add("count", user.layDanhSachLichSuLamViec().Count());
+            listItem.Add(item);
+
+            //Hop Dong
+            item = new Dictionary<string, object>();
+            item.Add("define", DefinePage.management_HopDong);
+            item.Add("count", user.layDanhSachHopDong().Count());
+            listItem.Add(item);
+
+            item1.Add("name", "Quản lý thông tin làm việc");
+            item1.Add("data", listItem);
+            listManagement.Add(item1);
+            item1 = new Dictionary<string, object>();
+            listItem = new List<Dictionary<string, object>>();
+
+            //Phong ban
+            item = new Dictionary<string, object>();
+            item.Add("define", DefinePage.management_PhongBan);
+            item.Add("count", user.layDanhSachPhongBan().Count());
+            listItem.Add(item);
+
+            //Bo phan
+            item = new Dictionary<string, object>();
+            item.Add("define", DefinePage.management_BoPhan);
+            item.Add("count", user.layDanhSachBoPhan().Count());
+            listItem.Add(item);
+
+            //Ca lam
+            item = new Dictionary<string, object>();
+            item.Add("define", DefinePage.management_CaLam);
+            item.Add("count", user.layDanhSachCaLam().Count());
+            listItem.Add(item);
+
+            //Ngay Nghi
+            item = new Dictionary<string, object>();
+            item.Add("define", DefinePage.management_NgayNghi);
+            item.Add("count", user.layDanhSachNgayNghi().Count());
+            listItem.Add(item);
+
+            item1.Add("name", "Quản lý thông tin công ty");
+            item1.Add("data", listItem);
+            listManagement.Add(item1);
+
+            ViewBag.data = JsonConvert.SerializeObject(new
+            {
+                data = listManagement
+            });
             return View(); 
         }
         public ActionResult NhanSu(string ma)
@@ -299,6 +403,92 @@ namespace ProgramWEB.Controllers
                     sortBy = DefineTable.ngayNghi.thuocTinhs[0],
                     action = action,
                     findBy = findBy
+                });
+            }
+            catch { }
+            return View();
+        }
+        public ActionResult ChamCong()
+        {
+            try
+            {
+                QuanLy user = (QuanLy)Session[DefineSession.userSession];
+                if (!(user != null && user.quyenQuanLy))
+                    return RedirectToAction("NotFound", "Error");
+                Dictionary<string, bool> action = new Dictionary<string, bool>();
+                action.Add("search", true);
+                ViewBag.jsonString = ViewBag.jsonString = System.Text.Json.JsonSerializer.Serialize(new
+                {
+                    nameModel = DefineTable.chamCong.thuocTinhs,
+                    nameRender = DefineTable.chamCong.tenTiengViet,
+                    sortBy = DefineTable.chamCong.thuocTinhs[0],
+                    action = action
+                });
+            }
+            catch { }
+            return View();
+        }
+        public ActionResult DangKyCaLam()
+        {
+            try
+            {
+                QuanLy user = (QuanLy)Session[DefineSession.userSession];
+                if (!(user != null && user.quyenQuanLy))
+                    return RedirectToAction("NotFound", "Error");
+                Dictionary<string, bool> action = new Dictionary<string, bool>();
+                action.Add("search", true);
+                action.Add("duyetDangKy", true);
+                ViewBag.jsonString = ViewBag.jsonString = System.Text.Json.JsonSerializer.Serialize(new
+                {
+                    nameModel = DefineTable.dangKyCaLam.thuocTinhs,
+                    nameRender = DefineTable.dangKyCaLam.tenTiengViet,
+                    sortBy = DefineTable.dangKyCaLam.thuocTinhs[0],
+                    action = action
+                });
+            }
+            catch { }
+            return View();
+        }
+        public ActionResult DangKyNghiLam()
+        {
+            try
+            {
+                QuanLy user = (QuanLy)Session[DefineSession.userSession];
+                if (!(user != null && user.quyenQuanLy))
+                    return RedirectToAction("NotFound", "Error");
+                Dictionary<string, bool> action = new Dictionary<string, bool>();
+                action.Add("search", true);
+                action.Add("duyetDangKy", true);
+                ViewBag.jsonString = ViewBag.jsonString = System.Text.Json.JsonSerializer.Serialize(new
+                {
+                    nameModel = DefineTable.dangKyNghiLam.thuocTinhs,
+                    nameRender = DefineTable.dangKyNghiLam.tenTiengViet,
+                    sortBy = DefineTable.dangKyNghiLam.thuocTinhs[0],
+                    action = action
+                });
+            }
+            catch { }
+            return View();
+        }
+        public ActionResult DuyetDangKy(long ma)
+        {
+            try
+            {
+                QuanLy user = (QuanLy)Session[DefineSession.userSession];
+                if (!(user != null && user.quyenQuanLy))
+                    return RedirectToAction("NotFound", "Error");
+                Dictionary<string, long> findBy = new Dictionary<string, long>();
+                if (ma >= 0)
+                    findBy.Add(DefineTable.ngayNghi.thuocTinhs[0], ma);
+                Dictionary<string, bool> action = new Dictionary<string, bool>();
+                action.Add("search", true);
+                ViewBag.jsonString = ViewBag.jsonString = System.Text.Json.JsonSerializer.Serialize(new
+                {
+                    nameModel = DefineTable.duyetDangKy.thuocTinhs,
+                    nameRender = DefineTable.duyetDangKy.tenTiengViet,
+                    sortBy = DefineTable.duyetDangKy.thuocTinhs[0],
+                    action = action,
+                    findBy
                 });
             }
             catch { }
