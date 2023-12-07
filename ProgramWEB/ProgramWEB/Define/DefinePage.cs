@@ -9,16 +9,14 @@ namespace ProgramWEB.Define
 {
     public class DefinePage
     {
-        public static Page home { get; } = new Page("Home", "/Home/Index");
-        public static Page start { get; } = new Page("Start", "/Home/Start");
-        public static Page user { get; } = new Page("User", "/User/Index");
-        public static Page user_ChangePassword { get; } = new Page("Change Password", "/User/ChangePassword");
-        public static Page user_ForgetPassword { get; } = new Page("Forget Password", "/User/ForgetPassword");
-        public static Page user_Authentication { get; } = new Page("Authentication", "/User/Authentication");
-        public static Page user_Logout { get; } = new Page("Logout", "/User/Logout");
-        public static Page user_Login { get; } = new Page("Login", "/User/Login");
-        public static Page user_Profile { get; } = new Page("Profile", "/User/Profile");
-        public static Page user_Register { get; } = new Page("Register", "/User/Register");
+        public static Page home { get; } = new Page("Trang chủ", "/Home/Index");
+        public static Page user { get; } = new Page("Tài khoản của tôi", "/User/Index");
+        public static Page user_ChangePassword { get; } = new Page("Đổi mật khẩu", "/User/ChangePassword");
+        public static Page user_ForgetPassword { get; } = new Page("Quên mật khẩu", "/User/ForgetPassword");
+        public static Page user_Authentication { get; } = new Page("Xác thực tài khoản", "/User/Authentication");
+        public static Page user_Logout { get; } = new Page("Đăng xuất", "/User/Logout");
+        public static Page user_Login { get; } = new Page("Đăng nhập", "/User/Login");
+        public static Page user_Profile { get; } = new Page("Thông tin cá nhân", "/User/Profile");
         public static Page management { get; } = new Page("Quản lý", "/Management/Index");
         public static Page management_NhanSu { get; } = new Page("Nhân sự", "/Management/NhanSu");
         public static Page management_PhongBan { get; } = new Page("Phòng ban", "/Management/PhongBan");
@@ -34,8 +32,8 @@ namespace ProgramWEB.Define
         public static Page management_DangKyNghiLam { get; } = new Page("Đăng ký nghỉ làm", "/Management/DangKyNghiLam");
         public static Page management_DangKyCaLam { get; } = new Page("Đăng ký ca làm", "/Management/DangKyCaLam");
         public static Page management_DuyetDangKy { get; } = new Page("Duyệt đăng ký", "/Management/DuyetDangKy");
-        public static Page profile_NhanSu { get; } = new Page("Profile", "/NhanSu/Profile");
-        public static Page caLam { get; } = new Page("CaLam", "/CaLam/Index");
-        public static Page lichLamViec_CaLam { get; } = new Page("LichLamViec", "/CaLam/LichLamViec");
+        public static Page profile_NhanSu { get; } = new Page("Thông tin nhân sự", "/NhanSu/Profile");
+        public static Page dangKy { get; } = new Page("Đăng ký", "/DangKy/Index");
+        public static Page chamCong { get; } = new Page("Chấm công", "/ChamCong/Index");
     }
 }

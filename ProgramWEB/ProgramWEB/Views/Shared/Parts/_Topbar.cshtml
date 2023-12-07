@@ -18,7 +18,7 @@
                 <ul class="user_profile_dd">
                     <li>
                         <a class="dropdown-toggle d-flex flex-row align-items-center" data-toggle="dropdown">
-                            <img class="img-responsive rounded-circle" src="@(string.IsNullOrEmpty(user.avatar) ? "/Images/avatar.png" : user.avatar)" alt="#" />
+                            <img class="img-responsive rounded-circle" src="@(string.IsNullOrEmpty(user.avatar) ? "/Images/avatar.png" : "/Images/avatar/" + user.avatar)" alt="#" />
                             <span class="name_user">@user.username</span>
                         </a>
                         <div class="dropdown-menu">

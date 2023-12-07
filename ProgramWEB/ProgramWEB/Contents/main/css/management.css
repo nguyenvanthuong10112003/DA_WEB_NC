@@ -9,6 +9,7 @@
 :root {
     --font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", "Noto Sans", "Liberation Sans", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
     --color-main: #0971b8;
+    --color-danger: #dc3545;
 }
 
 #background {
@@ -295,6 +296,7 @@ input, .input-password, .input-password-repeat, .input-old-password, .input-new-
     padding-left: 0;
     padding-right: 0;
     padding-top: 67px;
+    padding-bottom: 0;
 }
 
 @media (min-width: 1200px) {
@@ -311,9 +313,12 @@ input, .input-password, .input-password-repeat, .input-old-password, .input-new-
     padding: 0;
 }
 
+.footer {
+    box-shadow: rgba(0, 0, 0, 0.1) 0px 10px 15px -3px, rgba(0, 0, 0, 0.05) 0px 4px 6px -2px;
+}
+
 .breadcrumb {
     padding: 0;
-    background-color: white;
 }
 
 .breadcrumb-item a {
@@ -327,6 +332,10 @@ input, .input-password, .input-password-repeat, .input-old-password, .input-new-
 .btn-primary {
     background-color: var(--color-main);
     border-color: var(--color-main)
+}
+
+.btn-primary:hover {
+    background-color: var(--color-main);
 }
 
 .table-hover tbody tr:hover, .table-hover tbody tr:focus {

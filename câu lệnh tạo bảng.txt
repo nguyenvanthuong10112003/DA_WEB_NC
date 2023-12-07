@@ -12,7 +12,7 @@ create table NhanSu
 	NS_Email varchar(100) NOT NULL,
 	NS_DiaChi NTEXT NOT NULL,
 	NS_SoCCCD char(12) NOT NULL,
-	NS_SoTaiKhoanNganHang INT,
+	NS_SoTaiKhoanNganHang CHAR(10),
 	NS_TenChuTaiKhoan VARCHAR(50),
 	NS_HocVan NVARCHAR(20),
 	NS_NgayVao DATE NOT NULL

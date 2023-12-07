@@ -8,13 +8,7 @@ namespace ProgramWEB.Controllers
 {
     public class DangKyController : BaseController
     {
-        // GET: DangKy
         public ActionResult Index()
-        {
-            return View();
-        }
-
-        public ActionResult LichLamViec()
         {
             return View();
         }

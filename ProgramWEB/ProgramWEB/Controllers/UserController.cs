@@ -11,6 +11,8 @@ using System.Web.UI.WebControls;
 using BCrypt.Net;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using System.IO;
+using System.Web.UI;
 
 namespace ProgramWEB.Controllers
 {
@@ -150,6 +152,65 @@ namespace ProgramWEB.Controllers
                     }
                 );
             }
+        }
+        public ActionResult Profile()
+        {
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    User user = (User)Session[DefineSession.userSession];
+                    if (user == null)
+                        return Login();
+                    Dictionary<string, object> data = new Dictionary<string, object>();
+                    data.Add("nhanSu", user.getNhanSu());
+                    data.Add("baoHiem", user.getBaoHiems());
+                    data.Add("nghiLam", user.getDangKyNghiLams());
+                    data.Add("hopDong", user.getHopDongs());
+                    data.Add("lichSu", user.getLichSuLamViecs());
+                    data.Add("khenThuongKyLuat", user.getKhenThuongKyLuats());
+                    data.Add("chamCong", user.getChamCongs());
+                    ViewBag.data = data;
+                } catch { }
+            }
+            return View();
+        }
+        [HttpPost]
+        public ActionResult Profile(HttpPostedFileBase changeAvatar)
+        {
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    User user = (User)Session[DefineSession.userSession];
+                    if (user == null)
+                        return Login();
+                    if (changeAvatar == null || changeAvatar.ContentLength == 0)
+                        return Profile();
+                    var url = "/Images/avatar/";
+
+                    var urlSV = Server.MapPath(url);
+                    var date = DateTime.Now;
+                    var fileNewName = user.maNhanSu.Trim() + "-" + date.Year + "-" + date.Month + "-" + date.Day + "-" +
+                        date.Hour + "-" + date.Minute + "-" + date.Second + "-" + date.Millisecond + "-" + changeAvatar.FileName;
+                    changeAvatar.SaveAs(urlSV + fileNewName);
+
+                    string old = user.avatar;
+
+                    if (!user.thayDoiAnhDaiDien(fileNewName))
+                        return Profile();
+
+                    user.avatar = fileNewName;
+
+                    FileInfo file = new FileInfo(Server.MapPath(url + old));
+                    if (file.Exists)
+                    {
+                        file.Delete();
+                    }
+                }
+                catch { }
+            }
+            return Profile();
         }
     }
 }

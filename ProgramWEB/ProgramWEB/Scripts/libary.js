@@ -81,3 +81,25 @@ var to2 = function (data) {
 var xoaKhoangTrang = function (data) {
     return data.replace(/ /g, '');
 }
+
+function checkImageType(url, success, error) {
+
+    fetch(url)
+        .then(response => {
+            return response.blob();
+        })
+        .then(blob => {
+            const fileType = blob.type;
+            if (fileType.startsWith('image/')) {
+                if (success && typeof success == 'function')
+                    success()
+            } else {
+                if (error && typeof error == 'function')
+                    error()
+            }
+        })
+        .catch(err => {
+            if (error && typeof error == 'function')
+                error()
+        });
+}

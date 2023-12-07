@@ -159,6 +159,8 @@ h1 {
 
 .img-responsive {
     max-width: 100%;
+    width: 75px;
+    height: 75px;
 }
 
 h3 {
@@ -681,6 +683,7 @@ a:focus {
 
 .icon_info ul li a img {
     width: 35px;
+    height: 35px;
 }
 
 .icon_info ul.user_profile_dd li {
@@ -3433,7 +3436,7 @@ table.projects tr td:first-child {
 }
 
 .sidebar_toggle {
-    padding-top: 16px !important;
+    padding-top: 17px !important;
     padding-bottom: 16px !important;
 }
 
@@ -3444,4 +3447,12 @@ table.projects tr td:first-child {
 
 .full > button > i {
     color: white !important;
+}
+
+#main {
+    background-image: linear-gradient(to top, #fbc2eb 0%, #a6c1ee 100%);
+}
+
+.breadcrumb-item {
+    font-weight: 600;
 }

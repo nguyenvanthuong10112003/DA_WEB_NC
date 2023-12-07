@@ -2435,12 +2435,6 @@
     <Content Include="Scripts\pluto\js\bootstrap.min.js" />
     <Content Include="Scripts\pluto\js\calendar.js" />
     <Content Include="Scripts\pluto\js\calendar.min.js" />
-    <Content Include="Scripts\pluto\js\Chart.bundle.js" />
-    <Content Include="Scripts\pluto\js\Chart.bundle.min.js" />
-    <Content Include="Scripts\pluto\js\Chart.js" />
-    <Content Include="Scripts\pluto\js\Chart.min.js" />
-    <Content Include="Scripts\pluto\js\chart_custom_style1.js" />
-    <Content Include="Scripts\pluto\js\chart_custom_style2.js" />
     <Content Include="Scripts\pluto\js\custom.js" />
     <Content Include="Scripts\pluto\js\custom_chart.js" />
     <Content Include="Scripts\pluto\js\jquery.js" />
@@ -2815,6 +2809,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Images\avatar\" />
     <Folder Include="Views\BaoHiem\" />
     <Folder Include="Views\BoPhan\" />
     <Folder Include="Views\CaLam\" />
@@ -2833,7 +2828,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
-    <Content Include="Views\DangKy\LichLamViec.cshtml" />
+    <Content Include="Views\DangKy\Index.cshtml" />
     <Content Include="Views\Management\PhongBan.cshtml" />
     <Content Include="Views\Management\TaiKhoan.cshtml" />
     <Content Include="Views\Management\BaoHiem.cshtml" />
@@ -2847,6 +2842,7 @@
     <Content Include="Views\Management\LichSuLamViec.cshtml" />
     <Content Include="Views\Management\DangKyCaLam.cshtml" />
     <Content Include="Views\Management\DangKyNghiLam.cshtml" />
+    <Content Include="Views\User\Profile.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{3259AA49-8AA1-44D3-9025-A0B520596A8C}" />

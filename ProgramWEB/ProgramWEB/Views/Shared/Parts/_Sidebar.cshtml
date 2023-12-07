@@ -8,7 +8,7 @@
     <div class="sidebar_user_info">
         <div class="icon_setting"></div>
         <div class="user_profle_side">
-            <div class="user_img"><img class="img-responsive" src="@(string.IsNullOrEmpty(user.avatar) ? "/Images/avatar.png" : user.avatar)" alt="#" /></div>
+            <div class="user_img"><img class="img-responsive" src="@(string.IsNullOrEmpty(user.avatar) ? "/Images/avatar.png" : "/Images/avatar/" + user.avatar)" alt="#" /></div>
             <div class="user_info">
                 <h6>@user.username</h6>
                 <p><span class="online_animation"></span> Online</p>

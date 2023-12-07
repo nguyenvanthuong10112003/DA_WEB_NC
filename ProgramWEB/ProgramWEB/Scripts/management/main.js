@@ -13,12 +13,12 @@ var createContent = function () {
                 ${hanhDong && hanhDong.add ?
                 `
                 <li class="function add">
-                    <i class="fa-solid fa-plus"></i>Thêm
+                    <i class="fa-solid fa-plus" style="margin-right: 5px"></i>Thêm
                 </li>
                 `
                 : ''}
                 <li class="function search">
-                    <i class="fa-solid fa-magnifying-glass"></i>Tìm kiếm
+                    <i class="fa-solid fa-magnifying-glass" style="margin-right: 5px"></i>Tìm kiếm
                 </li>                
             </ul>
         </div>
@@ -411,8 +411,8 @@ var createActionOnRow = function (id) {
                 </a>` : ''}
                 ${hanhDong.delete ?
                 `<a href="#!"
-                    class="btn btn-sm mr-1 nut-xoa-hang" id="nut-xoa-hang-${id}"
-                    style="background-color: red; color: white; margin-left: 5px">
+                    class="btn btn-sm mr-1 nut-xoa-hang btn-danger" id="nut-xoa-hang-${id}"
+                    style="color: white; margin-left: 5px">
                     <i class="fas fa-times" style="color: white"></i>
                     Xóa
                 </a>` : ''}

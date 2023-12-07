@@ -24,18 +24,21 @@ namespace ProgramWEB.Controllers
             //Nhan Su
             item.Add("define", DefinePage.management_NhanSu);
             item.Add("count", user.layDanhSachNhanSu().Count());
+            item.Add("icon", "fa-solid fa-users-line");
             listItem.Add(item);
 
             //Bao hiem
             item = new Dictionary<string, object>();
             item.Add("define", DefinePage.management_BaoHiem);
             item.Add("count", user.layDanhSachBaoHiem().Count());
+            item.Add("icon", "fa-solid fa-hand-holding-medical");
             listItem.Add(item);
 
             //Tai khoan
             item = new Dictionary<string, object>();
             item.Add("define", DefinePage.management_TaiKhoan);
             item.Add("count", user.layDanhSachTaiKhoan().Count());
+            item.Add("icon", "fa-solid fa-equals");
             listItem.Add(item);
 
             item1.Add("name", "Quản lý thông tin nhân sự");
@@ -48,36 +51,42 @@ namespace ProgramWEB.Controllers
             item = new Dictionary<string, object>();
             item.Add("define", DefinePage.management_DangKyCaLam);
             item.Add("count", user.layDanhSachDangKyCaLam().Count());
+            item.Add("icon", "fa-solid fa-clipboard-list");
             listItem.Add(item);
 
             //Dang ký nghi lam
             item = new Dictionary<string, object>();
             item.Add("define", DefinePage.management_DangKyNghiLam);
             item.Add("count", user.layDanhSachDangKyNghiLam().Count());
+            item.Add("icon", "fa-solid fa-user-clock");
             listItem.Add(item);
 
             //Cham cong
             item = new Dictionary<string, object>();
             item.Add("define", DefinePage.management_ChamCong);
             item.Add("count", user.layDanhSachChamCong().Count());
+            item.Add("icon", "fa-solid fa-fingerprint");
             listItem.Add(item);
 
             //Khen thuong ky luat
             item = new Dictionary<string, object>();
             item.Add("define", DefinePage.management_KhenThuongKyLuat);
             item.Add("count", user.layDanhSachKhenThuongKyLuat().Count());
+            item.Add("icon", "fa-solid fa-gavel");
             listItem.Add(item);
 
             //Lich su lam viec
             item = new Dictionary<string, object>();
             item.Add("define", DefinePage.management_LichSuLamViec);
             item.Add("count", user.layDanhSachLichSuLamViec().Count());
+            item.Add("icon", "fa-solid fa-clock-rotate-left");
             listItem.Add(item);
 
             //Hop Dong
             item = new Dictionary<string, object>();
             item.Add("define", DefinePage.management_HopDong);
             item.Add("count", user.layDanhSachHopDong().Count());
+            item.Add("icon", "fa-solid fa-handshake-simple");
             listItem.Add(item);
 
             item1.Add("name", "Quản lý thông tin làm việc");
@@ -90,24 +99,28 @@ namespace ProgramWEB.Controllers
             item = new Dictionary<string, object>();
             item.Add("define", DefinePage.management_PhongBan);
             item.Add("count", user.layDanhSachPhongBan().Count());
+            item.Add("icon", "fa-solid fa-building");
             listItem.Add(item);
 
             //Bo phan
             item = new Dictionary<string, object>();
             item.Add("define", DefinePage.management_BoPhan);
             item.Add("count", user.layDanhSachBoPhan().Count());
+            item.Add("icon", "fa-solid fa-diagram-project");
             listItem.Add(item);
 
             //Ca lam
             item = new Dictionary<string, object>();
             item.Add("define", DefinePage.management_CaLam);
             item.Add("count", user.layDanhSachCaLam().Count());
+            item.Add("icon", "fa-solid fa-layer-group");
             listItem.Add(item);
 
             //Ngay Nghi
             item = new Dictionary<string, object>();
             item.Add("define", DefinePage.management_NgayNghi);
             item.Add("count", user.layDanhSachNgayNghi().Count());
+            item.Add("icon", "fa-solid fa-calendar-xmark");
             listItem.Add(item);
 
             item1.Add("name", "Quản lý thông tin công ty");
