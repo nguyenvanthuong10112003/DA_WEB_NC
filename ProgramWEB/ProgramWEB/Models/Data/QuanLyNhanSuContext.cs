@@ -30,11 +30,6 @@ namespace ProgramWEB.Models.Data
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
             modelBuilder.Entity<BaoHiem>()
-                .Property(e => e.BH_Ma)
-                .IsFixedLength()
-                .IsUnicode(false);
-
-            modelBuilder.Entity<BaoHiem>()
                 .Property(e => e.BH_SoBaoHiem)
                 .IsFixedLength()
                 .IsUnicode(false);
@@ -70,22 +65,12 @@ namespace ProgramWEB.Models.Data
                 .IsUnicode(false);
 
             modelBuilder.Entity<DangKyCaLam>()
-                .Property(e => e.DKCL_Ma)
-                .IsFixedLength()
-                .IsUnicode(false);
-
-            modelBuilder.Entity<DangKyCaLam>()
                 .Property(e => e.NS_Ma)
                 .IsFixedLength()
                 .IsUnicode(false);
 
             modelBuilder.Entity<DangKyCaLam>()
                 .Property(e => e.CL_Ma)
-                .IsFixedLength()
-                .IsUnicode(false);
-
-            modelBuilder.Entity<DangKyNghiLam>()
-                .Property(e => e.DKNL_Ma)
                 .IsFixedLength()
                 .IsUnicode(false);
 
@@ -99,10 +84,15 @@ namespace ProgramWEB.Models.Data
                 .IsFixedLength()
                 .IsUnicode(false);
 
-            modelBuilder.Entity<HopDong>()
-                .Property(e => e.HD_Ma)
-                .IsFixedLength()
-                .IsUnicode(false);
+            modelBuilder.Entity<DuyetDangKy>()
+                .HasMany(e => e.DangKyCaLams)
+                .WithOptional(e => e.DuyetDangKy)
+                .WillCascadeOnDelete();
+
+            modelBuilder.Entity<DuyetDangKy>()
+                .HasMany(e => e.DangKyNghiLams)
+                .WithOptional(e => e.DuyetDangKy)
+                .WillCascadeOnDelete();
 
             modelBuilder.Entity<HopDong>()
                 .Property(e => e.NS_Ma)
@@ -110,17 +100,7 @@ namespace ProgramWEB.Models.Data
                 .IsUnicode(false);
 
             modelBuilder.Entity<KhenThuongKyLuat>()
-                .Property(e => e.KTKL_Ma)
-                .IsFixedLength()
-                .IsUnicode(false);
-
-            modelBuilder.Entity<KhenThuongKyLuat>()
                 .Property(e => e.NS_Ma)
-                .IsFixedLength()
-                .IsUnicode(false);
-
-            modelBuilder.Entity<LichSuLamViec>()
-                .Property(e => e.LSLV_Ma)
                 .IsFixedLength()
                 .IsUnicode(false);
 

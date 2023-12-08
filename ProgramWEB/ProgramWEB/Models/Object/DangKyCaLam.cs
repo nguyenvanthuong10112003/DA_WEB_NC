@@ -8,7 +8,7 @@ namespace ProgramWEB.Models.Object
 {
     public class DangKyCaLam
     {
-        public string DKCL_Ma { get; set; }
+        public long? DKCL_Ma { get; set; }
         public DateTime? DKCL_Ngay { get; set; }
         public DateTime? DKCL_ThoiGianDangKy { get; set; }
         public bool? DKCL_DaDuocDuyet { get; set; }
@@ -17,7 +17,7 @@ namespace ProgramWEB.Models.Object
         public long? DDK_Ma { get; set; }
         public DangKyCaLam()
         {
-            this.DKCL_Ma = string.Empty;
+            this.DKCL_Ma = null;
             this.DKCL_Ngay = null;
             this.DKCL_ThoiGianDangKy = null;
             this.DKCL_DaDuocDuyet = null;

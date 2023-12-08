@@ -10,8 +10,7 @@ namespace ProgramWEB.Models.Data
     public partial class HopDong
     {
         [Key]
-        [StringLength(10)]
-        public string HD_Ma { get; set; }
+        public long HD_Ma { get; set; }
 
         [Column(TypeName = "date")]
         public DateTime HD_NgayBatDau { get; set; }

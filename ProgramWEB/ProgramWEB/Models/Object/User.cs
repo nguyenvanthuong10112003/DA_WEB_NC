@@ -1,4 +1,5 @@
 ﻿using ProgramWEB.Define;
+using ProgramWEB.Libary;
 using ProgramWEB.Models.Data;
 using System;
 using System.Collections.Generic;
@@ -15,7 +16,7 @@ namespace ProgramWEB.Models.Object
         public bool quyenQuanLy { set; get; }
         public string avatar { set; get; }
         protected QuanLyNhanSuContext context { get; set; }
-        public User() { }
+        public User() { init(); }
         public User(string username, string maNhanSu, bool quyenAdmin, bool quyenQuanLy, string avatar)
         {
             this.username = username;
@@ -23,6 +24,7 @@ namespace ProgramWEB.Models.Object
             this.quyenAdmin = quyenAdmin;
             this.quyenQuanLy = quyenQuanLy;
             this.avatar = avatar;
+            init();
         }
         public void init()
         {
@@ -36,7 +38,8 @@ namespace ProgramWEB.Models.Object
             if (!BCrypt.Net.BCrypt.Verify(password, taiKhoan.TK_MatKhau))
                 return "Mật khẩu đăng nhập không chính xác.";
             if (kiemTraBiKhoaVaMoKhoa(taiKhoan))
-                return "Tài khoản đang bị khóa, hãy chờ đến " + taiKhoan.TK_ThoiGianMoKhoa.ToString() + ".";
+                return taiKhoan.TK_ThoiGianMoKhoa != null ? "Tài khoản đang bị khóa, hãy chờ đến " + 
+                    taiKhoan.TK_ThoiGianMoKhoa.ToString() + "." : "Tài khoản của bạn đã bị khóa vĩnh viễn.";
             return string.Empty;
         }
         public static bool kiemTraBiKhoaVaMoKhoa(Data.TaiKhoan taiKhoan)
@@ -57,9 +60,6 @@ namespace ProgramWEB.Models.Object
         {
             try
             {
-                init();
-                if (context == null)
-                    return null;
                 Data.NhanSu nhanSuData = context.NhanSus.Where(item => item.NS_Ma.Trim() == this.maNhanSu).FirstOrDefault();
                 if (nhanSuData == null)
                     return null;
@@ -74,9 +74,6 @@ namespace ProgramWEB.Models.Object
         {
             try
             {
-                init();
-                if (context == null)
-                    return null;
                 Data.TaiKhoan data = context.TaiKhoans.Find(this.username);
                 if (data == null)
                     return null;
@@ -91,9 +88,6 @@ namespace ProgramWEB.Models.Object
         {
             try
             {
-                init();
-                if (context == null)
-                    return null;
                 IEnumerable<Data.BaoHiem> datas = context.BaoHiems.Where(item => item.NS_Ma.Trim() == this.maNhanSu);
                 if (datas == null)
                     return null;
@@ -106,9 +100,6 @@ namespace ProgramWEB.Models.Object
         {
             try
             {
-                init();
-                if (context == null)
-                    return null;
                 IEnumerable<Data.ChamCong> datas = context.ChamCongs.Where(item => item.NS_Ma.Trim() == this.maNhanSu);
                 if (datas == null)
                     return null;
@@ -121,9 +112,6 @@ namespace ProgramWEB.Models.Object
         {
             try
             {
-                init();
-                if (context == null)
-                    return null;
                 IEnumerable<Data.KhenThuongKyLuat> datas = context.KhenThuongKyLuats.Where(item => item.NS_Ma.Trim() == this.maNhanSu);
                 if (datas == null)
                     return null;
@@ -136,9 +124,6 @@ namespace ProgramWEB.Models.Object
         {
             try
             {
-                init();
-                if (context == null)
-                    return null;
                 IEnumerable<Data.LichSuLamViec> datas = context.LichSuLamViecs.Where(item => item.NS_Ma.Trim() == this.maNhanSu);
                 if (datas == null)
                     return null;
@@ -151,9 +136,6 @@ namespace ProgramWEB.Models.Object
         {
             try
             {
-                init();
-                if (context == null)
-                    return null;
                 IEnumerable<Data.HopDong> datas = context.HopDongs.Where(item => item.NS_Ma.Trim() == this.maNhanSu);
                 if (datas == null)
                     return null;
@@ -166,9 +148,6 @@ namespace ProgramWEB.Models.Object
         {
             try
             {
-                init();
-                if (context == null)
-                    return null;
                 IEnumerable<Data.DangKyNghiLam> datas = context.DangKyNghiLams.Where(item => item.NS_Ma.Trim() == this.maNhanSu);
                 if (datas == null)
                     return null;
@@ -182,9 +161,6 @@ namespace ProgramWEB.Models.Object
             try
             {
                 if (string.IsNullOrEmpty(newUrl))
-                    return false;
-                init();
-                if (context == null)
                     return false;
                 Data.TaiKhoan taiKhoan = context.TaiKhoans.Find(this.username);
                 if (taiKhoan == null) return false;

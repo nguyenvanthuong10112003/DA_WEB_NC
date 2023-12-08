@@ -205,6 +205,8 @@
     <Content Include="Contents\bootstrap\bootstrap.rtl.min.css" />
     <Content Include="Contents\bootstrap\Site.css" />
     <Content Include="Contents\caulendar\style.css" />
+    <Content Include="Contents\forms\SendEmailCreateSuccessAccount.html" />
+    <Content Include="Contents\forms\SendEmailForgetPassword.html" />
     <Content Include="Contents\gird-layout\grid.css" />
     <Content Include="Contents\kh\index.js" />
     <Content Include="Contents\kh\style.css" />
@@ -254,6 +256,7 @@
     <Compile Include="Libary\Convert.cs" />
     <Compile Include="Libary\DateHelper.cs" />
     <Compile Include="Libary\EmailHelper.cs" />
+    <Compile Include="Libary\StringHelper.cs" />
     <Compile Include="Libary\Validate.cs" />
     <Compile Include="Libary\ObjectHelper.cs" />
     <Compile Include="Models\Data\BaoHiem.cs" />

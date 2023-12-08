@@ -9,7 +9,7 @@ namespace ProgramWEB.Models.Object
 {
     public class LichSuLamViec
     {
-        public string LSLV_Ma { get; set; }
+        public long? LSLV_Ma { get; set; }
         public DateTime? LSLV_NgayBatDau { get; set; }
         public DateTime? LSLV_NgayKetThuc { get; set; }
         public string LSLV_ChucVu { get; set; }
@@ -17,7 +17,7 @@ namespace ProgramWEB.Models.Object
         public string BP_Ma { get; set; }
         public LichSuLamViec()
         {
-            this.LSLV_Ma = string.Empty;
+            this.LSLV_Ma = null;
             this.LSLV_NgayBatDau = null;
             this.LSLV_NgayKetThuc = null;
             this.LSLV_ChucVu = string.Empty;

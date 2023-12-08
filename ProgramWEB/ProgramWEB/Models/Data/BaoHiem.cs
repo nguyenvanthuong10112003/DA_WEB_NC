@@ -10,8 +10,7 @@ namespace ProgramWEB.Models.Data
     public partial class BaoHiem
     {
         [Key]
-        [StringLength(10)]
-        public string BH_Ma { get; set; }
+        public long BH_Ma { get; set; }
 
         [Required]
         [StringLength(10)]

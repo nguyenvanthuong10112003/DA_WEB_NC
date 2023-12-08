@@ -35,6 +35,7 @@
         var nameTiengViets = json["nameRender"];
         var sortBy = json["sortBy"];
         var hanhDong = json["action"];
+        var required = json["required"];
         var sortTangDan = true;
         var count = nameTiengViets.length;
         var datas = [{}];
@@ -223,31 +224,7 @@
             return $('#' + item).val() ? $('#' + item).val().trim() : null;
         }
         var checkDataToServer = function (item, index) {
-            if (item == null || item.length == 0)
-                return "Trường này không được để trống"
-            switch (index) {
-                case 4: {
-                    var vnf_regex = /((09|03|07|08|05)+([0-9]{8})\b)/g;
-                    if (vnf_regex.test(item) == false) {
-                        return 'Số điện thoại của bạn không đúng định dạng!';
-                    } else {
-                        return undefined
-                    }
-                }
-                case 5: {
-                    if (validateEmail(item))
-                        return undefined
-                    return "Email nhập không đúng định dạng"
-                }
-                case 7: {
-                    if (item.length != 12)
-                        return "Số căn cước công dân phải chứa đúng 12 ký tự"
-                    return undefined
-                }
-            }
-            return undefined;
         }
-        
         load()
     </script>
 }

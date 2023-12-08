@@ -8,7 +8,7 @@ namespace ProgramWEB.Models.Object
 {
     public class KhenThuongKyLuat
     {
-        public string KTKL_Ma { get; set; }
+        public long? KTKL_Ma { get; set; }
         public string KTKL_MoTa { get; set; }
         public DateTime? KTKL_ThoiGian { get; set; }
         public string KTKL_HinhThuc { get; set; }
@@ -16,7 +16,7 @@ namespace ProgramWEB.Models.Object
         public string NS_Ma { get; set; }
         public KhenThuongKyLuat()
         {
-            this.KTKL_Ma = string.Empty;
+            this.KTKL_Ma = null;
             this.KTKL_MoTa = string.Empty;
             this.KTKL_ThoiGian = null;
             this.KTKL_HinhThuc = string.Empty;

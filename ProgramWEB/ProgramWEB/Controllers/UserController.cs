@@ -13,6 +13,7 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System.IO;
 using System.Web.UI;
+using ProgramWEB.Libary;
 
 namespace ProgramWEB.Controllers
 {
@@ -78,52 +79,58 @@ namespace ProgramWEB.Controllers
         [HttpPost]
         public string ToLogin(string username, string password, bool keepLogin = false)
         {
-            if (string.IsNullOrEmpty(username) || string.IsNullOrEmpty(password) || 
-                username.Length > 30 || password.Length < 6)
+            try
+            {
+                if (string.IsNullOrEmpty(username) || string.IsNullOrEmpty(password) ||
+                    username.Length > 30 || password.Length < 6)
+                    return JsonConvert.SerializeObject(new
+                    {
+                        error = "Thông tin gửi lên không hợp lệ."
+                    });
+                QuanLyNhanSuContext context = new QuanLyNhanSuContext();
+                if (context == null)
+                    return JsonConvert.SerializeObject(new
+                    {
+                        error = DefineError.loiHeThong
+                    });
+                Models.Data.TaiKhoan taiKhoan = context.TaiKhoans.Find(username);
+                string message = Models.Object.User.login(taiKhoan, password);
+                if (!string.IsNullOrEmpty(message))
+                    return JsonConvert.SerializeObject(new
+                    {
+                        error = message
+                    });
+                User userSession;
+                if (taiKhoan.TK_QuyenAdmin == true)
+                {
+                    userSession = new Admin(taiKhoan.TK_TenDangNhap, taiKhoan.NS_Ma.Trim(),
+                    taiKhoan.TK_QuyenAdmin, taiKhoan.TK_QuyenQuanLy, taiKhoan.TK_AnhDaiDien);
+                }
+                else if (taiKhoan.TK_QuyenQuanLy == true)
+                {
+                    userSession = new QuanLy(taiKhoan.TK_TenDangNhap, taiKhoan.NS_Ma.Trim(),
+                    taiKhoan.TK_QuyenAdmin, taiKhoan.TK_QuyenQuanLy, taiKhoan.TK_AnhDaiDien);
+                }
+                else
+                {
+                    userSession = new User(taiKhoan.TK_TenDangNhap, taiKhoan.NS_Ma.Trim(),
+                    taiKhoan.TK_QuyenAdmin, taiKhoan.TK_QuyenQuanLy, taiKhoan.TK_AnhDaiDien);
+                }
+                Session.Add(DefineSession.userSession, userSession);
+                if (keepLogin)
+                {
+                    DateTime timeSave = DateTime.Now.AddDays(30);
+                    Response.AppendCookie(new HttpCookie(DefineCookie.cookieUsername, taiKhoan.TK_TenDangNhap) { Expires = timeSave });
+                    Response.AppendCookie(new HttpCookie(DefineCookie.cookiePassword, taiKhoan.TK_MatKhau) { Expires = timeSave });
+                }
                 return JsonConvert.SerializeObject(new
                 {
-                    error = "Thông tin gửi lên không hợp lệ."
+                    success = "Đăng nhập thành công",
+                    url = "Home"
                 });
-            QuanLyNhanSuContext context = new QuanLyNhanSuContext();
-            if (context == null)
-                return JsonConvert.SerializeObject(new
-                {
-                    error = DefineError.loiHeThong
-                });
-            Models.Data.TaiKhoan taiKhoan = context.TaiKhoans.Find(username);
-            string message = Models.Object.User.login(taiKhoan, password);
-            if (!string.IsNullOrEmpty(message))
-                return JsonConvert.SerializeObject(new
-                {
-                    error = message
-                });
-            User userSession;
-            if (taiKhoan.TK_QuyenAdmin == true)
-            {
-                userSession = new Admin(taiKhoan.TK_TenDangNhap, taiKhoan.NS_Ma.Trim(),
-                taiKhoan.TK_QuyenAdmin, taiKhoan.TK_QuyenQuanLy, taiKhoan.TK_AnhDaiDien);
-            }
-            else if (taiKhoan.TK_QuyenQuanLy == true)
-            {
-                userSession = new QuanLy(taiKhoan.TK_TenDangNhap, taiKhoan.NS_Ma.Trim(),
-                taiKhoan.TK_QuyenAdmin, taiKhoan.TK_QuyenQuanLy, taiKhoan.TK_AnhDaiDien);
-            }
-            else
-            {
-                userSession = new User(taiKhoan.TK_TenDangNhap, taiKhoan.NS_Ma.Trim(),
-                taiKhoan.TK_QuyenAdmin, taiKhoan.TK_QuyenQuanLy, taiKhoan.TK_AnhDaiDien);
-            }
-            Session.Add(DefineSession.userSession, userSession);
-            if (keepLogin)
-            {
-                DateTime timeSave = DateTime.Now.AddDays(30);
-                Response.AppendCookie(new HttpCookie(DefineCookie.cookieUsername, taiKhoan.TK_TenDangNhap) { Expires = timeSave });
-                Response.AppendCookie(new HttpCookie(DefineCookie.cookiePassword, taiKhoan.TK_MatKhau) { Expires = timeSave });
-            }
-            return JsonConvert.SerializeObject(new
-            {
-                success = "Đăng nhập thành công",
-                url = "Home"
+            } catch { }
+            return JsonConvert.SerializeObject(new {
+                error = DefineError.loiHeThong
             });
         }
         public ActionResult ForgetPassword()
@@ -167,7 +174,7 @@ namespace ProgramWEB.Controllers
                     data.Add("baoHiem", user.getBaoHiems());
                     data.Add("nghiLam", user.getDangKyNghiLams());
                     data.Add("hopDong", user.getHopDongs());
-                    data.Add("lichSu", user.getLichSuLamViecs());
+                    data.Add("lichSuLamViec", user.getLichSuLamViecs());
                     data.Add("khenThuongKyLuat", user.getKhenThuongKyLuats());
                     data.Add("chamCong", user.getChamCongs());
                     ViewBag.data = data;
@@ -211,6 +218,24 @@ namespace ProgramWEB.Controllers
                 catch { }
             }
             return Profile();
+        }
+        public bool sendEmail(string pathForm, string toEmail, string title, List<string> keys, List<string> values)
+        {
+            try
+            {
+                string content = System.IO.File.ReadAllText(Server.MapPath(pathForm));
+                for (int i = 0; i < keys.Count; i++)
+                {
+                    content = content.Replace(keys[i], values[i]);
+                }
+                EmailHelper.SendEmail(toEmail, title, content);
+                return true;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+            return false;
         }
     }
 }

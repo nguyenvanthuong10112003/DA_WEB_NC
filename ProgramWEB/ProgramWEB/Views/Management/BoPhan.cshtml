@@ -34,6 +34,7 @@
         var nameItems = json["nameModel"];
         var nameTiengViets = json["nameRender"];
         var sortBy = json["sortBy"];
+        var required = json["required"];
         var findBy = {};
         var hanhDong = json["action"];
         var sortTangDan = true;
@@ -80,7 +81,7 @@
             return $('#' + item).val() ? $('#' + item).val().trim() : null;
         }
         var checkDataToServer = function (item, index) {
-            if (item == null || item.length == 0)
+            if ((item == null || item.length == 0) && required[index])
                 return "Trường này không được để trống"
             return undefined;
         }

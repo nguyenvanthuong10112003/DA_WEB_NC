@@ -9,6 +9,8 @@ using PagedList;
 using System.Globalization;
 using System.Collections;
 using System;
+using System.Threading;
+using System.Configuration;
 
 namespace ProgramWEB.Controllers
 {
@@ -50,6 +52,37 @@ namespace ProgramWEB.Controllers
                 string error = ((QuanLy)user).themNhanSu(nhanSu);
                 if (!string.IsNullOrEmpty(error))
                     return JsonConvert.SerializeObject(new { error = error });
+                Thread createAccount = new Thread(() => {
+                    try
+                    {
+                        string[] tach = nhanSu.NS_HoVaTen.Split(' ');
+                        string name = tach[tach.Length - 1];
+                        name = Libary.StringHelper.RemoveDiacritics(name);
+                        string password = "";
+                        Random ran = new Random();
+                        for (int i = 0; i < 6; i++)
+                        {
+                            password += (char)ran.Next(48, 127);
+                        }
+                        Models.Data.TaiKhoan taiKhoan = new Models.Data.TaiKhoan();
+                        taiKhoan.TK_TenDangNhap = (name + (nhanSu.NS_Ma.StartsWith("NS") ?
+                            nhanSu.NS_Ma.Substring(2).Trim() : nhanSu.NS_Ma.Trim())).ToLower();
+                        taiKhoan.TK_MatKhau = BCrypt.Net.BCrypt.HashPassword(password);
+                        taiKhoan.NS_Ma = nhanSu.NS_Ma;
+                        Models.Data.QuanLyNhanSuContext context = new Models.Data.QuanLyNhanSuContext();
+                        context.TaiKhoans.Add(taiKhoan);
+                        int check = context.SaveChanges();
+                        if (check == 0)
+                            return;
+                        sendEmail("~/Contents/forms/SendEmailCreateSuccessAccount.html", nhanSu.NS_Email, "Cấp tài khoản sử dụng hệ thống",
+                            new List<string> { "{{email}}", "{{name}}", "{{username}}", "{{password}}", "{{companyName}}", "{{time}}" },
+                            new List<string> { nhanSu.NS_Email, nhanSu.NS_HoVaTen, 
+                                taiKhoan.TK_TenDangNhap, password, ConfigurationManager.AppSettings["FromEmailDisplayName"].ToString(), DateTime.Now.ToString()
+                        });
+                    }
+                    catch { }
+                });
+                createAccount.Start();
                 return JsonConvert.SerializeObject(new
                 {
                     success = "Thêm thành công."

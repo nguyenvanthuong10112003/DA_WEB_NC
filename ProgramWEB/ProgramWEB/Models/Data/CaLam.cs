@@ -19,16 +19,17 @@ namespace ProgramWEB.Models.Data
         [StringLength(10)]
         public string CL_Ma { get; set; }
 
+        [Required]
         [StringLength(30)]
         public string CL_TenCa { get; set; }
 
-        public short? CL_GioBatDau { get; set; }
+        public short CL_GioBatDau { get; set; }
 
-        public short? CL_PhutBatDau { get; set; }
+        public short CL_PhutBatDau { get; set; }
 
-        public short? CL_GioKetThuc { get; set; }
+        public short CL_GioKetThuc { get; set; }
 
-        public short? CL_PhutKetThuc { get; set; }
+        public short CL_PhutKetThuc { get; set; }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<DangKyCaLam> DangKyCaLams { get; set; }

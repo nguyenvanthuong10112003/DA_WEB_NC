@@ -56,6 +56,7 @@ BEGIN
 	WHERE DDK_Ma IN (SELECT d.DDK_Ma FROM Deleted d)
 END
 
+
 INSERT INTO dbo.NhanSu
 (
     NS_Ma,
@@ -104,6 +105,32 @@ VALUES
     NULL,      -- BH_NoiKhamBenh - nvarchar(50)
     ''         -- NS_Ma - char(10)
     )
+
+	INSERT INTO dbo.TaiKhoan
+	(
+	    TK_TenDangNhap,
+	    TK_MatKhau,
+	    TK_QuyenAdmin,
+	    TK_QuyenQuanLy,
+	    TK_BiKhoa,
+	    TK_ThoiGianMoKhoa,
+	    TK_MaXacThuc,
+	    TK_ThoiGianTaoMa,
+	    TK_AnhDaiDien,
+	    NS_Ma
+	)
+	VALUES
+	(   '',      -- TK_TenDangNhap - varchar(30)
+	    '',      -- TK_MatKhau - text
+	    DEFAULT, -- TK_QuyenAdmin - bit
+	    DEFAULT, -- TK_QuyenQuanLy - bit
+	    DEFAULT, -- TK_BiKhoa - bit
+	    NULL,    -- TK_ThoiGianMoKhoa - datetime
+	    NULL,    -- TK_MaXacThuc - char(6)
+	    NULL,    -- TK_ThoiGianTaoMa - datetime
+	    NULL,    -- TK_AnhDaiDien - text
+	    ''       -- NS_Ma - char(10)
+	    )
 
 
 INSERT INTO NhanSu VALUES ('NS01', N'Nguyễn Tuấn Dũng', 1, '1998-4-2', '0326286549', 'nguyentuandung@gmail.com', N'Thái Bình', '08301867878', '4604335727', 'NGUYEN TUAN DUNG', N'Thạc sĩ', '2023-3-16')

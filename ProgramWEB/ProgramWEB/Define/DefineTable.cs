@@ -36,7 +36,22 @@ namespace ProgramWEB.Define
              "Tên chủ tài khoản",
              "Học vấn",
              "Ngày vào"
-            }
+            },
+             new bool[]
+             {
+                 true,
+                 true,
+                 true,
+                 true,
+                 true,
+                 true,
+                 true,
+                 true,
+                 false,
+                 false,
+                 false,
+                 true
+             }
         );
         public static Table baoHiem { get; } = new Table("BaoHiem", 
             new string[] {
@@ -56,7 +71,17 @@ namespace ProgramWEB.Define
              "Nơi cấp",
              "Nơi khám bệnh",
              "Mã chủ bảo hiểm"
-            }
+            },
+             new bool[]
+             {
+                 false,
+                 true,
+                 true,
+                 true,
+                 true,
+                 false,
+                 true
+             }
         );
         public static Table taiKhoan { get; } = new Table("TaiKhoan", 
             new string[] {
@@ -74,7 +99,16 @@ namespace ProgramWEB.Define
              "Trạng thái khóa",
              "Thời gian mở khóa",
              "Mã chủ tài khoản"
-            }
+            },
+             new bool[]
+             {
+                 true,
+                 false,
+                 false,
+                 false,
+                 false,
+                 true
+             }
         );
         public static Table hopDong { get; } = new Table("HopDong", 
             new string[] {
@@ -96,7 +130,18 @@ namespace ProgramWEB.Define
              "Đơn vị tính lương",
              "Công việc",
              "Mã người ký hợp đồng"
-            }
+            },
+             new bool[]
+             {
+                 false,
+                 true,
+                 false,
+                 true,
+                 true,
+                 true,
+                 true,
+                 true
+             }
         );
         public static Table lichSuLamViec { get; } = new Table("LichSuLamViec", 
             new string[] {
@@ -114,22 +159,15 @@ namespace ProgramWEB.Define
              "Chức vụ",
              "Mã nhân sự",
              "Mã bộ phận làm việc"
-            }
-        );
-        public static Table lichSuHanhDong { get; } = new Table("LichSuHanhDong", 
-            new string[] {
-             "LSHD_Ma",
-             "LSHD_TieuDe",
-             "LSHD_MoTa",
-             "LSHD_ThoiGian",
-             "NS_Ma"
             },
-            new string[] {
-             "Mã",
-             "Tiêu đề",
-             "Mô tả",
-             "Thời gian",
-             "Mã nhân sự"
+            new bool[]
+            {
+                false,
+                true,
+                false,
+                true,
+                true,
+                false
             }
         );
         public static Table chamCong { get; } = new Table("ChamCong", 
@@ -146,7 +184,15 @@ namespace ProgramWEB.Define
              "Thời gian về",
              "Ngày chấm công",
              "Mã nhân sự"
-            }
+            },
+             new bool[]
+             {
+                 false,
+                 true,
+                 false,
+                 true,
+                 true
+             }
         );
         public static Table khenThuongKyLuat { get; } = new Table("KhenThuongKyLuat", 
             new string[] {
@@ -164,7 +210,16 @@ namespace ProgramWEB.Define
              "Hình thức",
              "Số tiền",
              "Mã nhân sự"
-            }
+            },
+             new bool[]
+             {
+                 false,
+                 false,
+                 false,
+                 true,
+                 true,
+                 true
+             }
         );
         public static Table phongBan { get; } = new Table("PhongBan", 
             new string[] {
@@ -178,6 +233,13 @@ namespace ProgramWEB.Define
              "Tên phòng ban",
              "Vai trò",
              "Mã trưởng phòng"
+            },
+            new bool[]
+            {
+                true,
+                true,
+                false,
+                false
             }
         );
         public static Table boPhan { get; } = new Table("BoPhan", 
@@ -194,6 +256,14 @@ namespace ProgramWEB.Define
              "Chuyên môn",
              "Mã phòng ban",
              "Mã nhân sự"
+            },
+            new bool[]
+            {
+                true,
+                true,
+                false,
+                true,
+                false
             }
         );
         public static Table dangKyCaLam { get; } = new Table("DangKyCaLam", 
@@ -214,6 +284,16 @@ namespace ProgramWEB.Define
              "Mã người đăng ký",
              "Mã ca làm",
              "Mã duyệt đăng ký"
+            },
+            new bool[]
+            {
+                false,
+                true,
+                false,
+                true,
+                true,
+                true,
+                false
             }
         );
         public static Table dangKyNghiLam { get; } = new Table("DangKyNghiLam", 
@@ -236,6 +316,17 @@ namespace ProgramWEB.Define
              "Trạng thái",
              "Mã người đăng ký",
              "Mã duyệt đăng ký"
+            },
+            new bool[]
+            {
+                false,
+                true,
+                false,
+                true,
+                true,
+                true,
+                true,
+                false
             }
         );
         public static Table duyetDangKy { get; } = new Table("DuyetDangKy", 
@@ -248,6 +339,12 @@ namespace ProgramWEB.Define
              "Mã",
              "Thời gian duyệt",
              "Mã người duyệt"
+            },
+            new bool[]
+            {
+                false,
+                false,
+                false
             }
         );
         public static Table caLam { get; } = new Table("CaLam", 
@@ -266,6 +363,15 @@ namespace ProgramWEB.Define
              "Phút bắt đầu",
              "Giờ kết thúc",
              "Phút kết thúc"
+            },
+            new bool[]
+            {
+                true,
+                true,
+                true,
+                true,
+                true,
+                true
             }
         );
         public static Table ngayNghi { get; } = new Table("NgayNghi", 
@@ -276,6 +382,11 @@ namespace ProgramWEB.Define
             new string[] {
              "Ngày nghỉ",
              "Ghi chú"
+            },
+            new bool[]
+            {
+                true,
+                false
             }
         );
     }

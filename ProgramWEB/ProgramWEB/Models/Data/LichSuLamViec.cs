@@ -10,8 +10,7 @@ namespace ProgramWEB.Models.Data
     public partial class LichSuLamViec
     {
         [Key]
-        [StringLength(10)]
-        public string LSLV_Ma { get; set; }
+        public long LSLV_Ma { get; set; }
 
         [Column(TypeName = "date")]
         public DateTime LSLV_NgayBatDau { get; set; }

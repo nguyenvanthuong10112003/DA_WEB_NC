@@ -96,227 +96,227 @@ var createContent = function () {
     `;
 };
 var createTable = function () {
-                return `
-                    <div class="card-header">
-                        <b style="padding-top: 20px; font-size: 20px;">Tổng số: <span id="count-element">${countData}</span>${
-                        " " + namePage
-                        }</b>
-                        <div class="header-functions d-flex flex-row align-items-center">
-                            ${hanhDong ? hanhDong.delete ? 
-                            `<span class="tablet-mr-10 page-size form-outline d-flex flex-nowrap align-items-center" style="margin-right: 10px">
-                                <button type="button" disabled id="btn-delete-rows" class="btn btn-danger" style="border-radius: 30px; padding-left: 16px; padding-right: 16px; font-weight: 600">Xóa</button>
-                             </span>`
-                            :
-                            '' : ''}
-                            <span class="tablet-mr-10 page-size form-outline d-flex flex-nowrap align-items-center" style="border: 1px solid #d5d5d5; border-radius: 40px; padding: 8px; margin-right: 10px">
-                                <label for="so-luong-hang" style="font-size: 16px; font-weight: 600">Số lượng hàng &nbsp;</label>
-                                <input type="number" name="so-luong-hang" id="so-luong-hang" class="form-control" style="max-width: 50px; padding: 0" min="1" 
-                                max="${countData > 100 ? 100 : countData}"
-                                    value="${pageSize > countData ? countData : pageSize}"/>
-                                &nbsp;
-                                <a href="#!" id="btn-accept-size-page" class="btn btn-primary" style="border-radius: 30px">Xác nhận</a>
-                            </span>
-                            <span class="tablet-mr-10 sort-by d-flex flex-nowrap" style="border: 1px solid #d5d5d5; border-radius: 40px; padding: 8px; margin-right: 10px">
-                                <input type="checkbox" name="sap-xep-tang-giam" id="sap-xep-tang-giam" ${sortTangDan ? '' : 'checked'}/>
-                                <label for="sap-xep-tang-giam" style="margin-right: 10px; font-size: 16px; font-weight: 600">&nbsp; Sắp xếp giảm dần</label>
-                            </span>
-                            <div class="tablet-mr-10 header-sort d-block" style="margin-right: 10px">
-                                <span class="text-sort position-relative d-flex flex-row align-items-center"
-                                      onclick="event.stopPropagation()">
-                                    <i class="fa-solid fa-sort" style="margin-right: 5px">
-                                    </i>Sắp xếp
-                                </span>
-                                <ul class="header-sort-list position-absolute d-flex flex-column d-none z-3">
-                                    ${nameTiengViets.reduce(
-                                        function (result, item, index) {
-                                            let id = nameObj[item].id
-                                            let nameTT = nameItems[index]
-                                            return (
-                                                result +
-                                            `
-                                            <li>
-                                                <label for="${id}-sort">${item}</label>
-                                                <input class="sort-item" type="radio" name="sortBy" 
-                                                id="${id}-sort"
-                                                value="${nameTT}"
-                                                ${sortBy == nameTT ? "checked" : ""}/>
-                                            </li>
-                                            `
-                                            );
-                                        },
-                                    "")}
-                                    <li class="btn-sort">Sắp xếp</li>
-                                </ul>
-                            </div>
-                            <div class="tablet-mr-10 header-view d-block">
-                                <span class="text-view position-relative d-flex flex-row align-items-center"
-                                      onclick="event.stopPropagation()">
-                                    <i class="fa-solid fa-caret-down" style="margin-right: 5px">
-                                    </i>Hiển thị
-                                </span>
-                                <ul class="header-view-list position-absolute d-flex flex-column d-none z-3">
-                                    <li>
-                                        <label for="select-all">Chọn tất cả</label>
-                                        <input class="view-item" type="checkbox" name="select-all" id="select-all">
-                                    </li>
-                                    ${nameTiengViets.reduce(
-                                        function (result, item, index) {
-                                            let id = nameObj[item].id 
-                                            return (
-                                            result +
-                                            `
-                                            <li>
-                                                <label for="${id}-view">
-                                                    ${item}
-                                                </label>
-                                                <input class="view-item" type="checkbox"
-                                                    name="view" 
-                                                    id="${id}-view"
-                                                    value="${item}" 
-                                                    ${nameObj[item].using ? "checked" : ""}/>
-                                            </li>
-                                            `
-                                            );
-                                        },
-                                    "")}
-                                    <li id="btn-view">Hiển thị</li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
+    return `
+        <div class="card-header">
+            <b style="padding-top: 20px; font-size: 20px;">Tổng số: <span id="count-element">${countData}</span>${
+            " " + namePage
+            }</b>
+            <div class="header-functions d-flex flex-row align-items-center">
+                ${hanhDong ? hanhDong.delete ? 
+                `<span class="tablet-mr-10 page-size form-outline d-flex flex-nowrap align-items-center" style="margin-right: 10px">
+                    <button type="button" disabled id="btn-delete-rows" class="btn btn-danger" style="border-radius: 30px; padding-left: 16px; padding-right: 16px; font-weight: 600">Xóa</button>
+                    </span>`
+                :
+                '' : ''}
+                <span class="tablet-mr-10 page-size form-outline d-flex flex-nowrap align-items-center" style="border: 1px solid #d5d5d5; border-radius: 40px; padding: 8px; margin-right: 10px">
+                    <label for="so-luong-hang" style="font-size: 16px; font-weight: 600">Số lượng hàng &nbsp;</label>
+                    <input type="number" name="so-luong-hang" id="so-luong-hang" class="form-control" style="max-width: 50px; padding: 0" min="1" 
+                    max="${countData > 100 ? 100 : countData}"
+                        value="${pageSize > countData ? countData : pageSize}"/>
+                    &nbsp;
+                    <a href="#!" id="btn-accept-size-page" class="btn btn-primary" style="border-radius: 30px">Xác nhận</a>
+                </span>
+                <span class="tablet-mr-10 sort-by d-flex flex-nowrap" style="border: 1px solid #d5d5d5; border-radius: 40px; padding: 8px; margin-right: 10px">
+                    <input type="checkbox" name="sap-xep-tang-giam" id="sap-xep-tang-giam" ${sortTangDan ? '' : 'checked'}/>
+                    <label for="sap-xep-tang-giam" style="margin-right: 10px; font-size: 16px; font-weight: 600">&nbsp; Sắp xếp giảm dần</label>
+                </span>
+                <div class="tablet-mr-10 header-sort d-block" style="margin-right: 10px">
+                    <span class="text-sort position-relative d-flex flex-row align-items-center"
+                            onclick="event.stopPropagation()">
+                        <i class="fa-solid fa-sort" style="margin-right: 5px">
+                        </i>Sắp xếp
+                    </span>
+                    <ul class="header-sort-list position-absolute d-flex flex-column d-none z-3">
+                        ${nameTiengViets.reduce(
+                            function (result, item, index) {
+                                let id = nameObj[item].id
+                                let nameTT = nameItems[index]
+                                return (
+                                    result +
+                                `
+                                <li>
+                                    <label for="${id}-sort">${item}</label>
+                                    <input class="sort-item" type="radio" name="sortBy" 
+                                    id="${id}-sort"
+                                    value="${nameTT}"
+                                    ${sortBy == nameTT ? "checked" : ""}/>
+                                </li>
+                                `
+                                );
+                            },
+                        "")}
+                        <li class="btn-sort">Sắp xếp</li>
+                    </ul>
+                </div>
+                <div class="tablet-mr-10 header-view d-block">
+                    <span class="text-view position-relative d-flex flex-row align-items-center"
+                            onclick="event.stopPropagation()">
+                        <i class="fa-solid fa-caret-down" style="margin-right: 5px">
+                        </i>Hiển thị
+                    </span>
+                    <ul class="header-view-list position-absolute d-flex flex-column d-none z-3">
+                        <li>
+                            <label for="select-all">Chọn tất cả</label>
+                            <input class="view-item" type="checkbox" name="select-all" id="select-all">
+                        </li>
+                        ${nameTiengViets.reduce(
+                            function (result, item, index) {
+                                let id = nameObj[item].id 
+                                return (
+                                result +
+                                `
+                                <li>
+                                    <label for="${id}-view">
+                                        ${item}
+                                    </label>
+                                    <input class="view-item" type="checkbox"
+                                        name="view" 
+                                        id="${id}-view"
+                                        value="${item}" 
+                                        ${nameObj[item].using ? "checked" : ""}/>
+                                </li>
+                                `
+                                );
+                            },
+                        "")}
+                        <li id="btn-view">Hiển thị</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
 
-                    <!-- /.card-header -->
-                    <div class="card-body p-0">
-                        <form method="POST"
-                              action="https://1900.com.vn/admin/jobs/update-career">
-                            <div class="table-responsive-xl" style="position: relative;">
-                                 <table class="table table-hover" id="table-job" style="overflow: auto;">
-                                    <thead>
-                                        <tr class="align-center">
-                                        <th width="50">
+        <!-- /.card-header -->
+        <div class="card-body p-0">
+            <form method="POST"
+                    action="https://1900.com.vn/admin/jobs/update-career">
+                <div class="table-responsive-xl" style="position: relative;">
+                        <table class="table table-hover" id="table-job" style="overflow: auto;">
+                        <thead>
+                            <tr class="align-center">
+                            <th width="50">
+                                <label class="icheck-primary mb-0 d-block">
+                                    <input type="checkbox" value="all" id="table-select-all">
+                                </label>
+                            </th>
+                            ${nameTiengViets.reduce(function (result, item, index) {
+                                return (
+                                    result +
+                                    `<th class="${nameObj[item].using ? "" : "d-none"}">${item}</th>`
+                                );
+                            }, "")}
+                            ${hanhDong && (hanhDong.edit || hanhDong.delete) ? typeof createActionOnRow == 'function' ? `<th>Thao tác</th>` : '' : ''}
+                            </tr>
+                        </thead>
+                        <tbody>
+                            ${datas != null
+                            ? datas.reduce(function (result, item) {
+                                let id = item[nameItems[0]].toString().trim();
+                                return (
+                                    result +
+                                    `
+                                    <tr id="${id}">
+                                        <td>
                                             <label class="icheck-primary mb-0 d-block">
-                                                <input type="checkbox" value="all" id="table-select-all">
+                                                <input id="table-select-${id}" type="checkbox" value="${id}" name="delete[]"
+                                                class="records table-select">
                                             </label>
-                                        </th>
-                                        ${nameTiengViets.reduce(function (result, item, index) {
-                                            return (
-                                                result +
-                                                `<th class="${nameObj[item].using ? "" : "d-none"}">${item}</th>`
-                                            );
+                                        </td>
+                                        ${nameItems.reduce(function (result1, item1, index) {
+                                        return result1 + createRowTable(item, item1, index, id);
                                         }, "")}
-                                        ${hanhDong && (hanhDong.edit || hanhDong.delete) ? typeof createActionOnRow == 'function' ? `<th>Thao tác</th>` : '' : ''}
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        ${datas != null
-                                        ? datas.reduce(function (result, item) {
-                                            let id = item[nameItems[0]].trim();
-                                            return (
-                                                result +
-                                                `
-                                                <tr id="${id}">
-                                                    <td>
-                                                        <label class="icheck-primary mb-0 d-block">
-                                                            <input id="table-select-${id}" type="checkbox" value="${id}" name="delete[]"
-                                                            class="records table-select">
-                                                        </label>
-                                                    </td>
-                                                    ${nameItems.reduce(function (result1, item1, index) {
-                                                    return result1 + createRowTable(item, item1, index, id);
-                                                    }, "")}
-                                                    ${hanhDong && (hanhDong.edit || hanhDong.delete) ? typeof createActionOnRow == 'function' ? createActionOnRow(id) : '' : ''}
-                                                </tr>
-                                                `
-                                            );
-                                        }, "")
-                                        : ""
-                                    }
-                                    </tbody>
-                                 </table>
-                            </div>
-                        </form>
-                    </div>
+                                        ${hanhDong && (hanhDong.edit || hanhDong.delete) ? typeof createActionOnRow == 'function' ? createActionOnRow(id) : '' : ''}
+                                    </tr>
+                                    `
+                                );
+                            }, "")
+                            : ""
+                        }
+                        </tbody>
+                        </table>
+                </div>
+            </form>
+        </div>
 
-                    <!-- /.card-body -->
-                    <div class="card-footer clearfix p-0"
-                         style="padding-top: 10px !important">
-                        <ul class="pagination pagination-sm m-0 float-right">
-                      ${countData == 0 ? '' : `
-                       <li class="page-item" onclick="toPage(1)">
-                           <a class="page-link" href="#!"><< First</a>
-                       </li>
-                       ${countData > pageSize ? `
-                       ${
-                        [""].reduce(function (result) {
-                         let arr = [];
-                         let str = "";
-                         let t = 3;
-                         let s = 3;
-                         let n = (countData % pageSize == 0 ? countData / pageSize : countData / pageSize + 1)
-                         for (let i = s; i >= 1; i--) {
-                             if (page - i >= 1) {
-                                 arr = [...arr, page - i]
-                           }
-                         }
-                         if (n > s * 2 && arr.length < 3)
-                            s += s - arr.length;
-                         arr = [...arr, page];
-                         for (let i = 1; i <= s; i++) {
-                            if (page + i <= n) {
-                                arr = [...arr, page + i];
-                            } else break;
-                         }
-                         if (arr.length < t * 2 + 1) {
-                            for (let i = 1; arr.length < t * 2 + 1; i++)
-                                if (arr[0] - 1 >= 1) 
-                                    arr = [arr[0] - 1, ...arr]
-                                else break;
+        <!-- /.card-body -->
+        <div class="card-footer clearfix p-0"
+                style="padding-top: 10px !important">
+            <ul class="pagination pagination-sm m-0 float-right">
+            ${countData == 0 ? '' : `
+            <li class="page-item" onclick="toPage(1)">
+                <a class="page-link" href="#!"><< First</a>
+            </li>
+            ${countData > pageSize ? `
+            ${
+            [""].reduce(function (result) {
+                let arr = [];
+                let str = "";
+                let t = 3;
+                let s = 3;
+                let n = (countData % pageSize == 0 ? countData / pageSize : countData / pageSize + 1)
+                for (let i = s; i >= 1; i--) {
+                    if (page - i >= 1) {
+                        arr = [...arr, page - i]
+                }
+                }
+                if (n > s * 2 && arr.length < 3)
+                s += s - arr.length;
+                arr = [...arr, page];
+                for (let i = 1; i <= s; i++) {
+                if (page + i <= n) {
+                    arr = [...arr, page + i];
+                } else break;
+                }
+                if (arr.length < t * 2 + 1) {
+                for (let i = 1; arr.length < t * 2 + 1; i++)
+                    if (arr[0] - 1 >= 1) 
+                        arr = [arr[0] - 1, ...arr]
+                    else break;
 
-                         }
-                         if (arr[0] > 1) {
-                            result += `<li class="page-item">
-                                <a class="page-link" style="color: gray" href="#!">...</a>
-                            </li>`;
-                         }
-                         result += arr.reduce(function (result, item) {
-                           return (
-                             result +
-                             `
-                                       <li class="page-item" onclick="toPage(${item})">
-                                           <a class="page-link ${
-                                             item == page ? "active" : ""
-                                           }" href="#!">${item}</a>
-                                       </li>`
-                           );
-                         }, "");
+                }
+                if (arr[0] > 1) {
+                result += `<li class="page-item">
+                    <a class="page-link" style="color: gray" href="#!">...</a>
+                </li>`;
+                }
+                result += arr.reduce(function (result, item) {
+                return (
+                    result +
+                    `
+                            <li class="page-item" onclick="toPage(${item})">
+                                <a class="page-link ${
+                                    item == page ? "active" : ""
+                                }" href="#!">${item}</a>
+                            </li>`
+                );
+                }, "");
 
-                         if (arr[arr.length - 1] < n - 1)
-                           result += `<li class="page-item" >
-                                       <a class="page-link" style="color: gray" href="#!">...</a>
-                                   </li >`;
-                         return result;
-                        }, "")
-                        }` :
-                        `
-                        <li class="page-item" onclick="toPage(1)">
-                            <a class="page-link active" href="#!">1</a>
-                        </li>`
-                       }
-                       <li class="page-item"
-                           onclick="toPage(${parseInt(countData % pageSize == 0
-                               ? countData / pageSize : countData / pageSize + 1)})">
-                           <a class="page-link" href="#!">End >></a>
-                       </li>`
-                      }
-                        </ul>
-                        <button type="button"
-                                class="btn btn-success btn-xuat-file float-end">
-                            <span>Xuất file</span>
-                            <img src="/icons/excel.png"
-                                 alt="icon-excel"
-                                 style="width: 32px" />
-                        </button>
-                    </div>
+                if (arr[arr.length - 1] < n - 1)
+                result += `<li class="page-item" >
+                            <a class="page-link" style="color: gray" href="#!">...</a>
+                        </li >`;
+                return result;
+            }, "")
+            }` :
+            `
+            <li class="page-item" onclick="toPage(1)">
+                <a class="page-link active" href="#!">1</a>
+            </li>`
+            }
+            <li class="page-item"
+                onclick="toPage(${parseInt(countData % pageSize == 0
+                    ? countData / pageSize : countData / pageSize + 1)})">
+                <a class="page-link" href="#!">End >></a>
+            </li>`
+            }
+            </ul>
+            <button type="button"
+                    class="btn btn-success btn-xuat-file float-end">
+                <span>Xuất file</span>
+                <img src="/icons/excel.png"
+                        alt="icon-excel"
+                        style="width: 32px" />
+            </button>
+        </div>
     `
 };
 var createForm = function (result, thaotac) {
@@ -402,22 +402,22 @@ var createForm = function (result, thaotac) {
 };
 var createActionOnRow = function (id) {
     return `
-            <td class="d-flex flex-row flex-nowrap">
-                ${hanhDong.edit ?
-                `<a href="#!"
-                        class="btn btn-primary btn-sm mr-1 edit" onclick="openEdit(this)">
-                        <i class="fas fa-edit"></i>
-                        Sửa
-                </a>` : ''}
-                ${hanhDong.delete ?
-                `<a href="#!"
-                    class="btn btn-sm mr-1 nut-xoa-hang btn-danger" id="nut-xoa-hang-${id}"
-                    style="color: white; margin-left: 5px">
-                    <i class="fas fa-times" style="color: white"></i>
-                    Xóa
-                </a>` : ''}
-            </td>
-            `
+    <td class="d-flex flex-row flex-nowrap">
+        ${hanhDong.edit ?
+        `<a href="#!"
+                class="btn btn-primary btn-sm mr-1 edit" onclick="openEdit(this)">
+                <i class="fas fa-edit"></i>
+                Sửa
+        </a>` : ''}
+        ${hanhDong.delete ?
+        `<a href="#!"
+            class="btn btn-sm mr-1 nut-xoa-hang btn-danger" id="nut-xoa-hang-${id}"
+            style="color: white; margin-left: 5px">
+            <i class="fas fa-times" style="color: white"></i>
+            Xóa
+        </a>` : ''}
+    </td>
+    `
 }
 var ready = function () {
     let danhSachHienThi = $('.header-view-list');
@@ -726,14 +726,17 @@ var loadPage = function (f) {
         if ($(e.currentTarget).attr('class').indexOf('search') != -1)
             formTimKiem.slideDown();
         else if ($(e.currentTarget).attr('class').indexOf('add') != -1) {
+            $('.errorCL').hide()
             formThem.show()
             oNhapDuLieuFormAdd.val('')
             oRadioButtonFormAdd.prop('checked', false)
             for (let item of nameTiengViets)
                 $('error' + nameObj[item].id + '-add-undefined').val('')
             let current = new Date()
+            let val = toDateInput(current.getDate() + '-' + (current.getMonth() + 1) + '-' + current.getFullYear())
+            console.log(val)
             $('.dateNowOutput').val(
-                toDateInput(current.getDate() + '-' + (current.getMonth() + 1) + '-' + current.getFullYear())
+                val
             )
         }
     })

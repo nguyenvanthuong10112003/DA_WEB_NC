@@ -23,21 +23,21 @@ namespace ProgramWEB.Controllers
             Dictionary<string, object> item = new Dictionary<string, object>();
             //Nhan Su
             item.Add("define", DefinePage.management_NhanSu);
-            item.Add("count", user.layDanhSachNhanSu().Count());
+            item.Add("count", user.demNhanSu());
             item.Add("icon", "fa-solid fa-users-line");
             listItem.Add(item);
 
             //Bao hiem
             item = new Dictionary<string, object>();
             item.Add("define", DefinePage.management_BaoHiem);
-            item.Add("count", user.layDanhSachBaoHiem().Count());
+            item.Add("count", user.demBaoHiem());
             item.Add("icon", "fa-solid fa-hand-holding-medical");
             listItem.Add(item);
 
             //Tai khoan
             item = new Dictionary<string, object>();
             item.Add("define", DefinePage.management_TaiKhoan);
-            item.Add("count", user.layDanhSachTaiKhoan().Count());
+            item.Add("count", user.demTaiKhoan());
             item.Add("icon", "fa-solid fa-equals");
             listItem.Add(item);
 
@@ -50,42 +50,42 @@ namespace ProgramWEB.Controllers
             //Dang Ky ca lam
             item = new Dictionary<string, object>();
             item.Add("define", DefinePage.management_DangKyCaLam);
-            item.Add("count", user.layDanhSachDangKyCaLam().Count());
+            item.Add("count", user.demDangKyCaLam());
             item.Add("icon", "fa-solid fa-clipboard-list");
             listItem.Add(item);
 
             //Dang ký nghi lam
             item = new Dictionary<string, object>();
             item.Add("define", DefinePage.management_DangKyNghiLam);
-            item.Add("count", user.layDanhSachDangKyNghiLam().Count());
+            item.Add("count", user.demDangKyNghiLam());
             item.Add("icon", "fa-solid fa-user-clock");
             listItem.Add(item);
 
             //Cham cong
             item = new Dictionary<string, object>();
             item.Add("define", DefinePage.management_ChamCong);
-            item.Add("count", user.layDanhSachChamCong().Count());
+            item.Add("count", user.demChamCong());
             item.Add("icon", "fa-solid fa-fingerprint");
             listItem.Add(item);
 
             //Khen thuong ky luat
             item = new Dictionary<string, object>();
             item.Add("define", DefinePage.management_KhenThuongKyLuat);
-            item.Add("count", user.layDanhSachKhenThuongKyLuat().Count());
+            item.Add("count", user.demKhenThuongKyLuat());
             item.Add("icon", "fa-solid fa-gavel");
             listItem.Add(item);
 
             //Lich su lam viec
             item = new Dictionary<string, object>();
             item.Add("define", DefinePage.management_LichSuLamViec);
-            item.Add("count", user.layDanhSachLichSuLamViec().Count());
+            item.Add("count", user.demLichSuLamViec());
             item.Add("icon", "fa-solid fa-clock-rotate-left");
             listItem.Add(item);
 
             //Hop Dong
             item = new Dictionary<string, object>();
             item.Add("define", DefinePage.management_HopDong);
-            item.Add("count", user.layDanhSachHopDong().Count());
+            item.Add("count", user.demHopDong());
             item.Add("icon", "fa-solid fa-handshake-simple");
             listItem.Add(item);
 
@@ -98,28 +98,28 @@ namespace ProgramWEB.Controllers
             //Phong ban
             item = new Dictionary<string, object>();
             item.Add("define", DefinePage.management_PhongBan);
-            item.Add("count", user.layDanhSachPhongBan().Count());
+            item.Add("count", user.demPhongBan());
             item.Add("icon", "fa-solid fa-building");
             listItem.Add(item);
 
             //Bo phan
             item = new Dictionary<string, object>();
             item.Add("define", DefinePage.management_BoPhan);
-            item.Add("count", user.layDanhSachBoPhan().Count());
+            item.Add("count", user.demBoPhan());
             item.Add("icon", "fa-solid fa-diagram-project");
             listItem.Add(item);
 
             //Ca lam
             item = new Dictionary<string, object>();
             item.Add("define", DefinePage.management_CaLam);
-            item.Add("count", user.layDanhSachCaLam().Count());
+            item.Add("count", user.demCaLam());
             item.Add("icon", "fa-solid fa-layer-group");
             listItem.Add(item);
 
             //Ngay Nghi
             item = new Dictionary<string, object>();
             item.Add("define", DefinePage.management_NgayNghi);
-            item.Add("count", user.layDanhSachNgayNghi().Count());
+            item.Add("count", user.demNgayNghi());
             item.Add("icon", "fa-solid fa-calendar-xmark");
             listItem.Add(item);
 
@@ -154,8 +154,9 @@ namespace ProgramWEB.Controllers
                     nameModel = DefineTable.nhanSu.thuocTinhs,
                     nameRender = DefineTable.nhanSu.tenTiengViet,
                     sortBy = DefineTable.nhanSu.thuocTinhs[0],
+                    required = DefineTable.nhanSu.required,
                     findBy = findBy,
-                    action = action
+                    action = action,
                 });
             } catch { }
             return View();
@@ -188,6 +189,7 @@ namespace ProgramWEB.Controllers
                     nameModel = DefineTable.phongBan.thuocTinhs,
                     nameRender = DefineTable.phongBan.tenTiengViet,
                     sortBy = DefineTable.phongBan.thuocTinhs[0],
+                    required = DefineTable.phongBan.required,
                     action = action,
                     findBy = findBy
                 });
@@ -223,6 +225,7 @@ namespace ProgramWEB.Controllers
                     nameModel = DefineTable.boPhan.thuocTinhs,
                     nameRender = DefineTable.boPhan.tenTiengViet,
                     sortBy = DefineTable.boPhan.thuocTinhs[0],
+                    required = DefineTable.boPhan.required,
                     action = action,
                     findBy = findBy
                 });
@@ -254,6 +257,7 @@ namespace ProgramWEB.Controllers
                     nameModel = DefineTable.taiKhoan.thuocTinhs,
                     nameRender = DefineTable.taiKhoan.tenTiengViet,
                     sortBy = DefineTable.taiKhoan.thuocTinhs[0],
+                    required = DefineTable.taiKhoan.required,
                     action = action
                 });
             } catch { }
@@ -276,6 +280,7 @@ namespace ProgramWEB.Controllers
                     nameModel = DefineTable.baoHiem.thuocTinhs,
                     nameRender = DefineTable.baoHiem.tenTiengViet,
                     sortBy = DefineTable.baoHiem.thuocTinhs[0],
+                    required = DefineTable.baoHiem.required,
                     action = action
                 });
             }
@@ -299,6 +304,7 @@ namespace ProgramWEB.Controllers
                     nameModel = DefineTable.hopDong.thuocTinhs,
                     nameRender = DefineTable.hopDong.tenTiengViet,
                     sortBy = DefineTable.hopDong.thuocTinhs[0],
+                    required = DefineTable.hopDong.required,
                     action = action
                 });
             }
@@ -322,6 +328,7 @@ namespace ProgramWEB.Controllers
                     nameModel = DefineTable.lichSuLamViec.thuocTinhs,
                     nameRender = DefineTable.lichSuLamViec.tenTiengViet,
                     sortBy = DefineTable.lichSuLamViec.thuocTinhs[0],
+                    required = DefineTable.lichSuLamViec.required,
                     action = action
                 });
             }
@@ -345,6 +352,7 @@ namespace ProgramWEB.Controllers
                     nameModel = DefineTable.khenThuongKyLuat.thuocTinhs,
                     nameRender = DefineTable.khenThuongKyLuat.tenTiengViet,
                     sortBy = DefineTable.khenThuongKyLuat.thuocTinhs[0],
+                    required = DefineTable.khenThuongKyLuat.required,
                     action = action
                 });
             }
@@ -379,6 +387,7 @@ namespace ProgramWEB.Controllers
                     nameModel = DefineTable.caLam.thuocTinhs,
                     nameRender = DefineTable.caLam.tenTiengViet,
                     sortBy = DefineTable.caLam.thuocTinhs[0],
+                    required = DefineTable.caLam.required,
                     action = action,
                     findBy = findBy
                 });
@@ -414,6 +423,7 @@ namespace ProgramWEB.Controllers
                     nameModel = DefineTable.ngayNghi.thuocTinhs,
                     nameRender = DefineTable.ngayNghi.tenTiengViet,
                     sortBy = DefineTable.ngayNghi.thuocTinhs[0],
+                    required = DefineTable.ngayNghi.required,
                     action = action,
                     findBy = findBy
                 });
@@ -435,6 +445,7 @@ namespace ProgramWEB.Controllers
                     nameModel = DefineTable.chamCong.thuocTinhs,
                     nameRender = DefineTable.chamCong.tenTiengViet,
                     sortBy = DefineTable.chamCong.thuocTinhs[0],
+                    required = DefineTable.chamCong.required,
                     action = action
                 });
             }
@@ -456,6 +467,7 @@ namespace ProgramWEB.Controllers
                     nameModel = DefineTable.dangKyCaLam.thuocTinhs,
                     nameRender = DefineTable.dangKyCaLam.tenTiengViet,
                     sortBy = DefineTable.dangKyCaLam.thuocTinhs[0],
+                    required = DefineTable.dangKyCaLam.required,
                     action = action
                 });
             }
@@ -477,6 +489,7 @@ namespace ProgramWEB.Controllers
                     nameModel = DefineTable.dangKyNghiLam.thuocTinhs,
                     nameRender = DefineTable.dangKyNghiLam.tenTiengViet,
                     sortBy = DefineTable.dangKyNghiLam.thuocTinhs[0],
+                    required = DefineTable.dangKyNghiLam.required,
                     action = action
                 });
             }
@@ -500,6 +513,7 @@ namespace ProgramWEB.Controllers
                     nameModel = DefineTable.duyetDangKy.thuocTinhs,
                     nameRender = DefineTable.duyetDangKy.tenTiengViet,
                     sortBy = DefineTable.duyetDangKy.thuocTinhs[0],
+                    required = DefineTable.duyetDangKy.required,
                     action = action,
                     findBy
                 });

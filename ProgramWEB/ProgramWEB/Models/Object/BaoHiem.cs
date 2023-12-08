@@ -5,7 +5,7 @@ namespace ProgramWEB.Models.Object
 {
     public class BaoHiem
     {
-        public string BH_Ma { get; set; }
+        public long? BH_Ma { get; set; }
         public string BH_SoBaoHiem { get; set; }
         public DateTime? BH_NgayCap { get; set; }
         public DateTime? BH_NgayHetHan { get; set; }
@@ -14,7 +14,7 @@ namespace ProgramWEB.Models.Object
         public string NS_Ma { get; set; }
         public BaoHiem()
         {
-            this.BH_Ma = string.Empty;
+            this.BH_Ma = null;
             this.BH_SoBaoHiem = string.Empty;
             this.BH_NgayCap = null;
             this.BH_NgayHetHan = null;

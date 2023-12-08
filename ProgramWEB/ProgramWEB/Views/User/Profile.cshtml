@@ -9,6 +9,7 @@
     NhanSu nhanSu = (NhanSu)data["nhanSu"];
     List<BaoHiem> baoHiems = (List<BaoHiem>)data["baoHiem"];
     User user = (User)Session[DefineSession.userSession];
+    List<LichSuLamViec> lichSuLamViecs = (List<LichSuLamViec>)data["lichSuLamViec"];
 }
 @using ProgramWEB.Models.Object;
 @using ProgramWEB.Define;
@@ -130,16 +131,14 @@
                                                     <div class="row">
                                                         <div class="col-lg-3 col-md-4 label">Ngày sinh</div>
                                                         <div class="col-lg-9 col-md-8">
-                                                            @(nhanSu.NS_NgaySinh != null ? nhanSu.NS_NgaySinh.Value.Day + "-" +
-                                                                                         nhanSu.NS_NgaySinh.Value.Month + "-" +
-                                                                                         nhanSu.NS_NgaySinh.Value.Year : "Chưa cập nhập")
+                                                            @(nhanSu.NS_NgaySinh != null ? StringHelper.toDateView(nhanSu.NS_NgaySinh.Value) : "Chưa cập nhập")
                                                         </div>
                                                     </div>
                                                 </li>
                                                 <li>
                                                     <div class="row">
                                                         <div class="col-lg-3 col-md-4 label">Số điện thoại</div>
-                                                        <div class="col-lg-9 col-md-8">@(!string.IsNullOrEmpty(nhanSu.NS_SoDienThoai) ? "(+84) " + nhanSu.NS_SoDienThoai : "Chưa cập nhập")</div>
+                                                        <div class="col-lg-9 col-md-8">@(!string.IsNullOrEmpty(nhanSu.NS_SoDienThoai) ? ("(+84) " + nhanSu.NS_SoDienThoai) : "Chưa cập nhập")</div>
                                                     </div>
                                                 </li>
                                                 <li>
@@ -181,41 +180,37 @@
                                                 <li>
                                                     <div class="row">
                                                         <div class="col-lg-3 col-md-4 label">Ngày vào</div>
-                                                        <div class="col-lg-9 col-md-8">@(nhanSu.NS_NgayVao != null ? nhanSu.NS_NgayVao.Value.Day + "-" + 
-                                                                                                                     nhanSu.NS_NgayVao.Value.Month + "-" + 
-                                                                                                                     nhanSu.NS_NgayVao.Value.Year : "Chưa cập nhập")</div>
+                                                        <div class="col-lg-9 col-md-8">@(nhanSu.NS_NgayVao != null ? StringHelper.toDateView(nhanSu.NS_NgayVao.Value) : "Chưa cập nhập")</div>
                                                     </div>
                                                 </li>
                                                 <li>
-                                                    <div class="info">
+                                                    <div class="@(baoHiems != null && baoHiems.Count > 0 ? "info" : "row")">
                                                         <div class="col-lg-3 col-md-4 label">Thông tin bảo hiểm</div>
-                                                        <div class="content-info">
-                                                            <ul>
-                                                                @if (baoHiems != null)
-                                                                {
-                                                                    for (int i = 0; i < baoHiems.Count; i++)
+                                                        @if (baoHiems != null && baoHiems.Count > 0)
+                                                        {
+                                                            <div class="content-info">
+                                                                <ul>
+                                                                    @for (int i = 0; i < baoHiems.Count; i++)
                                                                     {
                                                                         BaoHiem baoHiem = baoHiems[i];
                                                                         <li>STT: @(i + 1)</li>
-                                                                        <li>Mã: @(string.IsNullOrEmpty(baoHiem.BH_Ma) ? "" : baoHiem.BH_Ma)</li>
                                                                         <li>Số bảo hiểm: @(string.IsNullOrEmpty(baoHiem.BH_SoBaoHiem) ? "" : baoHiem.BH_SoBaoHiem)</li>
                                                                         <li>
-                                                                            Ngày cấp: @(baoHiem.BH_NgayCap != null ? baoHiem.BH_NgayCap.Value.Day + "-" +
-                                                                                                                    baoHiem.BH_NgayCap.Value.Month + "-" +
-                                                                                                                    baoHiem.BH_NgayCap.Value.Year : "")
+                                                                            Ngày cấp: @(baoHiem.BH_NgayCap != null ? StringHelper.toDateView(baoHiem.BH_NgayCap.Value) : "")
                                                                         </li>
                                                                         <li>Nơi cấp: @(string.IsNullOrEmpty(baoHiem.BH_NoiCap) ? "" : baoHiem.BH_NoiCap)</li>
                                                                         <li>
-                                                                            Ngày hết hạn: @(baoHiem.BH_NgayHetHan != null ? baoHiem.BH_NgayHetHan.Value.Day + "-" +
-                                                                                                                    baoHiem.BH_NgayHetHan.Value.Month + "-" +
-                                                                                                                    baoHiem.BH_NgayHetHan.Value.Year : "")
+                                                                            Ngày hết hạn: @(baoHiem.BH_NgayHetHan != null ? StringHelper.toDateView(baoHiem.BH_NgayHetHan.Value) : "")
                                                                         </li>
                                                                         <li>Nơi khám bệnh: @(string.IsNullOrEmpty(baoHiem.BH_NoiKhamBenh) ? "" : baoHiem.BH_NoiKhamBenh)</li>
                                                                     }
-                                                                }
-                                                            </ul>
-                                                        </div>
-                                                     </div>
+                                                                </ul>
+                                                            </div>
+                                                        } else
+                                                        {
+                                                            <div class="col-lg-9 col-md-8">Chưa cập nhập</div>
+                                                        }
+                                                    </div>
                                                 </li>
                                             </ul>
                                         </div>
@@ -224,24 +219,20 @@
                                         <h5 class="title-info card-title">Lịch sử làm việc</h5>
                                         <div class="content-info">
                                             <ul class="history">
-                                                <li class="history-item">
-                                                    <h6 class="history-item-title">9/2017 - 3/2019</h6>
-                                                    <ul class="detail-job">
-                                                        <li>Công việc: </li>
-                                                        <li>Làm việc tại: </li>
-                                                        <li>Chức vụ: </li>
-                                                        <li>Ghi chú: lên chức</li>
-                                                    </ul>
-                                                </li>
-                                                <li class="history-item">
-                                                    <h6 class="history-item-title">4/2019 - Nay</h6>
-                                                    <ul class="detail-job">
-                                                        <li>Công việc: </li>
-                                                        <li>Làm việc tại: </li>
-                                                        <li>Chức vụ: </li>
-                                                        <li>Ghi chú: đang làm</li>
-                                                    </ul>
-                                                </li>
+                                                @foreach (var item in lichSuLamViecs)
+                                                {
+                                                    <li class="history-item">
+                                                        <h6 class="history-item-title">
+                                                        @(item.LSLV_NgayBatDau == null ? "Trước đó" : StringHelper.toDateView(item.LSLV_NgayBatDau.Value)) 
+                                                        - 
+                                                        @(item.LSLV_NgayKetThuc == null ? "Nay" : StringHelper.toDateView(item.LSLV_NgayKetThuc.Value))
+                                                        </h6>
+                                                        <ul class="detail-job">
+                                                            <li>Làm việc tại: @if (string.IsNullOrEmpty(item.BP_Ma)){<a href="@DefinePage.management_BoPhan.url?ma=@item.BP_Ma">bộ phận mã @item.BP_Ma</a></li>}
+                                                            <li>Chức vụ: @item.LSLV_ChucVu</li>
+                                                        </ul>
+                                                    </li>
+                                                }
                                             </ul>
                                         </div>
                                     </div>

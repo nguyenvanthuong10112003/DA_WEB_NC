@@ -5,11 +5,14 @@ using ProgramWEB.Libary;
 using ProgramWEB.Models.Data;
 using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Data.Entity;
+using System.Data.Entity.Core.Common.CommandTrees.ExpressionBuilder;
 using System.Data.Entity.Migrations;
 using System.Drawing.Printing;
 using System.Globalization;
 using System.Linq;
+using System.Threading;
 using System.Web;
 
 namespace ProgramWEB.Models.Object
@@ -24,11 +27,19 @@ namespace ProgramWEB.Models.Object
         {
         }
 //Nhan su
+        public int demNhanSu()
+        {
+            try
+            {
+                return context.NhanSus.Count();
+            } catch { }
+            return 0;
+        }
         public IEnumerable<Object.NhanSu> layDanhSachNhanSu()
         {
             try
             {
-                init();
+                
                 if (context != null) 
                     return Convert<Object.NhanSu, Data.NhanSu>.ConvertObjs(context.NhanSus);      
             }
@@ -42,9 +53,6 @@ namespace ProgramWEB.Models.Object
         {
             try
             {
-                init();
-                if (context == null)
-                    return null;
                 IEnumerable<Object.NhanSu> results =
                     (findBy != null ? timKiemNhieuNhanSu(findBy)
                     : Convert<Object.NhanSu, Data.NhanSu>.ConvertObjs(from NhanSu in context.NhanSus select NhanSu));
@@ -76,9 +84,6 @@ namespace ProgramWEB.Models.Object
         {
             try
             {
-                init();
-                if (context == null)
-                    return null;
                 if (findNhanSu != null)
                 {
                     return Convert<Object.NhanSu, Data.NhanSu>.ConvertObjs(from NhanSu in context.NhanSus
@@ -112,9 +117,6 @@ namespace ProgramWEB.Models.Object
                 Object.NhanSu convert = new NhanSu();
                 if (string.IsNullOrEmpty(maNhanSu))
                     return null;
-                init();
-                if (context == null)
-                    return null;
                 Convert<Object.NhanSu, Data.NhanSu>.ConvertObj(ref convert, context.NhanSus.Find(maNhanSu));
                 return convert;
             } catch { }
@@ -126,9 +128,23 @@ namespace ProgramWEB.Models.Object
             {
                 if (nhanSu == null)
                     return DefineError.loiDuLieuKhongHopLe;
-                init();
-                if (context == null)
-                    return DefineError.loiHeThong;
+                if (string.IsNullOrEmpty(nhanSu.NS_HoVaTen) || nhanSu.NS_GioiTinh == null || nhanSu.NS_NgaySinh == null ||
+                    string.IsNullOrEmpty(nhanSu.NS_SoDienThoai) || string.IsNullOrEmpty(nhanSu.NS_Email) ||
+                    string.IsNullOrEmpty(nhanSu.NS_DiaChi) || string.IsNullOrEmpty(nhanSu.NS_SoCCCD) ||
+                    nhanSu.NS_NgayVao == null)
+                    return DefineError.loiDuLieuKhongHopLe;
+                string error = "";
+                if (!StringHelper.IsValidEmail(nhanSu.NS_Email))
+                    error += "[Email không đúng định dạng]";
+                if (!StringHelper.IsPhoneNbr(nhanSu.NS_SoDienThoai))
+                    error += "[Số điện thoại không đúng định dạng]";
+                if (!StringHelper.IsValidCCCD(nhanSu.NS_SoCCCD))
+                    error += "[Số căn cước công dân không đúng định dạng]";
+                if (DateTime.Now.Year - nhanSu.NS_NgaySinh.Value.Year < 16)
+                    error += "[Nhân sự phải đủ từ 16 tuổi trở lên";
+                if (error.Length > 0)
+                    return error;
+                
                 Data.NhanSu nhanSu1 = context.NhanSus.Where(
                     item => item.NS_Ma == nhanSu.NS_Ma || item.NS_SoCCCD == nhanSu.NS_SoCCCD ||
                     item.NS_Email == nhanSu.NS_Email || item.NS_SoDienThoai == nhanSu.NS_SoDienThoai).FirstOrDefault();
@@ -142,16 +158,16 @@ namespace ProgramWEB.Models.Object
                         return DefineError.loiHeThong;
                     return string.Empty;
                 }
-                string error = "";
+                error = "";
                 if (nhanSu1.NS_Ma == nhanSu.NS_Ma)
-                    error += "[Mã nhân sự]";
+                    error += "[Mã nhân sự đã tồn tại]";
                 if (nhanSu1.NS_SoCCCD == nhanSu.NS_SoCCCD)
-                    error += "[Số căn cước công dân]";
+                    error += "[Số căn cước công dân đã tồn tại]";
                 if (nhanSu1.NS_Email == nhanSu.NS_Email)
-                    error += "[Email]";
+                    error += "[Email đã tồn tại]";
                 if (nhanSu1.NS_SoDienThoai == nhanSu.NS_SoDienThoai)
-                    error += "[Số điện thoại]";
-                return error + " đã tồn tại";
+                    error += "[Số điện thoại đã tồn tại]";
+                return error;
             }
             catch
             {
@@ -164,9 +180,7 @@ namespace ProgramWEB.Models.Object
             {
                 if (nhanSuNew == null)
                     return DefineError.loiDuLieuKhongHopLe;
-                init();
-                if (context == null)
-                    return DefineError.loiHeThong;
+                
                 Data.NhanSu nhanSu = context.NhanSus.Find(nhanSuNew.NS_Ma);
                 if (nhanSu == null)
                     return DefineError.khongTonTai;
@@ -202,9 +216,7 @@ namespace ProgramWEB.Models.Object
             {
                 if (string.IsNullOrEmpty(maNhanSu))
                     return DefineError.loiDuLieuKhongHopLe;
-                init();
-                if (context == null)
-                    return DefineError.loiHeThong;
+                
                 Data.NhanSu nhanSu = context.NhanSus.Find(maNhanSu);
                 if (nhanSu == null)
                     return DefineError.khongTonTai;
@@ -252,11 +264,19 @@ namespace ProgramWEB.Models.Object
             return results;
         }
 //Bao Hiem
+        public int demBaoHiem()
+        {
+            try
+            {
+                return context.BaoHiems.Count();
+            } catch { }
+            return 0;
+        }
         public IEnumerable<Object.BaoHiem> layDanhSachBaoHiem()
         {
             try
             {
-                init();
+                
                 if (context != null)
                     return Convert<Object.BaoHiem, Data.BaoHiem>.ConvertObjs(context.BaoHiems);
             }
@@ -270,9 +290,7 @@ namespace ProgramWEB.Models.Object
         {
             try
             {
-                init();
-                if (context == null)
-                    return null;
+                
                 IEnumerable<Object.BaoHiem> results =
                     (findBy != null ? timKiemNhieuBaoHiem(findBy)
                     : Convert<Object.BaoHiem, Data.BaoHiem>.ConvertObjs(from BaoHiem in context.BaoHiems select BaoHiem));
@@ -304,14 +322,12 @@ namespace ProgramWEB.Models.Object
         {
             try
             {
-                init();
-                if (context == null)
-                    return null;
+                
                 if (find != null)
                 {
                     return Convert<Object.BaoHiem, Data.BaoHiem>.ConvertObjs(from BaoHiem in context.BaoHiems
                             where
-                            (!string.IsNullOrEmpty(find.BH_Ma) ? BaoHiem.BH_Ma.StartsWith(find.BH_Ma) : BaoHiem != null) &&
+                            (find.BH_Ma != null ? BaoHiem.BH_Ma == find.BH_Ma : BaoHiem != null) &&
                             (!string.IsNullOrEmpty(find.BH_SoBaoHiem) ? BaoHiem.BH_SoBaoHiem.StartsWith(find.BH_SoBaoHiem) : BaoHiem != null) &&
                             (find.BH_NgayCap != null ? BaoHiem.BH_NgayCap == find.BH_NgayCap : BaoHiem != null) &&
                             (find.BH_NgayHetHan != null ? BaoHiem.BH_NgayHetHan == find.BH_NgayHetHan : BaoHiem != null) &&
@@ -334,9 +350,7 @@ namespace ProgramWEB.Models.Object
             {
                 if (string.IsNullOrEmpty(ma))
                     return null;
-                init();
-                if (context == null)
-                    return null;
+                
                 Object.BaoHiem convert = new BaoHiem();
                 Convert<Object.BaoHiem, Data.BaoHiem>.ConvertObj(ref convert, context.BaoHiems.Find(ma));
                 return convert;
@@ -350,12 +364,10 @@ namespace ProgramWEB.Models.Object
             {
                 if (BaoHiem == null)
                     return DefineError.loiDuLieuKhongHopLe;
-                init();
-                if (context == null)
-                    return DefineError.loiHeThong;
+                
                 Data.BaoHiem BaoHiem1 = context.BaoHiems.Where(
-                    item => item.BH_Ma == BaoHiem.BH_Ma || 
-                    item.BH_SoBaoHiem == BaoHiem.BH_SoBaoHiem).FirstOrDefault();
+                    item => (item.BH_Ma == BaoHiem.BH_Ma || 
+                    item.BH_SoBaoHiem == BaoHiem.BH_SoBaoHiem)).FirstOrDefault();
                 if (BaoHiem1 == null)
                 {
                     BaoHiem1 = new Data.BaoHiem();
@@ -368,10 +380,10 @@ namespace ProgramWEB.Models.Object
                 }
                 string error = "";
                 if (BaoHiem1.BH_Ma == BaoHiem.BH_Ma)
-                    error += "[Mã bảo hiểm]";
+                    error += "[Mã bảo hiểm đã tồn tại]";
                 if (BaoHiem1.BH_SoBaoHiem == BaoHiem.BH_SoBaoHiem)
-                    error += "[Số bảo hiểm]";
-                return error + " đã tồn tại";
+                    error += "[Số bảo hiểm đã tồn tại]";
+                return error;
             }
             catch
             {
@@ -384,9 +396,7 @@ namespace ProgramWEB.Models.Object
             {
                 if (New == null)
                     return DefineError.loiDuLieuKhongHopLe;
-                init();
-                if (context == null)
-                    return DefineError.loiHeThong;
+                
                 Data.BaoHiem Old = context.BaoHiems.Find(New.BH_Ma);
                 if (Old == null)
                     return DefineError.khongTonTai;
@@ -420,9 +430,7 @@ namespace ProgramWEB.Models.Object
             {
                 if (string.IsNullOrEmpty(ma))
                     return DefineError.loiDuLieuKhongHopLe;
-                init();
-                if (context == null)
-                    return DefineError.loiHeThong;
+                
                 Data.BaoHiem xoa = context.BaoHiems.Find(ma);
                 if (xoa == null)
                     return DefineError.khongTonTai;
@@ -466,11 +474,19 @@ namespace ProgramWEB.Models.Object
             return results;
         }
 //Hop Dong
+        public int demHopDong()
+        {
+            try
+            {
+                return context.HopDongs.Count();
+            } catch { }
+            return 0;
+        }
         public IEnumerable<Object.HopDong> layDanhSachHopDong()
         {
             try
             {
-                init();
+                
                 if (context != null)
                     return Convert<Object.HopDong, Data.HopDong>.ConvertObjs(context.HopDongs);
             }
@@ -484,9 +500,6 @@ namespace ProgramWEB.Models.Object
         {
             try
             {
-                init();
-                if (context == null)
-                    return null;
                 IEnumerable<Object.HopDong> results =
                     (findBy != null ? timKiemNhieuHopDong(findBy)
                     : Convert<Object.HopDong, Data.HopDong>.ConvertObjs(from HopDong in context.HopDongs select HopDong));
@@ -518,14 +531,11 @@ namespace ProgramWEB.Models.Object
         {
             try
             {
-                init();
-                if (context == null)
-                    return null;
                 if (find != null)
                 {
                     return Convert<Object.HopDong, Data.HopDong>.ConvertObjs(from HopDong in context.HopDongs
                         where
-                        (!string.IsNullOrEmpty(find.HD_Ma) ? HopDong.HD_Ma.StartsWith(find.HD_Ma) : HopDong != null) &&
+                        (find.HD_Ma != null ? HopDong.HD_Ma == find.HD_Ma : HopDong != null) &&
                         (find.HD_NgayBatDau != null ? HopDong.HD_NgayBatDau == find.HD_NgayBatDau : HopDong != null) &&
                         (find.HD_NgayKetThuc != null ? HopDong.HD_NgayKetThuc == find.HD_NgayKetThuc : HopDong != null) &&
                         (!string.IsNullOrEmpty(find.HD_HinhThucLamViec) ? HopDong.HD_HinhThucLamViec.StartsWith(find.HD_HinhThucLamViec) : HopDong != null) &&
@@ -548,10 +558,7 @@ namespace ProgramWEB.Models.Object
             try
             {
                 if (string.IsNullOrEmpty(ma))
-                    return null;
-                init();
-                if (context == null)
-                    return null;
+                    return null; 
                 Object.HopDong convert = new HopDong();
                 Convert<Object.HopDong, Data.HopDong>.ConvertObj(ref convert, context.HopDongs.Find(ma));
                 return convert;
@@ -565,9 +572,6 @@ namespace ProgramWEB.Models.Object
             {
                 if (New == null)
                     return DefineError.loiDuLieuKhongHopLe;
-                init();
-                if (context == null)
-                    return DefineError.loiHeThong;
                 Data.HopDong vali = context.HopDongs.Where(
                     item => item.HD_Ma == New.HD_Ma ||
                     (
@@ -606,9 +610,7 @@ namespace ProgramWEB.Models.Object
             {
                 if (New == null)
                     return DefineError.loiDuLieuKhongHopLe;
-                init();
-                if (context == null)
-                    return DefineError.loiHeThong;
+                
                 Data.HopDong Old = context.HopDongs.Find(New.HD_Ma);
                 if (Old == null)
                     return DefineError.khongTonTai;
@@ -640,9 +642,6 @@ namespace ProgramWEB.Models.Object
             {
                 if (string.IsNullOrEmpty(ma))
                     return DefineError.loiDuLieuKhongHopLe;
-                init();
-                if (context == null)
-                    return DefineError.loiHeThong;
                 Data.HopDong xoa = context.HopDongs.Find(ma);
                 if (xoa == null)
                     return DefineError.khongTonTai;
@@ -686,11 +685,19 @@ namespace ProgramWEB.Models.Object
             return results;
         }
 //Lich su lam viec
+        public int demLichSuLamViec()
+        {
+            try
+            {
+                return context.LichSuLamViecs.Count();
+            } catch { }
+            return 0;
+        }
         public IEnumerable<Object.LichSuLamViec> layDanhSachLichSuLamViec()
         {
             try
             {
-                init();
+                
                 if (context != null)
                     return Convert<Object.LichSuLamViec, Data.LichSuLamViec>.ConvertObjs(context.LichSuLamViecs);
             }
@@ -704,9 +711,6 @@ namespace ProgramWEB.Models.Object
         {
             try
             {
-                init();
-                if (context == null)
-                    return null;
                 IEnumerable<Object.LichSuLamViec> results =
                     (findBy != null ? timKiemNhieuLichSuLamViec(findBy)
                     : Convert<Object.LichSuLamViec, Data.LichSuLamViec>.ConvertObjs(from LichSuLamViec in context.LichSuLamViecs select LichSuLamViec));
@@ -738,14 +742,11 @@ namespace ProgramWEB.Models.Object
         {
             try
             {
-                init();
-                if (context == null)
-                    return null;
                 if (find != null)
                 {
                     return Convert<Object.LichSuLamViec, Data.LichSuLamViec>.ConvertObjs(from LichSuLamViec in context.LichSuLamViecs
                         where
-                        (!string.IsNullOrEmpty(find.LSLV_Ma) ? LichSuLamViec.LSLV_Ma.StartsWith(find.LSLV_Ma) : LichSuLamViec != null) &&
+                        (find.LSLV_Ma != null ? LichSuLamViec.LSLV_Ma == find.LSLV_Ma : LichSuLamViec != null) &&
                         (find.LSLV_NgayBatDau != null ? LichSuLamViec.LSLV_NgayBatDau == find.LSLV_NgayBatDau : LichSuLamViec != null) &&
                         (find.LSLV_NgayKetThuc != null ? LichSuLamViec.LSLV_NgayKetThuc == find.LSLV_NgayKetThuc : LichSuLamViec != null) &&
                         (!string.IsNullOrEmpty(find.LSLV_ChucVu) ? LichSuLamViec.LSLV_ChucVu.StartsWith(find.LSLV_ChucVu) : LichSuLamViec != null) &&
@@ -767,9 +768,7 @@ namespace ProgramWEB.Models.Object
             {
                 if (string.IsNullOrEmpty(ma))
                     return null;
-                init();
-                if (context == null)
-                    return null;
+                
                 Object.LichSuLamViec convert = new LichSuLamViec();
                 Convert<Object.LichSuLamViec, Data.LichSuLamViec>.ConvertObj(ref convert, context.LichSuLamViecs.Find(ma));
                 return convert;
@@ -783,9 +782,7 @@ namespace ProgramWEB.Models.Object
             {
                 if (New == null)
                     return DefineError.loiDuLieuKhongHopLe;
-                init();
-                if (context == null)
-                    return DefineError.loiHeThong;
+                
                 Data.LichSuLamViec vali = context.LichSuLamViecs
                     .Where(item => item.LSLV_Ma == New.LSLV_Ma).FirstOrDefault();
                 if (vali == null)
@@ -814,9 +811,7 @@ namespace ProgramWEB.Models.Object
             {
                 if (New == null)
                     return DefineError.loiDuLieuKhongHopLe;
-                init();
-                if (context == null)
-                    return DefineError.loiHeThong;
+                
                 Data.LichSuLamViec Old = context.LichSuLamViecs.Find(New.LSLV_Ma);
                 if (Old == null)
                     return DefineError.khongTonTai;
@@ -848,9 +843,7 @@ namespace ProgramWEB.Models.Object
             {
                 if (string.IsNullOrEmpty(ma))
                     return DefineError.loiDuLieuKhongHopLe;
-                init();
-                if (context == null)
-                    return DefineError.loiHeThong;
+                
                 Data.LichSuLamViec xoa = context.LichSuLamViecs.Find(ma);
                 if (xoa == null)
                     return DefineError.khongTonTai;
@@ -894,14 +887,19 @@ namespace ProgramWEB.Models.Object
             return results;
         }
 //Tai khoan
+        public int demTaiKhoan()
+        {
+            try
+            {
+                return context.TaiKhoans.Count();
+            } catch { }
+            return 0;
+        }
         public Object.TaiKhoan timTaiKhoanBangMaNhanSu(string maNhanSu)
         {
             try
             {
                 if (string.IsNullOrEmpty(maNhanSu))
-                    return null;
-                init();
-                if (context == null)
                     return null;
                 Object.TaiKhoan convert = new Object.TaiKhoan();
                 Convert<Object.TaiKhoan, Data.TaiKhoan>.ConvertObj(ref convert, context.TaiKhoans.Where(item => item.NS_Ma == maNhanSu).FirstOrDefault());
@@ -914,7 +912,7 @@ namespace ProgramWEB.Models.Object
         {
             try
             {
-                init();
+                
                 if (context != null)
                     return Convert<Object.TaiKhoan, Data.TaiKhoan>.ConvertObjs(context.TaiKhoans);
             }
@@ -928,9 +926,6 @@ namespace ProgramWEB.Models.Object
         {
             try
             {
-                init();
-                if (context == null)
-                    return null;
                 IEnumerable<TaiKhoan> results =
                     (findBy != null ? timKiemNhieuTaiKhoan(findBy)
                     : Convert<Object.TaiKhoan, Data.TaiKhoan>.ConvertObjs(from TaiKhoan in context.TaiKhoans select TaiKhoan));
@@ -961,10 +956,7 @@ namespace ProgramWEB.Models.Object
         public IEnumerable<Object.TaiKhoan> timKiemNhieuTaiKhoan(Object.TaiKhoan findTaiKhoan = null)
         {
             try
-            {
-                init();
-                if (context == null)
-                    return null;
+            { 
                 if (findTaiKhoan != null)
                 {
                     return Convert<Object.TaiKhoan, Data.TaiKhoan>.ConvertObjs(from TaiKhoan in context.TaiKhoans
@@ -991,9 +983,6 @@ namespace ProgramWEB.Models.Object
             {
                 if (string.IsNullOrEmpty(maNhanSu))
                     return null;
-                init();
-                if (context == null)
-                    return null;
                 Object.TaiKhoan convert = new TaiKhoan();
                 Convert<Object.TaiKhoan, Data.TaiKhoan>.ConvertObj(ref convert, context.TaiKhoans.Find(username));
                 return convert;
@@ -1002,11 +991,19 @@ namespace ProgramWEB.Models.Object
             return null;
         }
 //Khen thuong ky luat
+        public int demKhenThuongKyLuat()
+        {
+            try
+            {
+                return context.KhenThuongKyLuats.Count();
+            } catch { }
+            return 0;
+        }
         public IEnumerable<Object.KhenThuongKyLuat> layDanhSachKhenThuongKyLuat()
         {
             try
             {
-                init();
+                
                 if (context != null)
                     return Convert<Object.KhenThuongKyLuat, Data.KhenThuongKyLuat>.ConvertObjs(context.KhenThuongKyLuats);
             }
@@ -1020,9 +1017,6 @@ namespace ProgramWEB.Models.Object
         {
             try
             {
-                init();
-                if (context == null)
-                    return null;
                 IEnumerable<Object.KhenThuongKyLuat> results =
                     (findBy != null ? timKiemNhieuKhenThuongKyLuat(findBy)
                     : Convert<Object.KhenThuongKyLuat, Data.KhenThuongKyLuat>.ConvertObjs(from KhenThuongKyLuat in context.KhenThuongKyLuats select KhenThuongKyLuat));
@@ -1054,14 +1048,11 @@ namespace ProgramWEB.Models.Object
         {
             try
             {
-                init();
-                if (context == null)
-                    return null;
                 if (find != null)
                 {
                     return Convert<Object.KhenThuongKyLuat, Data.KhenThuongKyLuat>.ConvertObjs(from KhenThuongKyLuat in context.KhenThuongKyLuats
                         where
-                        (!string.IsNullOrEmpty(find.KTKL_Ma) ? KhenThuongKyLuat.KTKL_Ma.StartsWith(find.KTKL_Ma) : KhenThuongKyLuat != null) &&
+                        (find.KTKL_Ma != null ? KhenThuongKyLuat.KTKL_Ma == find.KTKL_Ma : KhenThuongKyLuat != null) &&
                         (!string.IsNullOrEmpty(find.KTKL_MoTa) ? KhenThuongKyLuat.KTKL_MoTa.StartsWith(find.KTKL_MoTa) : KhenThuongKyLuat != null) &&
                         (find.KTKL_ThoiGian != null ? KhenThuongKyLuat.KTKL_ThoiGian == find.KTKL_ThoiGian : KhenThuongKyLuat != null) &&
                         (!string.IsNullOrEmpty(find.KTKL_HinhThuc) ? KhenThuongKyLuat.KTKL_HinhThuc.StartsWith(find.KTKL_HinhThuc) : KhenThuongKyLuat != null) &&
@@ -1083,9 +1074,6 @@ namespace ProgramWEB.Models.Object
             {
                 if (string.IsNullOrEmpty(ma))
                     return null;
-                init();
-                if (context == null)
-                    return null;
                 Object.KhenThuongKyLuat convert = new KhenThuongKyLuat();
                 Convert<Object.KhenThuongKyLuat, Data.KhenThuongKyLuat>.ConvertObj(ref convert, context.KhenThuongKyLuats.Find(ma));
                 return convert;
@@ -1099,9 +1087,7 @@ namespace ProgramWEB.Models.Object
             {
                 if (New == null)
                     return DefineError.loiDuLieuKhongHopLe;
-                init();
-                if (context == null)
-                    return DefineError.loiHeThong;
+                
                 Data.KhenThuongKyLuat vali = context.KhenThuongKyLuats
                     .Where(item => item.KTKL_Ma == New.KTKL_Ma).FirstOrDefault();
                 if (vali == null)
@@ -1130,9 +1116,7 @@ namespace ProgramWEB.Models.Object
             {
                 if (New == null)
                     return DefineError.loiDuLieuKhongHopLe;
-                init();
-                if (context == null)
-                    return DefineError.loiHeThong;
+                
                 Data.KhenThuongKyLuat Old = context.KhenThuongKyLuats.Find(New.KTKL_Ma);
                 if (Old == null)
                     return DefineError.khongTonTai;
@@ -1164,9 +1148,7 @@ namespace ProgramWEB.Models.Object
             {
                 if (string.IsNullOrEmpty(ma))
                     return DefineError.loiDuLieuKhongHopLe;
-                init();
-                if (context == null)
-                    return DefineError.loiHeThong;
+                
                 Data.KhenThuongKyLuat xoa = context.KhenThuongKyLuats.Find(ma);
                 if (xoa == null)
                     return DefineError.khongTonTai;
@@ -1210,11 +1192,19 @@ namespace ProgramWEB.Models.Object
             return results;
         }
 //Phong ban
+        public int demPhongBan()
+        {
+            try
+            {
+                return context.PhongBans.Count();
+            } catch { }
+            return 0;
+        }
         public IEnumerable<Object.PhongBan> layDanhSachPhongBan()
         {
             try
             {
-                init();
+                
                 if (context != null)
                     return Convert<Object.PhongBan, Data.PhongBan>.ConvertObjs(context.PhongBans);
             }
@@ -1228,9 +1218,6 @@ namespace ProgramWEB.Models.Object
         {
             try
             {
-                init();
-                if (context == null)
-                    return null;
                 IEnumerable<Object.PhongBan> results =
                     (findBy != null ? timKiemNhieuPhongBan(findBy)
                     : Convert<Object.PhongBan, Data.PhongBan>.ConvertObjs(from PhongBan in context.PhongBans select PhongBan));
@@ -1262,9 +1249,6 @@ namespace ProgramWEB.Models.Object
         {
             try
             {
-                init();
-                if (context == null)
-                    return null;
                 if (find != null)
                 {
                     return Convert<Object.PhongBan, Data.PhongBan>.ConvertObjs(from PhongBan in context.PhongBans
@@ -1289,9 +1273,6 @@ namespace ProgramWEB.Models.Object
             {
                 if (string.IsNullOrEmpty(ma))
                     return null;
-                init();
-                if (context == null)
-                    return null;
                 Object.PhongBan convert = new PhongBan();
                 Convert<Object.PhongBan, Data.PhongBan>.ConvertObj(ref convert, context.PhongBans.Find(ma));
                 return convert;
@@ -1300,11 +1281,19 @@ namespace ProgramWEB.Models.Object
             return null;
         }
 //Bo Phan
+        public int demBoPhan()
+        {
+            try
+            {
+                return context.BoPhans.Count();
+            } catch { }
+            return 0;
+        }
         public IEnumerable<Object.BoPhan> layDanhSachBoPhan()
         {
             try
             {
-                init();
+                
                 if (context != null)
                     return Convert<Object.BoPhan, Data.BoPhan>.ConvertObjs(context.BoPhans);
             }
@@ -1318,9 +1307,6 @@ namespace ProgramWEB.Models.Object
         {
             try
             {
-                init();
-                if (context == null)
-                    return null;
                 IEnumerable<Object.BoPhan> results =
                     (findBy != null ? timKiemNhieuBoPhan(findBy)
                     : Convert<Object.BoPhan, Data.BoPhan>.ConvertObjs(from BoPhan in context.BoPhans select BoPhan));
@@ -1352,9 +1338,6 @@ namespace ProgramWEB.Models.Object
         {
             try
             {
-                init();
-                if (context == null)
-                    return null;
                 if (find != null)
                 {
                     return Convert<Object.BoPhan, Data.BoPhan>.ConvertObjs(from BoPhan in context.BoPhans
@@ -1380,9 +1363,6 @@ namespace ProgramWEB.Models.Object
             {
                 if (string.IsNullOrEmpty(ma))
                     return null;
-                init();
-                if (context == null)
-                    return null;
                 Object.BoPhan convert = new BoPhan();
                 Convert<Object.BoPhan, Data.BoPhan>.ConvertObj(ref convert, context.BoPhans.Find(ma));
                 return convert;
@@ -1391,11 +1371,19 @@ namespace ProgramWEB.Models.Object
             return null;
         }
 //Ca Lam
+        public int demCaLam()
+        {
+            try
+            {
+                return context.CaLams.Count();
+            } catch { }
+            return 0;
+        }
         public IEnumerable<Object.CaLam> layDanhSachCaLam()
         {
             try
             {
-                init();
+                
                 if (context != null)
                     return Convert<Object.CaLam, Data.CaLam>.ConvertObjs(context.CaLams);
             }
@@ -1409,9 +1397,6 @@ namespace ProgramWEB.Models.Object
         {
             try
             {
-                init();
-                if (context == null)
-                    return null;
                 IEnumerable<Object.CaLam> results =
                     (findBy != null ? timKiemNhieuCaLam(findBy)
                     : Convert<Object.CaLam, Data.CaLam>.ConvertObjs(from CaLam in context.CaLams select CaLam));
@@ -1443,9 +1428,6 @@ namespace ProgramWEB.Models.Object
         {
             try
             {
-                init();
-                if (context == null)
-                    return null;
                 if (find != null)
                 {
                     return Convert<Object.CaLam, Data.CaLam>.ConvertObjs(from CaLam in context.CaLams
@@ -1472,9 +1454,6 @@ namespace ProgramWEB.Models.Object
             {
                 if (string.IsNullOrEmpty(ma))
                     return null;
-                init();
-                if (context == null)
-                    return null;
                 Object.CaLam convert = new CaLam();
                 Convert<Object.CaLam, Data.CaLam>.ConvertObj(ref convert, context.CaLams.Find(ma));
                 return convert;
@@ -1483,11 +1462,19 @@ namespace ProgramWEB.Models.Object
             return null;
         }
 //Ngay nghi
+        public int demNgayNghi()
+        {
+            try
+            {
+                return context.NgayNghis.Count();
+            } catch { }
+            return 0;
+        }
         public IEnumerable<Object.NgayNghi> layDanhSachNgayNghi()
         {
             try
             {
-                init();
+                
                 if (context != null)
                     return Convert<Object.NgayNghi, Data.NgayNghi>.ConvertObjs(context.NgayNghis);
             }
@@ -1501,9 +1488,6 @@ namespace ProgramWEB.Models.Object
         {
             try
             {
-                init();
-                if (context == null)
-                    return null;
                 IEnumerable<Object.NgayNghi> results =
                     (findBy != null ? timKiemNhieuNgayNghi(findBy)
                     : Convert<Object.NgayNghi, Data.NgayNghi>.ConvertObjs(from NgayNghi in context.NgayNghis select NgayNghi));
@@ -1535,9 +1519,6 @@ namespace ProgramWEB.Models.Object
         {
             try
             {
-                init();
-                if (context == null)
-                    return null;
                 if (find != null)
                 {
                     return Convert<Object.NgayNghi, Data.NgayNghi>.ConvertObjs(from NgayNghi in context.NgayNghis
@@ -1560,9 +1541,7 @@ namespace ProgramWEB.Models.Object
             {
                 if (string.IsNullOrEmpty(ma))
                     return null;
-                init();
-                if (context == null)
-                    return null;
+                
                 Object.NgayNghi convert = new NgayNghi();
                 Convert<Object.NgayNghi, Data.NgayNghi>.ConvertObj(ref convert, context.NgayNghis.Find(ma));
                 return convert;
@@ -1571,11 +1550,19 @@ namespace ProgramWEB.Models.Object
             return null;
         }
 //Cham cong
+        public int demChamCong()
+        {
+            try
+            {
+                return context.ChamCongs.Count();
+            } catch { }
+            return 0;
+        }
         public IEnumerable<Object.ChamCong> layDanhSachChamCong()
         {
             try
             {
-                init();
+                
                 if (context != null)
                     return Convert<Object.ChamCong, Data.ChamCong>.ConvertObjs(context.ChamCongs);
             }
@@ -1589,9 +1576,6 @@ namespace ProgramWEB.Models.Object
         {
             try
             {
-                init();
-                if (context == null)
-                    return null;
                 IEnumerable<Object.ChamCong> results =
                     (findBy != null ? timKiemNhieuChamCong(findBy)
                     : Convert<Object.ChamCong, Data.ChamCong>.ConvertObjs(from ChamCong in context.ChamCongs select ChamCong));
@@ -1623,9 +1607,6 @@ namespace ProgramWEB.Models.Object
         {
             try
             {
-                init();
-                if (context == null)
-                    return null;
                 if (find != null)
                 {
                     return Convert<Object.ChamCong, Data.ChamCong>.ConvertObjs(from ChamCong in context.ChamCongs
@@ -1651,9 +1632,7 @@ namespace ProgramWEB.Models.Object
             {
                 if (string.IsNullOrEmpty(ma))
                     return null;
-                init();
-                if (context == null)
-                    return null;
+                
                 Object.ChamCong convert = new ChamCong();
                 Convert<Object.ChamCong, Data.ChamCong>.ConvertObj(ref convert, context.ChamCongs.Find(ma));
                 return convert;
@@ -1662,11 +1641,19 @@ namespace ProgramWEB.Models.Object
             return null;
         }
 //Dang Ky Ca Lam
+        public int demDangKyCaLam()
+        {
+            try
+            {
+                return context.DangKyCaLams.Count();
+            } catch { }
+            return 0;
+        }
         public IEnumerable<Object.DangKyCaLam> layDanhSachDangKyCaLam()
         {
             try
             {
-                init();
+                
                 if (context != null)
                     return Convert<Object.DangKyCaLam, Data.DangKyCaLam>.ConvertObjs(context.DangKyCaLams);
             }
@@ -1680,9 +1667,6 @@ namespace ProgramWEB.Models.Object
         {
             try
             {
-                init();
-                if (context == null)
-                    return null;
                 IEnumerable<Object.DangKyCaLam> results =
                     (findBy != null ? timKiemNhieuDangKyCaLam(findBy)
                     : Convert<Object.DangKyCaLam, Data.DangKyCaLam>.ConvertObjs(from DangKyCaLam in context.DangKyCaLams select DangKyCaLam));
@@ -1714,14 +1698,11 @@ namespace ProgramWEB.Models.Object
         {
             try
             {
-                init();
-                if (context == null)
-                    return null;
                 if (find != null)
                 {
                     return Convert<Object.DangKyCaLam, Data.DangKyCaLam>.ConvertObjs(from DangKyCaLam in context.DangKyCaLams
                         where
-                        (!string.IsNullOrEmpty(find.DKCL_Ma) ? DangKyCaLam.DKCL_Ma.StartsWith(find.DKCL_Ma) : DangKyCaLam != null) &&
+                        (find.DKCL_Ma != null ? DangKyCaLam.DKCL_Ma == find.DKCL_Ma : DangKyCaLam != null) &&
                         (find.DKCL_Ngay != null ? DangKyCaLam.DKCL_Ngay == find.DKCL_Ngay : DangKyCaLam != null) &&
                         (find.DKCL_ThoiGianDangKy != null ? DangKyCaLam.DKCL_ThoiGianDangKy == find.DKCL_ThoiGianDangKy : DangKyCaLam != null) &&
                         (find.DKCL_DaDuocDuyet != null ? DangKyCaLam.DKCL_DaDuocDuyet == find.DKCL_DaDuocDuyet : DangKyCaLam != null) &&
@@ -1743,9 +1724,7 @@ namespace ProgramWEB.Models.Object
             {
                 if (string.IsNullOrEmpty(ma))
                     return null;
-                init();
-                if (context == null)
-                    return null;
+                
                 Object.DangKyCaLam convert = new DangKyCaLam();
                 Convert<Object.DangKyCaLam, Data.DangKyCaLam>.ConvertObj(ref convert, context.DangKyCaLams.Find(ma));
                 return convert;
@@ -1785,11 +1764,19 @@ namespace ProgramWEB.Models.Object
             return DefineError.loiHeThong;
         }
 //Dang Ky Nghi Lam
+        public int demDangKyNghiLam()
+        {
+            try
+            {
+                return context.DangKyNghiLams.Count();
+            } catch { }
+            return 0;
+        }
         public IEnumerable<Object.DangKyNghiLam> layDanhSachDangKyNghiLam()
         {
             try
             {
-                init();
+                
                 if (context != null)
                     return Convert<Object.DangKyNghiLam, Data.DangKyNghiLam>.ConvertObjs(context.DangKyNghiLams);
             }
@@ -1803,9 +1790,6 @@ namespace ProgramWEB.Models.Object
         {
             try
             {
-                init();
-                if (context == null)
-                    return null;
                 IEnumerable<Object.DangKyNghiLam> results =
                     (findBy != null ? timKiemNhieuDangKyNghiLam(findBy)
                     : Convert<Object.DangKyNghiLam, Data.DangKyNghiLam>.ConvertObjs(from DangKyNghiLam in context.DangKyNghiLams select DangKyNghiLam));
@@ -1837,14 +1821,11 @@ namespace ProgramWEB.Models.Object
         {
             try
             {
-                init();
-                if (context == null)
-                    return null;
                 if (find != null)
                 {
                     return Convert<Object.DangKyNghiLam, Data.DangKyNghiLam>.ConvertObjs(from DangKyNghiLam in context.DangKyNghiLams
                         where
-                        (!string.IsNullOrEmpty(find.DKNL_Ma) ? DangKyNghiLam.DKNL_Ma.StartsWith(find.DKNL_Ma) : DangKyNghiLam != null) &&
+                        (find.DKNL_Ma != null ? DangKyNghiLam.DKNL_Ma == find.DKNL_Ma : DangKyNghiLam != null) &&
                         (find.DKNL_Ngay != null ? DangKyNghiLam.DKNL_Ngay == find.DKNL_Ngay : DangKyNghiLam != null) &&
                         (find.DKNL_ThoiGianDangKy != null ? DangKyNghiLam.DKNL_ThoiGianDangKy == find.DKNL_ThoiGianDangKy : DangKyNghiLam != null) &&
                         (find.DKNL_NghiCoPhep != null ? DangKyNghiLam.DKNL_NghiCoPhep == find.DKNL_NghiCoPhep : DangKyNghiLam != null) &&
@@ -1868,9 +1849,7 @@ namespace ProgramWEB.Models.Object
             {
                 if (string.IsNullOrEmpty(ma))
                     return null;
-                init();
-                if (context == null)
-                    return null;
+                
                 Object.DangKyNghiLam convert = new DangKyNghiLam();
                 Convert<Object.DangKyNghiLam, Data.DangKyNghiLam>.ConvertObj(ref convert, context.DangKyNghiLams.Find(ma));
                 return convert;
@@ -1910,11 +1889,19 @@ namespace ProgramWEB.Models.Object
             return DefineError.loiHeThong;
         }
 //Duyet dang ky
+        public int demDuyetDangKy()
+        {
+            try
+            {
+                return context.DuyetDangKies.Count();
+            } catch { }
+            return 0;
+        }
         public IEnumerable<Object.DuyetDangKy> layDanhSachDuyetDangKy()
         {
             try
             {
-                init();
+                
                 if (context != null)
                     return Convert<Object.DuyetDangKy, Data.DuyetDangKy>.ConvertObjs(context.DuyetDangKies);
             }
@@ -1928,9 +1915,7 @@ namespace ProgramWEB.Models.Object
         {
             try
             {
-                init();
-                if (context == null)
-                    return null;
+               
                 IEnumerable<Object.DuyetDangKy> results =
                     (findBy != null ? timKiemNhieuDuyetDangKy(findBy)
                     : Convert<Object.DuyetDangKy, Data.DuyetDangKy>.ConvertObjs(from DuyetDangKy in context.DuyetDangKies select DuyetDangKy));
@@ -1962,9 +1947,6 @@ namespace ProgramWEB.Models.Object
         {
             try
             {
-                init();
-                if (context == null)
-                    return null;
                 if (find != null)
                 {
                     return Convert<Object.DuyetDangKy, Data.DuyetDangKy>.ConvertObjs(from DuyetDangKy in context.DuyetDangKies
@@ -1987,9 +1969,6 @@ namespace ProgramWEB.Models.Object
             try
             {
                 if (string.IsNullOrEmpty(ma))
-                    return null;
-                init();
-                if (context == null)
                     return null;
                 Object.DuyetDangKy convert = new DuyetDangKy();
                 Convert<Object.DuyetDangKy, Data.DuyetDangKy>.ConvertObj(ref convert, context.DuyetDangKies.Find(ma));

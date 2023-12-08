@@ -10,8 +10,7 @@ namespace ProgramWEB.Models.Data
     public partial class DangKyCaLam
     {
         [Key]
-        [StringLength(10)]
-        public string DKCL_Ma { get; set; }
+        public long DKCL_Ma { get; set; }
 
         [Column(TypeName = "date")]
         public DateTime DKCL_Ngay { get; set; }
