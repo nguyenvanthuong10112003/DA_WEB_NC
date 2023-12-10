@@ -88,7 +88,7 @@ namespace ProgramWEB.Models.Object
         {
             try
             {
-                IEnumerable<Data.BaoHiem> datas = context.BaoHiems.Where(item => item.NS_Ma.Trim() == this.maNhanSu);
+                IEnumerable<Data.BaoHiem> datas = context.BaoHiems.Where(item => item.NS_Ma.Trim() == this.maNhanSu).OrderBy(item => item.BH_NgayCap);
                 if (datas == null)
                     return null;
                 return Libary.Convert<BaoHiem, Data.BaoHiem>.ConvertObjs(datas);
@@ -100,7 +100,7 @@ namespace ProgramWEB.Models.Object
         {
             try
             {
-                IEnumerable<Data.ChamCong> datas = context.ChamCongs.Where(item => item.NS_Ma.Trim() == this.maNhanSu);
+                IEnumerable<Data.ChamCong> datas = context.ChamCongs.Where(item => item.NS_Ma.Trim() == this.maNhanSu).OrderBy(item => item.CC_Ngay);
                 if (datas == null)
                     return null;
                 return Libary.Convert<ChamCong, Data.ChamCong>.ConvertObjs(datas);
@@ -112,7 +112,7 @@ namespace ProgramWEB.Models.Object
         {
             try
             {
-                IEnumerable<Data.KhenThuongKyLuat> datas = context.KhenThuongKyLuats.Where(item => item.NS_Ma.Trim() == this.maNhanSu);
+                IEnumerable<Data.KhenThuongKyLuat> datas = context.KhenThuongKyLuats.Where(item => item.NS_Ma.Trim() == this.maNhanSu).OrderBy(item => item.KTKL_HinhThuc);
                 if (datas == null)
                     return null;
                 return Libary.Convert<KhenThuongKyLuat, Data.KhenThuongKyLuat>.ConvertObjs(datas);
@@ -124,7 +124,7 @@ namespace ProgramWEB.Models.Object
         {
             try
             {
-                IEnumerable<Data.LichSuLamViec> datas = context.LichSuLamViecs.Where(item => item.NS_Ma.Trim() == this.maNhanSu);
+                IEnumerable<Data.LichSuLamViec> datas = context.LichSuLamViecs.Where(item => item.NS_Ma.Trim() == this.maNhanSu).OrderBy(item => item.LSLV_NgayBatDau);
                 if (datas == null)
                     return null;
                 return Libary.Convert<LichSuLamViec, Data.LichSuLamViec>.ConvertObjs(datas);
@@ -136,7 +136,7 @@ namespace ProgramWEB.Models.Object
         {
             try
             {
-                IEnumerable<Data.HopDong> datas = context.HopDongs.Where(item => item.NS_Ma.Trim() == this.maNhanSu);
+                IEnumerable<Data.HopDong> datas = context.HopDongs.Where(item => item.NS_Ma.Trim() == this.maNhanSu).OrderBy(item => item.HD_NgayBatDau);
                 if (datas == null)
                     return null;
                 return Libary.Convert<HopDong, Data.HopDong>.ConvertObjs(datas);
@@ -148,7 +148,7 @@ namespace ProgramWEB.Models.Object
         {
             try
             {
-                IEnumerable<Data.DangKyNghiLam> datas = context.DangKyNghiLams.Where(item => item.NS_Ma.Trim() == this.maNhanSu);
+                IEnumerable<Data.DangKyNghiLam> datas = context.DangKyNghiLams.Where(item => item.NS_Ma.Trim() == this.maNhanSu).OrderBy(item => item.DKNL_Ngay);
                 if (datas == null)
                     return null;
                 return Libary.Convert<DangKyNghiLam, Data.DangKyNghiLam>.ConvertObjs(datas);
@@ -171,6 +171,69 @@ namespace ProgramWEB.Models.Object
                 return true;
             } catch { }
             return false;
+        }
+        public string doiMatKhau(string oldPassword, string newPassword)
+        {
+            if (string.IsNullOrEmpty(oldPassword) || string.IsNullOrEmpty(newPassword) || oldPassword.Length < 6 || newPassword.Length < 6)
+                return DefineError.loiDuLieuKhongHopLe;
+            if (oldPassword == newPassword)
+                return "Mật khẩu mới và mật khẩu cũ không được trùng nhau";
+            Data.TaiKhoan taiKhoan = context.TaiKhoans.Find(this.username);
+            if (taiKhoan == null)
+                return DefineError.khongTonTai;
+            if (!BCrypt.Net.BCrypt.Verify(oldPassword, taiKhoan.TK_MatKhau))
+                return "Mật khẩu cũ không chính xác.";
+            taiKhoan.TK_MatKhau = BCrypt.Net.BCrypt.HashPassword(newPassword);
+            int check = context.SaveChanges();
+            if (check == 0)
+                return DefineError.loiHeThong;
+            return string.Empty;
+        }
+
+        public static string thayDoiMaXacThuc(string email)
+        {
+            try
+            {
+                if (string.IsNullOrEmpty(email) || !StringHelper.IsValidEmail(email))
+                    return DefineError.loiDuLieuKhongHopLe;
+                QuanLyNhanSuContext context = new QuanLyNhanSuContext();
+                Data.TaiKhoan taiKhoan = context.TaiKhoans.Where(item => item.NhanSu.NS_Email == email).FirstOrDefault();
+                if (taiKhoan == null)
+                    return "Email của bạn không tồn tại trong hệ thống.";
+                taiKhoan.TK_MaXacThuc = StringHelper.TaoMaXacThuc();
+                DateTime now = DateTime.Now;
+                now = new DateTime(now.Year, now.Month, now.Day, now.Hour, now.Minute, 0);
+                taiKhoan.TK_ThoiGianTaoMa = now;
+                int check = context.SaveChanges();
+                if (check == 0)
+                    return DefineError.loiHeThong;
+                return string.Empty;
+            } catch { }
+            return DefineError.loiHeThong;
+        }
+
+        public static string kiemTraMaXacThuc(string email, string maXacThuc)
+        {
+            try
+            {
+                if (string.IsNullOrEmpty(email) || 
+                    !StringHelper.IsValidEmail(email) || 
+                    string.IsNullOrEmpty(maXacThuc) || 
+                    maXacThuc.Length != 6 ||
+                    maXacThuc.Where(item => item > '9' || item < '0').Count() > 1)
+                    return DefineError.loiDuLieuKhongHopLe;
+                QuanLyNhanSuContext context = new QuanLyNhanSuContext();
+                Data.TaiKhoan taiKhoan = context.TaiKhoans.Where(item => item.NhanSu.NS_Email == email).FirstOrDefault();
+                if (taiKhoan == null)
+                    return "Email của bạn không tồn tại trong hệ thống.";
+                if (taiKhoan.TK_MaXacThuc != maXacThuc)
+                    return "Mã xác thực không chính xác";
+                if (taiKhoan.TK_ThoiGianTaoMa.Value.AddMinutes(5) < DateTime.Now)
+                    return "Mã xác thực này đã hết hạn sử dụng. Vui lòng gửi lại mã xác thực khác.";
+                return string.Empty;
+            }
+            catch { }
+            return DefineError.loiHeThong;
         }
     }
 }

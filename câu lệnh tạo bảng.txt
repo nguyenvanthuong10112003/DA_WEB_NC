@@ -4,7 +4,7 @@ use Quan_Ly_Nhan_Su
 go
 create table NhanSu
 (
-	NS_Ma char(10) PRIMARY KEY,
+	NS_Ma varchar(10) PRIMARY KEY,
 	NS_HoVaTen nvarchar(50) NOT NULL,
 	NS_GioiTinh BIT NOT NULL,
 	NS_NgaySinh DATE NOT NULL,
@@ -19,17 +19,17 @@ create table NhanSu
 );
 create table PhongBan
 (
-	PB_Ma char(10) PRIMARY KEY,
+	PB_Ma varchar(10) PRIMARY KEY,
 	PB_Ten nvarchar(50) NOT NULL,
 	PB_VaiTro NVARCHAR(50),
-	NS_Ma CHAR(10)
+	NS_Ma VARCHAR(10)
 );
 create table BoPhan(
-	BP_Ma char(10) PRIMARY KEY,
+	BP_Ma varchar(10) PRIMARY KEY,
 	BP_Ten nvarchar(50) NOT NULL,
 	BP_ChuyenMon NVARCHAR(50),
-	PB_Ma char(10) NOT NULL,
-	NS_Ma CHAR(10)
+	PB_Ma varchar(10) NOT NULL,
+	NS_Ma VARCHAR(10)
 );
 create table BaoHiem
 (
@@ -39,7 +39,7 @@ create table BaoHiem
 	BH_NgayHetHan DATE NOT NULL,
 	BH_NoiCap NVARCHAR(50) NOT NULL,
 	BH_NoiKhamBenh NVARCHAR(50),
-	NS_Ma char(10) NOT NULL,
+	NS_Ma varchar(10) NOT NULL,
 	CHECK(BH_NgayCap < BH_NgayHetHan)
 );
 create table TaiKhoan
@@ -53,7 +53,7 @@ create table TaiKhoan
 	TK_MaXacThuc char(6),
 	TK_ThoiGianTaoMa datetime,
 	TK_AnhDaiDien TEXT,
-	NS_Ma char(10) NOT NULL unique
+	NS_Ma varchar(10) NOT NULL unique
 );
 create table KhenThuongKyLuat
 (
@@ -62,7 +62,7 @@ create table KhenThuongKyLuat
 	KTKL_ThoiGian datetime,
 	KTKL_HinhThuc NVARCHAR(20) NOT NULL,
 	KTKL_SoTien FLOAT NOT NULL,
-	NS_Ma char(10) NOT NULL
+	NS_Ma varchar(10) NOT NULL
 );
 create table ChamCong
 (
@@ -70,12 +70,12 @@ create table ChamCong
 	CC_ThoiGianDen datetime not null,
 	CC_ThoiGianVe DATETIME,
 	CC_Ngay DATE NOT NULL,
-	NS_Ma char(10) NOT NULL,
+	NS_Ma varchar(10) NOT NULL,
 	CHECK(CC_ThoiGianDen < CC_ThoiGianVe)
 );
 CREATE TABLE CaLam
 (
-	CL_Ma CHAR(10) PRIMARY KEY,
+	CL_Ma VARCHAR(10) PRIMARY KEY,
 	CL_TenCa NVARCHAR(30) NOT NULL,
 	CL_GioBatDau SMALLINT NOT NULL CHECK(CL_GioBatDau >= 0 AND CL_GioBatDau <= 23),
 	CL_PhutBatDau SMALLINT NOT NULL CHECK(CL_PhutBatDau >= 0 AND CL_PhutBatDau <= 60),
@@ -89,8 +89,8 @@ CREATE TABLE DangKyCaLam
 	DKCL_Ngay DATE NOT NULL,
 	DKCL_ThoiGianDangKy DATETIME,
 	DKCL_DaDuocDuyet BIT NOT NULL DEFAULT 0,
-	NS_Ma CHAR(10) NOT NULL,
-	CL_Ma CHAR(10) NOT NULL,
+	NS_Ma VARCHAR(10) NOT NULL,
+	CL_Ma VARCHAR(10) NOT NULL,
 	DDK_Ma BIGINT,
 	CHECK(DKCL_ThoiGianDangKy < DKCL_Ngay)
 );
@@ -102,7 +102,7 @@ CREATE TABLE DangKyNghiLam
 	DKNL_NghiCoPhep BIT NOT NULL DEFAULT 0,
 	DKNL_LyDoNghi NTEXT,
 	DKNL_DaDuocDuyet BIT NOT NULL DEFAULT 0,
-	NS_Ma CHAR(10) NOT NULL,
+	NS_Ma VARCHAR(10) NOT NULL,
 	DDK_Ma BIGINT,
 	CHECK(DKNL_ThoiGianDangKy < DKNL_Ngay)
 );
@@ -121,7 +121,7 @@ CREATE TABLE DuyetDangKy
 	 HD_Luong FLOAT NOT NULL,
 	 HD_DonViTinhuong NVARCHAR(20) NOT NULL,
 	 HD_CongViec NVARCHAR(30) NOT NULL,
-	 NS_Ma CHAR(10) NOT NULL, 
+	 NS_Ma VARCHAR(10) NOT NULL, 
 	 CHECK(HD_NgayBatDau < HD_NgayKetThuc)
  );
  CREATE TABLE LichSuLamViec 
@@ -130,13 +130,14 @@ CREATE TABLE DuyetDangKy
 	 LSLV_NgayBatDau DATE NOT NULL,
 	 LSLV_NgayKetThuc DATE,
 	 LSLV_ChucVu NVARCHAR(50) NOT NULL,
-	 NS_Ma CHAR(10) NOT NULL,
-	 BP_Ma CHAR(10),
+	 NS_Ma VARCHAR(10) NOT NULL,
+	 BP_Ma VARCHAR(10),
 	 CHECK(LSLV_NgayBatDau < LSLV_NgayKetThuc)
  );
  CREATE TABLE NgayNghi 
  (
-	NN_Ngay DATE PRIMARY KEY,
+	NN_Ma BIGINT IDENTITY PRIMARY KEY,
+	NN_Ngay DATE NOT NULL UNIQUE,
 	NN_GhiChu NVARCHAR(50)
  )
 

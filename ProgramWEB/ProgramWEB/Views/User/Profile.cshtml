@@ -3,13 +3,13 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
     ViewBag.pageNow =
     new LocationPage(DefinePage.home,
-        new LocationPage(DefinePage.user,
-            new LocationPage(DefinePage.profile_NhanSu)));
+        new LocationPage(DefinePage.user_Profile));
     Dictionary<string, object> data = ViewBag.data;
     NhanSu nhanSu = (NhanSu)data["nhanSu"];
     List<BaoHiem> baoHiems = (List<BaoHiem>)data["baoHiem"];
     User user = (User)Session[DefineSession.userSession];
     List<LichSuLamViec> lichSuLamViecs = (List<LichSuLamViec>)data["lichSuLamViec"];
+    List<KhenThuongKyLuat> khenThuongKyLuats = (List<KhenThuongKyLuat>)data["khenThuongKyLuat"];
 }
 @using ProgramWEB.Models.Object;
 @using ProgramWEB.Define;
@@ -17,24 +17,7 @@
 @section cssContent {
     <link href="~/Contents/main/css/management.css" rel="stylesheet" />
     <link href="~/Contents/main/css/home-management.css" rel="stylesheet" />
-    <style>
-        .card {
-            cursor: default;
-        }
-        .changeAvatar {
-            background-color: white !important;
-            color: #6C757D !important;
-        }
-        .changeAvatar:hover {
-            opacity: 0.8;
-        }
-        #save-changeAvatar:hover {
-            opacity: 0.8;
-        }
-        .info .content-info {
-            padding-left: 10px;
-        }
-    </style>
+    <link href="~/Contents/main/css/profile.css" rel="stylesheet" />
 }
 @section jsContent {
     <script>
@@ -50,8 +33,8 @@
             if (formThayDoiAvt[0].files.length > 0)
                 urlImg = URL.createObjectURL(formThayDoiAvt[0].files[formThayDoiAvt[0].files.length - 1])
             checkImageType(urlImg, () => {
-                    show()
-                    avatar.css({ 'background-image': `url('${urlImg}')` })
+                show()
+                avatar.css({ 'background-image': `url('${urlImg}')` })
             })
         })
         nutHuyAvt.click(() => {
@@ -74,7 +57,7 @@
                 <div class="col-xl-4 col-md-12 col-lg-12">
                     <div class="card">
                         <div class="card-body profile-card d-flex flex-column align-items-center">
-                            <div class="rounded-circle" id="avatar" style="width: 200px; height: 200px; 
+                            <div class="rounded-circle" id="avatar" style="width: 200px; height: 200px;
                                     background-image: url('@(string.IsNullOrEmpty(user.avatar) ? "/Images/avatar.png" : "/Images/avatar/" + user.avatar)');
                                     background-size: 100%; background-color: black; background-repeat: no-repeat; background-position: center">
                             </div>
@@ -98,7 +81,9 @@
 
                                 <li class="nav-item">
                                     <button class="nav-link active" data-bs-toggle="tab"
-                                    style="color: #6C757D !important" data-bs-target="#profile-overview">Thông tin</button>
+                                            style="color: #6C757D !important" data-bs-target="#profile-overview">
+                                        Thông tin
+                                    </button>
                                 </li>
 
                             </ul>
@@ -206,7 +191,8 @@
                                                                     }
                                                                 </ul>
                                                             </div>
-                                                        } else
+                                                        }
+                                                        else
                                                         {
                                                             <div class="col-lg-9 col-md-8">Chưa cập nhập</div>
                                                         }
@@ -223,12 +209,15 @@
                                                 {
                                                     <li class="history-item">
                                                         <h6 class="history-item-title">
-                                                        @(item.LSLV_NgayBatDau == null ? "Trước đó" : StringHelper.toDateView(item.LSLV_NgayBatDau.Value)) 
-                                                        - 
-                                                        @(item.LSLV_NgayKetThuc == null ? "Nay" : StringHelper.toDateView(item.LSLV_NgayKetThuc.Value))
+                                                            @(item.LSLV_NgayBatDau == null ? "Trước đó" : StringHelper.toDateView(item.LSLV_NgayBatDau.Value))
+                                                            -
+                                                            @(item.LSLV_NgayKetThuc == null ? "Nay" : StringHelper.toDateView(item.LSLV_NgayKetThuc.Value))
                                                         </h6>
-                                                        <ul class="detail-job">
-                                                            <li>Làm việc tại: @if (string.IsNullOrEmpty(item.BP_Ma)){<a href="@DefinePage.management_BoPhan.url?ma=@item.BP_Ma">bộ phận mã @item.BP_Ma</a></li>}
+                                                        <ul class="detail-job content-info">
+                                                            <li>
+                                                                Làm việc tại: @if (!string.IsNullOrEmpty(item.BP_Ma))
+                                                                {<a href="@DefinePage.management_BoPhan.url?ma=@item.BP_Ma" class="text-decoration-underline">@item.BP_Ma</a>}
+                                                            </li>
                                                             <li>Chức vụ: @item.LSLV_ChucVu</li>
                                                         </ul>
                                                     </li>
@@ -239,60 +228,26 @@
 
                                     <div class="info">
                                         <h5 class="title-info card-title">Khen thưởng kỷ luật</h5>
-                                        <div class="content-info">
-                                            <ul class="khen-thuong-ky-luat">
-                                                <li class="ktkl-item khen-thuong">
-                                                    <h6 class="ktkl-title">
-                                                        Thông tin khen thưởng - (Số lượng: 2)
-                                                    </h6>
-                                                    <div class="content-info">
-                                                        <ul>
-                                                            <li>
-                                                                <span>STT: 1</span>
+                                        @if (khenThuongKyLuats != null && khenThuongKyLuats.Count > 0) {
+                                            <div class="content-info">
+                                                <ul>
+                                                    @for (int i = 0; i < khenThuongKyLuats.Count; i++)
+                                                    {
+                                                        <li>
+                                                            <span>STT: @(i + 1)</span>
+                                                            <div class="content-info">
                                                                 <ul>
-                                                                    <li>Ngày: 15/11/2023</li>
-                                                                    <li>Lý do: làm việc hiệu suất cao</li>
-                                                                    <li>Số tiền:</li>
+                                                                    <li>Hình thức: @khenThuongKyLuats[i].KTKL_HinhThuc</li>
+                                                                    <li>Thời gian: @StringHelper.toDateTimeView(khenThuongKyLuats[i].KTKL_ThoiGian.Value)</li>
+                                                                    <li>Mô tả: @khenThuongKyLuats[i].KTKL_MoTa</li>
+                                                                    <li>Số tiền: @khenThuongKyLuats[i].KTKL_SoTien</li>
                                                                 </ul>
-                                                            </li>
-                                                            <li>
-                                                                <span>STT: 2</span>
-                                                                <ul>
-                                                                    <li>Ngày: 12/11/2023</li>
-                                                                    <li>Lý do: </li>
-                                                                    <li>Số tiền:</li>
-                                                                </ul>
-                                                            </li>
-                                                        </ul>
-                                                    </div>
-                                                </li>
-                                                <li class="ktkl-item vi-pham">
-                                                    <h6 class="ktkl-title">
-                                                        Thông tin vi phạm - (Số lượng: 2)
-                                                    </h6>
-                                                    <div class="content-info">
-                                                        <ul>
-                                                            <li>
-                                                                <span>STT: 1</span>
-                                                                <ul>
-                                                                    <li>Ngày: 12/11/2023</li>
-                                                                    <li>Lý do: đi muộn</li>
-                                                                    <li>Số tiền phạt:</li>
-                                                                </ul>
-                                                            </li>
-                                                            <li>
-                                                                <span>STT: 2</span>
-                                                                <ul>
-                                                                    <li>Ngày: 13/11/2023</li>
-                                                                    <li>Lý do: ăn trong giờ làm</li>
-                                                                    <li>Số tiền phạt:</li>
-                                                                </ul>
-                                                            </li>
-                                                        </ul>
-                                                    </div>
-                                                </li>
-                                            </ul>
-                                        </div>
+                                                            </div>
+                                                        </li>
+                                                    }
+                                                </ul>
+                                            </div>
+                                        }
                                     </div>
                                 </div>
                             </div><!-- End Bordered Tabs -->

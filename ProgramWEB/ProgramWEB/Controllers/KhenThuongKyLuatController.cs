@@ -81,7 +81,7 @@ namespace ProgramWEB.Controllers
                 error = DefineError.loiHeThong
             });
         }
-        public string delete(string[] mas)
+        public string delete(long[] mas)
         {
             try
             {

@@ -1,10 +1,10 @@
-﻿CREATE   DATABASE Quan_Ly_Nhan_Su
-GO
-use Quan_Li_Nhan_Su
+﻿CREATE   database Quan_Ly_Nhan_Su
+go
+use Quan_Ly_Nhan_Su
 go
 create table NhanSu
 (
-	NS_Ma char(10) primary key,
+	NS_Ma char(10) PRIMARY KEY,
 	NS_HoVaTen nvarchar(50) NOT NULL,
 	NS_GioiTinh BIT NOT NULL,
 	NS_NgaySinh DATE NOT NULL,
@@ -19,20 +19,21 @@ create table NhanSu
 );
 create table PhongBan
 (
-	PB_Ma char(10) primary key ,
+	PB_Ma char(10) PRIMARY KEY,
 	PB_Ten nvarchar(50) NOT NULL,
 	PB_VaiTro NVARCHAR(50),
 	NS_Ma CHAR(10)
 );
 create table BoPhan(
-	BP_Ma char(10) primary key ,
+	BP_Ma char(10) PRIMARY KEY,
 	BP_Ten nvarchar(50) NOT NULL,
 	BP_ChuyenMon NVARCHAR(50),
 	PB_Ma char(10) NOT NULL,
 	NS_Ma CHAR(10)
 );
-create table BaoHiem(
-	BH_Ma char(10) primary key,
+create table BaoHiem
+(
+	BH_Ma BIGINT IDENTITY PRIMARY KEY,
 	BH_SoBaoHiem CHAR(10) NOT NULL,
 	BH_NgayCap DATE NOT NULL,
 	BH_NgayHetHan DATE NOT NULL,
@@ -43,7 +44,7 @@ create table BaoHiem(
 );
 create table TaiKhoan
 (
-	TK_TenDangNhap varchar(30) primary KEY,
+	TK_TenDangNhap varchar(30) PRIMARY KEY,
 	TK_MatKhau text not null,
 	TK_QuyenAdmin BIT NOT NULL DEFAULT 0,
 	TK_QuyenQuanLy BIT NOT NULL DEFAULT 0,
@@ -54,13 +55,14 @@ create table TaiKhoan
 	TK_AnhDaiDien TEXT,
 	NS_Ma char(10) NOT NULL unique
 );
-create table KhenThuongKyLuat(
-	KTKL_Ma CHAR(10) PRIMARY KEY,
+create table KhenThuongKyLuat
+(
+	KTKL_Ma BIGINT IDENTITY PRIMARY KEY,
 	KTKL_MoTa ntext,
 	KTKL_ThoiGian datetime,
-	KTKL_HinhThuc NVARCHAR(20),
+	KTKL_HinhThuc NVARCHAR(20) NOT NULL,
 	KTKL_SoTien FLOAT NOT NULL,
-	NS_Ma char(10)
+	NS_Ma char(10) NOT NULL
 );
 create table ChamCong
 (
@@ -71,17 +73,19 @@ create table ChamCong
 	NS_Ma char(10) NOT NULL,
 	CHECK(CC_ThoiGianDen < CC_ThoiGianVe)
 );
-CREATE TABLE CaLam(
+CREATE TABLE CaLam
+(
 	CL_Ma CHAR(10) PRIMARY KEY,
-	CL_TenCa NVARCHAR(30),
-	CL_GioBatDau SMALLINT CHECK(CL_GioBatDau >= 0 AND CL_GioBatDau <= 23),
-	CL_PhutBatDau SMALLINT CHECK(CL_PhutBatDau >= 0 AND CL_PhutBatDau <= 60),
-	CL_GioKetThuc SMALLINT CHECK(CL_GioKetThuc >= 0 AND CL_GioKetThuc <= 23),
-	CL_PhutKetThuc SMALLINT CHECK(CL_PhutKetThuc >= 0 AND CL_PhutKetThuc <= 60),
+	CL_TenCa NVARCHAR(30) NOT NULL,
+	CL_GioBatDau SMALLINT NOT NULL CHECK(CL_GioBatDau >= 0 AND CL_GioBatDau <= 23),
+	CL_PhutBatDau SMALLINT NOT NULL CHECK(CL_PhutBatDau >= 0 AND CL_PhutBatDau <= 60),
+	CL_GioKetThuc SMALLINT NOT NULL CHECK(CL_GioKetThuc >= 0 AND CL_GioKetThuc <= 23),
+	CL_PhutKetThuc SMALLINT NOT NULL CHECK(CL_PhutKetThuc >= 0 AND CL_PhutKetThuc <= 60),
 	CHECK(CL_GioBatDau < CL_GioKetThuc)
 );
-CREATE TABLE DangKyCaLam(
-	DKCL_Ma CHAR(10) PRIMARY KEY,
+CREATE TABLE DangKyCaLam
+(
+	DKCL_Ma BIGINT IDENTITY PRIMARY KEY,
 	DKCL_Ngay DATE NOT NULL,
 	DKCL_ThoiGianDangKy DATETIME,
 	DKCL_DaDuocDuyet BIT NOT NULL DEFAULT 0,
@@ -90,8 +94,9 @@ CREATE TABLE DangKyCaLam(
 	DDK_Ma BIGINT,
 	CHECK(DKCL_ThoiGianDangKy < DKCL_Ngay)
 );
-CREATE TABLE DangKyNghiLam (
-	DKNL_Ma CHAR(10) PRIMARY KEY,
+CREATE TABLE DangKyNghiLam 
+(
+	DKNL_Ma BIGINT IDENTITY PRIMARY KEY,
 	DKNL_Ngay DATE NOT NULL,
 	DKNL_ThoiGianDangKy DATE,
 	DKNL_NghiCoPhep BIT NOT NULL DEFAULT 0,
@@ -101,13 +106,15 @@ CREATE TABLE DangKyNghiLam (
 	DDK_Ma BIGINT,
 	CHECK(DKNL_ThoiGianDangKy < DKNL_Ngay)
 );
-CREATE TABLE DuyetDangKy(
+CREATE TABLE DuyetDangKy
+(
 	DDK_Ma BIGINT IDENTITY PRIMARY KEY,
 	DDK_ThoiGian DATETIME,
 	NS_Ma CHAR(10)
 );
- CREATE TABLE HopDong(
-	 HD_Ma CHAR(10) PRIMARY KEY,
+ CREATE TABLE HopDong
+(
+	 HD_Ma BIGINT IDENTITY PRIMARY KEY,
 	 HD_NgayBatDau DATE NOT NULL,
 	 HD_NgayKetThuc DATE,
 	 HD_HinhThucLamViec NVARCHAR(30) NOT NULL,
@@ -117,8 +124,9 @@ CREATE TABLE DuyetDangKy(
 	 NS_Ma CHAR(10) NOT NULL, 
 	 CHECK(HD_NgayBatDau < HD_NgayKetThuc)
  );
- CREATE TABLE LichSuLamViec (
-	 LSLV_Ma CHAR(10) PRIMARY KEY,
+ CREATE TABLE LichSuLamViec 
+(
+	 LSLV_Ma BIGINT IDENTITY PRIMARY KEY,
 	 LSLV_NgayBatDau DATE NOT NULL,
 	 LSLV_NgayKetThuc DATE,
 	 LSLV_ChucVu NVARCHAR(50) NOT NULL,
@@ -128,7 +136,8 @@ CREATE TABLE DuyetDangKy(
  );
  CREATE TABLE NgayNghi 
  (
-	NN_Ngay DATE PRIMARY KEY,
+	NN_Ma BIGINT IDENTITY PRIMARY KEY,
+	NN_Ngay DATE NOT NULL UNIQUE,
 	NN_GhiChu NVARCHAR(50)
  )
 
@@ -150,7 +159,7 @@ ON DELETE CASCADE
 ALTER TABLE dbo.KhenThuongKyluat
 ADD CONSTRAINT KTKL_FK1 FOREIGN KEY(NS_Ma)
 REFERENCES dbo.NhanSu(NS_Ma)
-ON DELETE SET NULL
+ON DELETE CASCADE
 
 ALTER TABLE dbo.DangKyCaLam ADD
 CONSTRAINT DKCL_FK1 FOREIGN KEY(NS_Ma)
@@ -161,12 +170,12 @@ REFERENCES dbo.CaLam(CL_Ma)
 ON DELETE CASCADE,
 CONSTRAINT DKCL_FK3 FOREIGN KEY(DDK_Ma)
 REFERENCES dbo.DuyetDangKy(DDK_Ma)
-ON DELETE SET NULL
+ON DELETE CASCADE
 
 ALTER TABLE dbo.DangKyNghiLam ADD 
 CONSTRAINT DKNL_FK1 FOREIGN KEY(DDK_Ma)
 REFERENCES dbo.DuyetDangKy(DDK_Ma)
-ON DELETE SET NULL,
+ON DELETE CASCADE,
 CONSTRAINT DKNL_FK2 FOREIGN KEY(NS_Ma)
 REFERENCES dbo.NhanSu(NS_Ma)
 ON DELETE CASCADE
@@ -246,7 +255,7 @@ VALUES
     '$2a$10$WY/kemLQ5LkyQXEiH71pMefNH4UpOuDBBaou9tiPD/Ah24NTgHReK',      -- TK_MatKhau - text
     1, -- TK_QuyenAdmin - bit
     1, -- TK_QuyenQuanLy - bit
-    1, -- TK_BiKhoa - bit
+    0, -- TK_BiKhoa - bit
     NULL,    -- TK_ThoiGianMoKhoa - datetime
     NULL,    -- TK_MaXacThuc - char(6)
     NULL,    -- TK_ThoiGianTaoMa - datetime
@@ -272,7 +281,7 @@ VALUES
     ''         -- NS_Ma - char(10)
     )
 
-UPDATE dbo.TaiKhoan SET TK_BiKhoa = 0 WHERE TK_TenDangNhap = 'admin'
+UPDATE dbo.TaiKhoan SET TK_BiKhoa = 0 WHERE TK_TenDangNhap = 'Thuong21'
 
 
 
@@ -378,3 +387,52 @@ INSERT INTO CaLam VALUES ('CL03', N'Ca 1', 7, 0, 9, 0)
 INSERT INTO CaLam VALUES ('CL04', N'Ca 2', 9, 0, 11, 0)
 INSERT INTO CaLam VALUES ('CL05', N'Ca 3', 13, 0, 15, 0)
 INSERT INTO CaLam VALUES ('CL06', N'Ca 4', 15, 0, 17, 0)
+
+
+INSERT INTO dbo.LichSuLamViec
+(
+    LSLV_NgayBatDau,
+    LSLV_NgayKetThuc,
+    LSLV_ChucVu,
+    NS_Ma,
+    BP_Ma
+)
+VALUES
+(   GETDATE(), -- LSLV_NgayBatDau - date
+    NULL,      -- LSLV_NgayKetThuc - date
+    N'',       -- LSLV_ChucVu - nvarchar(50)
+    '',        -- NS_Ma - char(10)
+    NULL       -- BP_Ma - char(10)
+    )
+
+SELECT * FROM dbo.PhongBan
+
+INSERT INTO dbo.PhongBan
+(
+    PB_Ma,
+    PB_Ten,
+    PB_VaiTro,
+    NS_Ma
+)
+VALUES
+(   '',   -- PB_Ma - char(10)
+    N'',  -- PB_Ten - nvarchar(50)
+    NULL, -- PB_VaiTro - nvarchar(50)
+    NULL  -- NS_Ma - char(10)
+    )
+
+INSERT INTO dbo.BoPhan
+(
+    BP_Ma,
+    BP_Ten,
+    BP_ChuyenMon,
+    PB_Ma,
+    NS_Ma
+)
+VALUES
+(   '',   -- BP_Ma - char(10)
+    N'',  -- BP_Ten - nvarchar(50)
+    NULL, -- BP_ChuyenMon - nvarchar(50)
+    '',   -- PB_Ma - char(10)
+    NULL  -- NS_Ma - char(10)
+    )

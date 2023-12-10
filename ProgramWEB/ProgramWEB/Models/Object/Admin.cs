@@ -1,5 +1,6 @@
 ﻿using ProgramWEB.Define;
 using ProgramWEB.Libary;
+using ProgramWEB.Models.Data;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity.Migrations;
@@ -25,9 +26,9 @@ namespace ProgramWEB.Models.Object
             {
                 if (result == null)
                     return DefineError.loiDuLieuKhongHopLe;
-                if (string.IsNullOrEmpty(result.PB_Ma) || string.IsNullOrEmpty(result.PB_Ten)) 
+                if (string.IsNullOrEmpty(result.PB_Ma) || string.IsNullOrEmpty(result.PB_Ten))
                     return DefineError.loiDuLieuKhongHopLe;
-                Data.PhongBan old = context.PhongBans.Where(item => item.PB_Ma == result.PB_Ma).FirstOrDefault();)
+                Data.PhongBan old = context.PhongBans.Where(item => item.PB_Ma == result.PB_Ma).FirstOrDefault();
                 if (old == null)
                 {
                     if (!string.IsNullOrEmpty(result.NS_Ma)) {
@@ -47,10 +48,8 @@ namespace ProgramWEB.Models.Object
                 }
                 return "Mã phòng ban đã tồn tại.";
             }
-            catch
-            {
-                return DefineError.loiHeThong;
-            }
+            catch { }
+            return DefineError.loiHeThong;
         }
         public string suaPhongBan(Object.PhongBan New)
         {
@@ -62,18 +61,20 @@ namespace ProgramWEB.Models.Object
                     return DefineError.loiDuLieuKhongHopLe;
                 Data.PhongBan old = context.PhongBans.Find(New.PB_Ma);
                 if (old == null)
-                    return DefineError.khongTonTai;
-                Data.PhongBan check = context.PhongBans.Where(
-                    item => (item.PB_Ma != New.PB_Ma && (item.NS_Ma == New.NS_Ma))).FirstOrDefault();
-                if (check == null)
+                    return "Phòng ban cần sửa không tồn tại.";
+                if (!string.IsNullOrEmpty(New.NS_Ma))
                 {
-                    Convert<Data.PhongBan, Object.PhongBan>.ConvertObj(ref old, New);
-                    int checkInt = context.SaveChanges();
-                    if (checkInt == 0)
-                        return DefineError.loiHeThong;
-                    return string.Empty;
+                    if (context.NhanSus.Find(New.NS_Ma) == null)
+                        return "Nhân sự không tồn tại";
+                    if (context.PhongBans.Where(
+                        item => (item.PB_Ma != New.PB_Ma && (item.NS_Ma == New.NS_Ma))).Count() > 0)
+                        return "Một nhân sự không thể cai quản nhiều hơn một phòng ban";
                 }
-                return "Một nhân sự không thể cai quản nhiều hơn một phòng ban.";
+                Convert<Data.PhongBan, Object.PhongBan>.ConvertObj(ref old, New);
+                int checkInt = context.SaveChanges();
+                if (checkInt == 0)
+                    return DefineError.loiHeThong;
+                return string.Empty;
             }
             catch
             {
@@ -138,12 +139,14 @@ namespace ProgramWEB.Models.Object
                 if (string.IsNullOrEmpty(result.PB_Ma) || string.IsNullOrEmpty(result.BP_Ma) || string.IsNullOrEmpty(result.BP_Ten))
                     return DefineError.loiDuLieuKhongHopLe;
                 if (context.PhongBans.Find(result.PB_Ma) == null)
-                    return "Mã phòng ban không tồn tại.";
+                    return "Mã bộ phận không tồn tại.";
                 Data.BoPhan old = context.BoPhans.Where(item => item.BP_Ma == result.BP_Ma).FirstOrDefault();
                 if (old == null)
                 {
                     if (!string.IsNullOrEmpty(result.NS_Ma))
                     {
+                        if (context.NhanSus.Find(result.NS_Ma) == null)
+                            return "Nhân sự không tồn tại";
                         old = context.BoPhans.Where(item => item.NS_Ma == result.NS_Ma).FirstOrDefault();
                         if (old != null)
                             return "Một nhân sự không thể cai quản nhiều hơn một bộ phận.";
@@ -158,10 +161,8 @@ namespace ProgramWEB.Models.Object
                 }
                 return "Mã bộ phận đã tồn tại.";
             }
-            catch
-            {
-                return DefineError.loiHeThong;
-            }
+            catch { }
+            return DefineError.loiHeThong;
         }
         public string suaBoPhan(Object.BoPhan New)
         {
@@ -176,17 +177,20 @@ namespace ProgramWEB.Models.Object
                     return DefineError.khongTonTai;
                 if (context.PhongBans.Find(New.PB_Ma) == null)
                     return "Mã phòng ban không tồn tại.";
-                Data.BoPhan check = context.BoPhans.Where(
-                    item => (item.BP_Ma != New.BP_Ma && (item.NS_Ma == New.NS_Ma))).FirstOrDefault();
-                if (check == null)
+                if (!string.IsNullOrEmpty(New.NS_Ma))
                 {
-                    Convert<Data.BoPhan, Object.BoPhan>.ConvertObj(ref old, New);
-                    int checkInt = context.SaveChanges();
-                    if (checkInt == 0)
-                        return DefineError.loiHeThong;
-                    return string.Empty;
+                    if (context.NhanSus.Find(New.NS_Ma) == null)
+                        return "Nhân sự không tồn tại";
+                    if (context.BoPhans.Where(
+                        item => (item.BP_Ma != New.BP_Ma && (item.NS_Ma == New.NS_Ma))).Count() > 0)
+                        return "Một nhân sự không thể cai quản nhiều hơn một bộ phận";
                 }
-                return "Một nhân sự không thể cai quản nhiều hơn một bộ phận.";
+
+                Convert<Data.BoPhan, Object.BoPhan>.ConvertObj(ref old, New);
+                int checkInt = context.SaveChanges();
+                if (checkInt == 0)
+                    return DefineError.loiHeThong;
+                return string.Empty;
             }
             catch
             {
@@ -232,6 +236,247 @@ namespace ProgramWEB.Models.Object
                         success = "Xoá thành công " + countSuccess + " bộ phận.";
                     if (countSuccess < mas.Length)
                         error = "Không thể xóa " + (mas.Length - countSuccess) + " bộ phận.";
+                    results[0] = error;
+                    results[1] = success;
+                    return results;
+                }
+            }
+            catch { }
+            results[0] = DefineError.loiHeThong;
+            return results;
+        }
+//Tai khoan
+        public string khoaTaiKhoan(string username, int timeLock = 0)
+        {
+            try
+            {
+                if (string.IsNullOrEmpty(username))
+                    return DefineError.loiDuLieuKhongHopLe;
+                Data.TaiKhoan rs = context.TaiKhoans.Find(username);
+                if (rs == null)
+                    return DefineError.khongTonTai;
+                if (rs.TK_QuyenAdmin)
+                    return "Bạn không thể khóa tài khoản của admin khác.";
+                rs.TK_BiKhoa = true;
+                if (timeLock > 0)
+                {
+                    DateTime now = DateTime.Now;
+                    now = new DateTime(now.Year, now.Month, now.Day, now.Hour, now.Minute, 0);
+                    rs.TK_ThoiGianMoKhoa = now.AddHours(timeLock);
+                }
+                int check = context.SaveChanges();
+                if (check == 0)
+                    return DefineError.loiHeThong;
+                return string.Empty;
+            }
+            catch { }
+            return DefineError.loiHeThong;
+        }
+        public string capQuyenQuanLy(string username, bool huy = false)
+        {
+            try
+            {
+                if (string.IsNullOrEmpty(username))
+                    return DefineError.loiDuLieuKhongHopLe;
+                Data.TaiKhoan rs = context.TaiKhoans.Where(item => item.TK_TenDangNhap == username).FirstOrDefault();
+                if (rs == null)
+                    return DefineError.khongTonTai;
+                if (!huy)
+                    rs.TK_QuyenQuanLy = true;
+                else
+                {
+                    if (rs.TK_QuyenAdmin)
+                        return "Bạn không thể thao tác với tài khoản của admin khác.";
+                    rs.TK_QuyenQuanLy = false;
+                }
+                int check = context.SaveChanges();
+                if (check == 0)
+                    return DefineError.loiHeThong;
+                return string.Empty;
+            }
+            catch { }
+            return DefineError.loiHeThong;
+        }
+//Ngay nghi
+        public string themNgayNghi(NgayNghi New)
+        {
+            try
+            {
+                if (New == null)
+                    return DefineError.loiDuLieuKhongHopLe;
+                Data.NgayNghi old = context.NgayNghis.Where(o => o.NN_Ngay == New.NN_Ngay).FirstOrDefault();
+                if (old != null)
+                    return DefineError.daTonTai;
+                old = new Data.NgayNghi();
+                Convert<Data.NgayNghi, Object.NgayNghi>.ConvertObj(ref old, New);
+                context.NgayNghis.Add(old);
+                int check = context.SaveChanges();
+                if (check == 0)
+                    return DefineError.loiHeThong;
+                return string.Empty;
+            }
+            catch { }
+            return DefineError.loiHeThong;
+        }
+        public string suaNgayNghi(NgayNghi New)
+        {
+            try
+            {
+                if (New == null)
+                    return DefineError.loiDuLieuKhongHopLe;
+                Data.NgayNghi old = context.NgayNghis.Where(o => o.NN_Ngay == New.NN_Ngay).FirstOrDefault();
+                if (old == null)
+                    return DefineError.khongTonTai;
+                old = new Data.NgayNghi();
+                Convert<Data.NgayNghi, Object.NgayNghi>.ConvertObj(ref old, New);
+                context.NgayNghis.AddOrUpdate(old);
+                int check = context.SaveChanges();
+                if (check == 0)
+                    return DefineError.loiHeThong;
+                return string.Empty;
+            }
+            catch { }
+            return DefineError.loiHeThong; 
+        }
+        public string xoaNgayNghi(DateTime ngay)
+        {
+            try
+            {
+                if (ngay == null)
+                    return DefineError.loiDuLieuKhongHopLe;
+                Data.NgayNghi ngayNghi = context.NgayNghis.Find(ngay);
+                if (ngayNghi == null)
+                    return DefineError.khongTonTai;
+                context.NgayNghis.Remove(ngayNghi);
+                int check = context.SaveChanges();
+                if (check == 0)
+                    return DefineError.loiHeThong;
+                return string.Empty;
+            }
+            catch { }
+            return DefineError.loiHeThong;
+        }
+        public string[] xoaNhieuNgayNghi(DateTime[] ngays)
+        {
+            string[] results = new string[] { string.Empty, string.Empty };
+            try
+            {
+                if (ngays == null)
+                    return null;
+                else
+                {
+                    string error = "";
+                    string success = "";
+                    int countSuccess = 0;
+                    foreach (DateTime s in ngays)
+                    {
+                        string message = xoaNgayNghi(s);
+                        if (string.IsNullOrEmpty(message))
+                            countSuccess++;
+                    }
+                    if (countSuccess > 0)
+                        success = "Xoá thành công " + countSuccess + " ngày nghỉ.";
+                    if (countSuccess < ngays.Length)
+                        error = "Không thể xóa " + (ngays.Length - countSuccess) + " ngày nghỉ.";
+                    results[0] = error;
+                    results[1] = success;
+                    return results;
+                }
+            }
+            catch { }
+            results[0] = DefineError.loiHeThong;
+            return results;
+        }
+//Ca lam
+        public string themCaLam(CaLam New)
+        {
+            try
+            {
+                if (New == null)
+                    return DefineError.loiDuLieuKhongHopLe;
+                Data.CaLam old = context.CaLams.Where(o => (o.CL_Ma == New.CL_Ma || 
+                                                        (o.CL_GioBatDau == New.CL_GioBatDau && 
+                                                         o.CL_PhutBatDau == New.CL_PhutBatDau &&
+                                                         o.CL_GioKetThuc == New.CL_GioKetThuc &&
+                                                         o.CL_PhutKetThuc == New.CL_PhutKetThuc))
+                                                         ).FirstOrDefault();
+                if (old != null)
+                    return DefineError.daTonTai;
+                old = new Data.CaLam();
+                Convert<Data.CaLam, CaLam>.ConvertObj(ref old, New);
+                context.CaLams.Add(old);
+                int check = context.SaveChanges();
+                if (check > 0)
+                    return string.Empty;
+            }
+            catch { }
+            return DefineError.loiHeThong;
+        }
+        public string suaCaLam(CaLam New)
+        {
+            try
+            {
+                if (New == null)
+                    return DefineError.loiDuLieuKhongHopLe;
+                Data.CaLam old = context.CaLams.Find(New.CL_Ma);
+                if (old == null)
+                    return DefineError.khongTonTai;
+                Data.CaLam check = context.CaLams.Where(o => o.CL_Ma != New.CL_Ma && 
+                                                                (o.CL_GioBatDau == New.CL_GioBatDau &&
+                                                                o.CL_PhutBatDau == New.CL_PhutBatDau &&
+                                                                o.CL_GioKetThuc == New.CL_GioKetThuc &&
+                                                                o.CL_PhutKetThuc == New.CL_PhutKetThuc)).FirstOrDefault();
+                if (check != null)
+                    return DefineError.daTonTai;
+                old = new Data.CaLam();
+                Convert<Data.CaLam, Object.CaLam>.ConvertObj(ref old, New);
+                context.CaLams.AddOrUpdate(old);
+                int checkInt = context.SaveChanges();
+                if (checkInt > 0)
+                    return string.Empty;
+            }
+            catch { }
+            return DefineError.loiHeThong;
+        }
+        public string xoaCaLam(string ma)
+        {
+            try
+            {
+                if (string.IsNullOrEmpty(ma))
+                    return DefineError.loiDuLieuKhongHopLe;
+                Data.CaLam caLam = context.CaLams.Find(ma);
+                if (caLam == null)
+                    return DefineError.khongTonTai;
+                context.CaLams.Remove(caLam);
+                int check = context.SaveChanges();
+                if (check > 0)
+                    return string.Empty;
+            }
+            catch { }
+            return DefineError.loiHeThong; 
+        }
+        public string[] xoaNhieuCaLam(string[] mas)
+        {
+            string[] results = new string[] { string.Empty, string.Empty };
+            try
+            {
+                if (mas == null)
+                    return null;
+                else
+                {
+                    string error = "";
+                    string success = "";
+                    int countSuccess = 0;
+                    foreach (string s in mas)
+                    {
+                        string message = xoaCaLam(s);
+                        if (string.IsNullOrEmpty(message))
+                            countSuccess++;
+                    }
+                    if (countSuccess > 0)
+                        success = "Xoá thành công " + countSuccess + " ca làm.";
+                    if (countSuccess < mas.Length)
+                        error = "Không thể xóa " + (mas.Length - countSuccess) + " ca làm.";
                     results[0] = error;
                     results[1] = success;
                     return results;

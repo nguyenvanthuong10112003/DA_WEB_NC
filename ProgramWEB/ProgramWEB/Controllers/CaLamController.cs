@@ -44,9 +44,9 @@ namespace ProgramWEB.Controllers
                     return JsonConvert.SerializeObject(new { error = DefineError.canDangNhap });
                 if (!user.quyenAdmin)
                     return JsonConvert.SerializeObject(new { error = DefineError.khongCoQuyen });
-                //string error = ((Admin)user).themCaLam(CaLam);
-                //if (!string.IsNullOrEmpty(error))
-                //  return JsonConvert.SerializeObject(new { error = error });
+                string error = user.themCaLam(CaLam);
+                if (!string.IsNullOrEmpty(error))
+                    return JsonConvert.SerializeObject(new { error = error });
                 return JsonConvert.SerializeObject(new
                 {
                     success = "Thêm thành công."
@@ -67,10 +67,9 @@ namespace ProgramWEB.Controllers
                     return JsonConvert.SerializeObject(new { error = DefineError.canDangNhap });
                 if (!user.quyenAdmin)
                     return JsonConvert.SerializeObject(new { error = DefineError.khongCoQuyen });
-
-                //string error = ((QuanLy)user).suaCaLam(CaLam);
-                //if (!string.IsNullOrEmpty(error))
-                //  return JsonConvert.SerializeObject(new { error = error });
+                string error = user.suaCaLam(CaLam);
+                if (!string.IsNullOrEmpty(error))
+                    return JsonConvert.SerializeObject(new { error = error });
                 return JsonConvert.SerializeObject(new
                 {
                     success = "Sửa thành công"
@@ -92,30 +91,30 @@ namespace ProgramWEB.Controllers
                 if (!user.quyenAdmin)
                     return JsonConvert.SerializeObject(new { error = DefineError.khongCoQuyen });
 
-                //if (mas != null && mas.Length == 1)
-                //{
-                //    //string error = ((QuanLy)user).xoaCaLam(mas[0]);
-                //    //if (!string.IsNullOrEmpty(error))
-                //        //return JsonConvert.SerializeObject(new { error = error });
-                //    return JsonConvert.SerializeObject(new
-                //    {
-                //        success = "Xóa thành công"
-                //    });
-                //}
-                //if (mas != null && mas.Length > 1)
-                //{
-                //    //string[] message = user.xoaNhieuNhanSu(mas);
-                //    //if (message.Length > 0)
-                //    //{
-                //       // string error = message[0];
-                //        //string success = message.Length > 1 ? message[1] : string.Empty;
-                //        return JsonConvert.SerializeObject(new
-                //        {
-                //        //    success = success,
-                //          //  error = error
-                //        });
-                //    }
-                //}
+                if (mas != null && mas.Length == 1)
+                {
+                    string error = user.xoaCaLam(mas[0]);
+                    if (!string.IsNullOrEmpty(error))
+                        return JsonConvert.SerializeObject(new { error = error });
+                    return JsonConvert.SerializeObject(new
+                    {
+                        success = "Xóa thành công"
+                    });
+                }
+                if (mas != null && mas.Length > 1)
+                {
+                    string[] message = user.xoaNhieuCaLam(mas);
+                    if (message.Length > 0)
+                    {
+                        string error = message[0];
+                        string success = message.Length > 1 ? message[1] : string.Empty;
+                        return JsonConvert.SerializeObject(new
+                        {
+                            success = success,
+                            error = error
+                        });
+                    }
+                }
                 return string.Empty;
             }
             catch { }

@@ -201,6 +201,7 @@ namespace ProgramWEB.Controllers
         {
             try
             {
+                string p = ma;
                 QuanLy user = (QuanLy)Session[DefineSession.userSession];
                 if (!(user != null && user.quyenQuanLy))
                     return RedirectToAction("NotFound", "Error");
@@ -240,6 +241,7 @@ namespace ProgramWEB.Controllers
                 QuanLy user = (QuanLy)Session[DefineSession.userSession];
                 if (!(user != null && user.quyenQuanLy))
                     return RedirectToAction("NotFound", "Error");
+                Dictionary<string, string> findBy = new Dictionary<string, string>();
                 Dictionary<string, bool> action = new Dictionary<string, bool>();
                 action.Add("search", true);
                 try
@@ -258,7 +260,8 @@ namespace ProgramWEB.Controllers
                     nameRender = DefineTable.taiKhoan.tenTiengViet,
                     sortBy = DefineTable.taiKhoan.thuocTinhs[0],
                     required = DefineTable.taiKhoan.required,
-                    action = action
+                    action = action, 
+                    findBy = findBy
                 });
             } catch { }
             return View();
@@ -270,6 +273,7 @@ namespace ProgramWEB.Controllers
                 QuanLy user = (QuanLy)Session[DefineSession.userSession];
                 if (!(user != null && user.quyenQuanLy))
                     return RedirectToAction("NotFound", "Error");
+                Dictionary<string, string> findBy = new Dictionary<string, string>();
                 Dictionary<string, bool> action = new Dictionary<string, bool>();
                 action.Add("add", true);
                 action.Add("edit", true);
@@ -281,7 +285,8 @@ namespace ProgramWEB.Controllers
                     nameRender = DefineTable.baoHiem.tenTiengViet,
                     sortBy = DefineTable.baoHiem.thuocTinhs[0],
                     required = DefineTable.baoHiem.required,
-                    action = action
+                    action = action,
+                    findBy = findBy
                 });
             }
             catch { }
@@ -294,6 +299,7 @@ namespace ProgramWEB.Controllers
                 QuanLy user = (QuanLy)Session[DefineSession.userSession];
                 if (!(user != null && user.quyenQuanLy))
                     return RedirectToAction("NotFound", "Error");
+                Dictionary<string, string> findBy = new Dictionary<string, string>();
                 Dictionary<string, bool> action = new Dictionary<string, bool>();
                 action.Add("add", true);
                 action.Add("edit", true);
@@ -305,7 +311,8 @@ namespace ProgramWEB.Controllers
                     nameRender = DefineTable.hopDong.tenTiengViet,
                     sortBy = DefineTable.hopDong.thuocTinhs[0],
                     required = DefineTable.hopDong.required,
-                    action = action
+                    action = action,
+                    findBy = findBy
                 });
             }
             catch { }
@@ -318,6 +325,7 @@ namespace ProgramWEB.Controllers
                 QuanLy user = (QuanLy)Session[DefineSession.userSession];
                 if (!(user != null && user.quyenQuanLy))
                     return RedirectToAction("NotFound", "Error");
+                Dictionary<string, string> findBy = new Dictionary<string, string>();
                 Dictionary<string, bool> action = new Dictionary<string, bool>();
                 action.Add("add", true);
                 action.Add("edit", true);
@@ -329,7 +337,8 @@ namespace ProgramWEB.Controllers
                     nameRender = DefineTable.lichSuLamViec.tenTiengViet,
                     sortBy = DefineTable.lichSuLamViec.thuocTinhs[0],
                     required = DefineTable.lichSuLamViec.required,
-                    action = action
+                    action = action,
+                    findBy = findBy
                 });
             }
             catch { }
@@ -342,6 +351,7 @@ namespace ProgramWEB.Controllers
                 QuanLy user = (QuanLy)Session[DefineSession.userSession];
                 if (!(user != null && user.quyenQuanLy))
                     return RedirectToAction("NotFound", "Error");
+                Dictionary<string, string> findBy = new Dictionary<string, string>();
                 Dictionary<string, bool> action = new Dictionary<string, bool>();
                 action.Add("add", true);
                 action.Add("edit", true);
@@ -353,7 +363,8 @@ namespace ProgramWEB.Controllers
                     nameRender = DefineTable.khenThuongKyLuat.tenTiengViet,
                     sortBy = DefineTable.khenThuongKyLuat.thuocTinhs[0],
                     required = DefineTable.khenThuongKyLuat.required,
-                    action = action
+                    action = action,
+                    findBy = findBy
                 });
             }
             catch { }
@@ -438,6 +449,7 @@ namespace ProgramWEB.Controllers
                 QuanLy user = (QuanLy)Session[DefineSession.userSession];
                 if (!(user != null && user.quyenQuanLy))
                     return RedirectToAction("NotFound", "Error");
+                Dictionary<string, string> findBy = new Dictionary<string, string>();
                 Dictionary<string, bool> action = new Dictionary<string, bool>();
                 action.Add("search", true);
                 ViewBag.jsonString = ViewBag.jsonString = System.Text.Json.JsonSerializer.Serialize(new
@@ -446,7 +458,8 @@ namespace ProgramWEB.Controllers
                     nameRender = DefineTable.chamCong.tenTiengViet,
                     sortBy = DefineTable.chamCong.thuocTinhs[0],
                     required = DefineTable.chamCong.required,
-                    action = action
+                    action = action,
+                    findBy = findBy
                 });
             }
             catch { }
@@ -459,6 +472,7 @@ namespace ProgramWEB.Controllers
                 QuanLy user = (QuanLy)Session[DefineSession.userSession];
                 if (!(user != null && user.quyenQuanLy))
                     return RedirectToAction("NotFound", "Error");
+                Dictionary<string, string> findBy = new Dictionary<string, string>();
                 Dictionary<string, bool> action = new Dictionary<string, bool>();
                 action.Add("search", true);
                 action.Add("duyetDangKy", true);
@@ -468,7 +482,8 @@ namespace ProgramWEB.Controllers
                     nameRender = DefineTable.dangKyCaLam.tenTiengViet,
                     sortBy = DefineTable.dangKyCaLam.thuocTinhs[0],
                     required = DefineTable.dangKyCaLam.required,
-                    action = action
+                    action = action,
+                    findBy = findBy
                 });
             }
             catch { }
@@ -481,6 +496,7 @@ namespace ProgramWEB.Controllers
                 QuanLy user = (QuanLy)Session[DefineSession.userSession];
                 if (!(user != null && user.quyenQuanLy))
                     return RedirectToAction("NotFound", "Error");
+                Dictionary<string, string> findBy = new Dictionary<string, string>();
                 Dictionary<string, bool> action = new Dictionary<string, bool>();
                 action.Add("search", true);
                 action.Add("duyetDangKy", true);
@@ -490,7 +506,8 @@ namespace ProgramWEB.Controllers
                     nameRender = DefineTable.dangKyNghiLam.tenTiengViet,
                     sortBy = DefineTable.dangKyNghiLam.thuocTinhs[0],
                     required = DefineTable.dangKyNghiLam.required,
-                    action = action
+                    action = action,
+                    findBy = findBy
                 });
             }
             catch { }

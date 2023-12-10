@@ -213,6 +213,7 @@
     <Content Include="Contents\loader\style.css" />
     <Content Include="Contents\main\css\caulendar.css" />
     <Content Include="Contents\main\css\home-management.css" />
+    <Content Include="Contents\main\css\profile.css" />
     <Content Include="Content\PagedList.css" />
     <Content Include="Images\avatar.png" />
     <Content Include="Scripts\caulendar\main.js" />
@@ -2846,6 +2847,9 @@
     <Content Include="Views\Management\DangKyCaLam.cshtml" />
     <Content Include="Views\Management\DangKyNghiLam.cshtml" />
     <Content Include="Views\User\Profile.cshtml" />
+    <Content Include="Views\User\Index.cshtml" />
+    <Content Include="Views\User\ChangePassword.cshtml" />
+    <Content Include="Views\User\XacThucTaiKhoan.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{3259AA49-8AA1-44D3-9025-A0B520596A8C}" />

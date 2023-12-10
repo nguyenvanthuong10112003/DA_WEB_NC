@@ -56,6 +56,12 @@ namespace ProgramWEB.Models.Object
                 IEnumerable<Object.NhanSu> results =
                     (findBy != null ? timKiemNhieuNhanSu(findBy)
                     : Convert<Object.NhanSu, Data.NhanSu>.ConvertObjs(from NhanSu in context.NhanSus select NhanSu));
+                if (results == null)
+                    return new List<IEnumerable<Object.NhanSu>>()
+                    {
+                        new List<Object.NhanSu>(),
+                        new List<Object.NhanSu>()
+                    };
                 results = ObjectHelper.OrderByDynamic<Object.NhanSu>(results, sortBy, sortTangDan ? "asc" : "desc");
                 int p = results.Count();
                 if (p == 0)
@@ -294,6 +300,12 @@ namespace ProgramWEB.Models.Object
                 IEnumerable<Object.BaoHiem> results =
                     (findBy != null ? timKiemNhieuBaoHiem(findBy)
                     : Convert<Object.BaoHiem, Data.BaoHiem>.ConvertObjs(from BaoHiem in context.BaoHiems select BaoHiem));
+                if (results == null)
+                    return new List<IEnumerable<Object.BaoHiem>>()
+                    {
+                        new List<Object.BaoHiem>(),
+                        new List<Object.BaoHiem>()
+                    };
                 results = ObjectHelper.OrderByDynamic<Object.BaoHiem>(results, sortBy, sortTangDan ? "asc" : "desc");
                 int p = results.Count();
                 if (p == 0)
@@ -424,13 +436,12 @@ namespace ProgramWEB.Models.Object
                 return DefineError.loiHeThong;
             }
         }
-        public string xoaBaoHiem(string ma)
+        public string xoaBaoHiem(long ma)
         {
             try
             {
-                if (string.IsNullOrEmpty(ma))
-                    return DefineError.loiDuLieuKhongHopLe;
-                
+                if (ma < 0)
+                    return DefineError.loiDuLieuKhongHopLe; 
                 Data.BaoHiem xoa = context.BaoHiems.Find(ma);
                 if (xoa == null)
                     return DefineError.khongTonTai;
@@ -442,7 +453,7 @@ namespace ProgramWEB.Models.Object
             catch { }
             return DefineError.loiHeThong;
         }
-        public string[] xoaNhieuBaoHiem(string[] mas)
+        public string[] xoaNhieuBaoHiem(long[] mas)
         {
             string[] results = new string[] { string.Empty, string.Empty };
             try
@@ -454,7 +465,7 @@ namespace ProgramWEB.Models.Object
                     string error = "";
                     string success = "";
                     int countSuccess = 0;
-                    foreach (string s in mas)
+                    foreach (long s in mas)
                     {
                         string message = xoaBaoHiem(s);
                         if (string.IsNullOrEmpty(message))
@@ -503,6 +514,12 @@ namespace ProgramWEB.Models.Object
                 IEnumerable<Object.HopDong> results =
                     (findBy != null ? timKiemNhieuHopDong(findBy)
                     : Convert<Object.HopDong, Data.HopDong>.ConvertObjs(from HopDong in context.HopDongs select HopDong));
+                if (results == null)
+                    return new List<IEnumerable<Object.HopDong>>()
+                    {
+                        new List<Object.HopDong>(),
+                        new List<Object.HopDong>()
+                    };
                 results = ObjectHelper.OrderByDynamic<Object.HopDong>(results, sortBy, sortTangDan ? "asc" : "desc");
                 int p = results.Count();
                 if (p == 0)
@@ -636,11 +653,11 @@ namespace ProgramWEB.Models.Object
                 return DefineError.loiHeThong;
             }
         }
-        public string xoaHopDong(string ma)
+        public string xoaHopDong(long ma)
         {
             try
             {
-                if (string.IsNullOrEmpty(ma))
+                if (ma < 0)
                     return DefineError.loiDuLieuKhongHopLe;
                 Data.HopDong xoa = context.HopDongs.Find(ma);
                 if (xoa == null)
@@ -653,7 +670,7 @@ namespace ProgramWEB.Models.Object
             catch { }
             return DefineError.loiHeThong;
         }
-        public string[] xoaNhieuHopDong(string[] mas)
+        public string[] xoaNhieuHopDong(long[] mas)
         {
             string[] results = new string[] { string.Empty, string.Empty };
             try
@@ -665,7 +682,7 @@ namespace ProgramWEB.Models.Object
                     string error = "";
                     string success = "";
                     int countSuccess = 0;
-                    foreach (string s in mas)
+                    foreach (long s in mas)
                     {
                         string message = xoaHopDong(s);
                         if (string.IsNullOrEmpty(message))
@@ -714,6 +731,12 @@ namespace ProgramWEB.Models.Object
                 IEnumerable<Object.LichSuLamViec> results =
                     (findBy != null ? timKiemNhieuLichSuLamViec(findBy)
                     : Convert<Object.LichSuLamViec, Data.LichSuLamViec>.ConvertObjs(from LichSuLamViec in context.LichSuLamViecs select LichSuLamViec));
+                if (results == null)
+                    return new List<IEnumerable<Object.LichSuLamViec>>()
+                    {
+                        new List<Object.LichSuLamViec>(),
+                        new List<Object.LichSuLamViec>()
+                    };
                 results = ObjectHelper.OrderByDynamic<Object.LichSuLamViec>(results, sortBy, sortTangDan ? "asc" : "desc");
                 int p = results.Count();
                 if (p == 0)
@@ -837,13 +860,12 @@ namespace ProgramWEB.Models.Object
                 return DefineError.loiHeThong;
             }
         }
-        public string xoaLichSuLamViec(string ma)
+        public string xoaLichSuLamViec(long ma)
         {
             try
             {
-                if (string.IsNullOrEmpty(ma))
+                if (ma < 0)
                     return DefineError.loiDuLieuKhongHopLe;
-                
                 Data.LichSuLamViec xoa = context.LichSuLamViecs.Find(ma);
                 if (xoa == null)
                     return DefineError.khongTonTai;
@@ -855,7 +877,7 @@ namespace ProgramWEB.Models.Object
             catch { }
             return DefineError.loiHeThong;
         }
-        public string[] xoaNhieuLichSuLamViec(string[] mas)
+        public string[] xoaNhieuLichSuLamViec(long[] mas)
         {
             string[] results = new string[] { string.Empty, string.Empty };
             try
@@ -867,7 +889,7 @@ namespace ProgramWEB.Models.Object
                     string error = "";
                     string success = "";
                     int countSuccess = 0;
-                    foreach (string s in mas)
+                    foreach (long s in mas)
                     {
                         string message = xoaLichSuLamViec(s);
                         if (string.IsNullOrEmpty(message))
@@ -929,6 +951,12 @@ namespace ProgramWEB.Models.Object
                 IEnumerable<TaiKhoan> results =
                     (findBy != null ? timKiemNhieuTaiKhoan(findBy)
                     : Convert<Object.TaiKhoan, Data.TaiKhoan>.ConvertObjs(from TaiKhoan in context.TaiKhoans select TaiKhoan));
+                if (results == null)
+                    return new List<IEnumerable<TaiKhoan>>()
+                    {
+                        new List<TaiKhoan>(),
+                        new List<TaiKhoan>()
+                    };
                 results = ObjectHelper.OrderByDynamic<TaiKhoan>(results, sortBy, sortTangDan ? "asc" : "desc");
                 int p = results.Count();
                 if (p == 0)
@@ -1020,6 +1048,12 @@ namespace ProgramWEB.Models.Object
                 IEnumerable<Object.KhenThuongKyLuat> results =
                     (findBy != null ? timKiemNhieuKhenThuongKyLuat(findBy)
                     : Convert<Object.KhenThuongKyLuat, Data.KhenThuongKyLuat>.ConvertObjs(from KhenThuongKyLuat in context.KhenThuongKyLuats select KhenThuongKyLuat));
+                if (results == null)
+                    return new List<IEnumerable<Object.KhenThuongKyLuat>>()
+                    {
+                        new List<Object.KhenThuongKyLuat>(),
+                        new List<Object.KhenThuongKyLuat>()
+                    };
                 results = ObjectHelper.OrderByDynamic<Object.KhenThuongKyLuat>(results, sortBy, sortTangDan ? "asc" : "desc");
                 int p = results.Count();
                 if (p == 0)
@@ -1142,13 +1176,12 @@ namespace ProgramWEB.Models.Object
                 return DefineError.loiHeThong;
             }
         }
-        public string xoaKhenThuongKyLuat(string ma)
+        public string xoaKhenThuongKyLuat(long ma)
         {
             try
             {
-                if (string.IsNullOrEmpty(ma))
+                if (ma < 0)
                     return DefineError.loiDuLieuKhongHopLe;
-                
                 Data.KhenThuongKyLuat xoa = context.KhenThuongKyLuats.Find(ma);
                 if (xoa == null)
                     return DefineError.khongTonTai;
@@ -1160,7 +1193,7 @@ namespace ProgramWEB.Models.Object
             catch { }
             return DefineError.loiHeThong;
         }
-        public string[] xoaNhieuKhenThuongKyLuat(string[] mas)
+        public string[] xoaNhieuKhenThuongKyLuat(long[] mas)
         {
             string[] results = new string[] { string.Empty, string.Empty };
             try
@@ -1172,7 +1205,7 @@ namespace ProgramWEB.Models.Object
                     string error = "";
                     string success = "";
                     int countSuccess = 0;
-                    foreach (string s in mas)
+                    foreach (long s in mas)
                     {
                         string message = xoaKhenThuongKyLuat(s);
                         if (string.IsNullOrEmpty(message))
@@ -1221,6 +1254,12 @@ namespace ProgramWEB.Models.Object
                 IEnumerable<Object.PhongBan> results =
                     (findBy != null ? timKiemNhieuPhongBan(findBy)
                     : Convert<Object.PhongBan, Data.PhongBan>.ConvertObjs(from PhongBan in context.PhongBans select PhongBan));
+                if (results == null)
+                    return new List<IEnumerable<Object.PhongBan>>()
+                    {
+                        new List<Object.PhongBan>(),
+                        new List<Object.PhongBan>()
+                    };
                 results = ObjectHelper.OrderByDynamic<Object.PhongBan>(results, sortBy, sortTangDan ? "asc" : "desc");
                 int p = results.Count();
                 if (p == 0)
@@ -1310,6 +1349,12 @@ namespace ProgramWEB.Models.Object
                 IEnumerable<Object.BoPhan> results =
                     (findBy != null ? timKiemNhieuBoPhan(findBy)
                     : Convert<Object.BoPhan, Data.BoPhan>.ConvertObjs(from BoPhan in context.BoPhans select BoPhan));
+                if (results == null)
+                    return new List<IEnumerable<Object.BoPhan>>()
+                    {
+                        new List<Object.BoPhan>(),
+                        new List<Object.BoPhan>()
+                    };
                 results = ObjectHelper.OrderByDynamic<Object.BoPhan>(results, sortBy, sortTangDan ? "asc" : "desc");
                 int p = results.Count();
                 if (p == 0)
@@ -1400,6 +1445,12 @@ namespace ProgramWEB.Models.Object
                 IEnumerable<Object.CaLam> results =
                     (findBy != null ? timKiemNhieuCaLam(findBy)
                     : Convert<Object.CaLam, Data.CaLam>.ConvertObjs(from CaLam in context.CaLams select CaLam));
+                if (results == null)
+                    return new List<IEnumerable<Object.CaLam>>()
+                    {
+                        new List<Object.CaLam>(),
+                        new List<Object.CaLam>()
+                    };
                 results = ObjectHelper.OrderByDynamic<Object.CaLam>(results, sortBy, sortTangDan ? "asc" : "desc");
                 int p = results.Count();
                 if (p == 0)
@@ -1491,6 +1542,12 @@ namespace ProgramWEB.Models.Object
                 IEnumerable<Object.NgayNghi> results =
                     (findBy != null ? timKiemNhieuNgayNghi(findBy)
                     : Convert<Object.NgayNghi, Data.NgayNghi>.ConvertObjs(from NgayNghi in context.NgayNghis select NgayNghi));
+                if (results == null)
+                    return new List<IEnumerable<Object.NgayNghi>>()
+                    {
+                        new List<Object.NgayNghi>(),
+                        new List<Object.NgayNghi>()
+                    };
                 results = ObjectHelper.OrderByDynamic<Object.NgayNghi>(results, sortBy, sortTangDan ? "asc" : "desc");
                 int p = results.Count();
                 if (p == 0)
@@ -1579,6 +1636,12 @@ namespace ProgramWEB.Models.Object
                 IEnumerable<Object.ChamCong> results =
                     (findBy != null ? timKiemNhieuChamCong(findBy)
                     : Convert<Object.ChamCong, Data.ChamCong>.ConvertObjs(from ChamCong in context.ChamCongs select ChamCong));
+                if (results == null)
+                    return new List<IEnumerable<Object.ChamCong>>()
+                    {
+                        new List<Object.ChamCong>(),
+                        new List<Object.ChamCong>()
+                    };
                 results = ObjectHelper.OrderByDynamic<Object.ChamCong>(results, sortBy, sortTangDan ? "asc" : "desc");
                 int p = results.Count();
                 if (p == 0)
@@ -1670,6 +1733,12 @@ namespace ProgramWEB.Models.Object
                 IEnumerable<Object.DangKyCaLam> results =
                     (findBy != null ? timKiemNhieuDangKyCaLam(findBy)
                     : Convert<Object.DangKyCaLam, Data.DangKyCaLam>.ConvertObjs(from DangKyCaLam in context.DangKyCaLams select DangKyCaLam));
+                if (results == null)
+                    return new List<IEnumerable<Object.DangKyCaLam>>()
+                    {
+                        new List<Object.DangKyCaLam>(),
+                        new List<Object.DangKyCaLam>()
+                    };
                 results = ObjectHelper.OrderByDynamic<Object.DangKyCaLam>(results, sortBy, sortTangDan ? "asc" : "desc");
                 int p = results.Count();
                 if (p == 0)
@@ -1747,7 +1816,8 @@ namespace ProgramWEB.Models.Object
                     return "Bạn không thể tự duyệt đăng ký của chính bản thân.";
                 Data.DuyetDangKy duyetDangKy = new Data.DuyetDangKy();
                 duyetDangKy.NS_Ma = this.maNhanSu;
-                duyetDangKy.DDK_ThoiGian = DateTime.Now;
+                DateTime now = DateTime.Now;
+                duyetDangKy.DDK_ThoiGian = new DateTime(now.Year, now.Month, now.Day, now.Hour, now.Minute, 0);
                 context.DuyetDangKies.Add(duyetDangKy);
                 int check = context.SaveChanges();
                 if (check == 0)
@@ -1793,6 +1863,12 @@ namespace ProgramWEB.Models.Object
                 IEnumerable<Object.DangKyNghiLam> results =
                     (findBy != null ? timKiemNhieuDangKyNghiLam(findBy)
                     : Convert<Object.DangKyNghiLam, Data.DangKyNghiLam>.ConvertObjs(from DangKyNghiLam in context.DangKyNghiLams select DangKyNghiLam));
+                if (results == null)
+                    return new List<IEnumerable<Object.DangKyNghiLam>>()
+                    {
+                        new List<Object.DangKyNghiLam>(),
+                        new List<Object.DangKyNghiLam>()
+                    };
                 results = ObjectHelper.OrderByDynamic<Object.DangKyNghiLam>(results, sortBy, sortTangDan ? "asc" : "desc");
                 int p = results.Count();
                 if (p == 0)
@@ -1872,7 +1948,8 @@ namespace ProgramWEB.Models.Object
                     return "Bạn không thể tự duyệt đăng ký của chính bản thân.";
                 Data.DuyetDangKy duyetDangKy = new Data.DuyetDangKy();
                 duyetDangKy.NS_Ma = this.maNhanSu;
-                duyetDangKy.DDK_ThoiGian = DateTime.Now;
+                DateTime now = DateTime.Now;
+                duyetDangKy.DDK_ThoiGian = new DateTime(now.Year, now.Month, now.Day, now.Hour, now.Minute, 0);
                 context.DuyetDangKies.Add(duyetDangKy);
                 int check = context.SaveChanges();
                 if (check == 0)
@@ -1919,6 +1996,12 @@ namespace ProgramWEB.Models.Object
                 IEnumerable<Object.DuyetDangKy> results =
                     (findBy != null ? timKiemNhieuDuyetDangKy(findBy)
                     : Convert<Object.DuyetDangKy, Data.DuyetDangKy>.ConvertObjs(from DuyetDangKy in context.DuyetDangKies select DuyetDangKy));
+                if (results == null)
+                    return new List<IEnumerable<Object.DuyetDangKy>>()
+                    {
+                        new List<Object.DuyetDangKy>(),
+                        new List<Object.DuyetDangKy>()
+                    };
                 results = ObjectHelper.OrderByDynamic<Object.DuyetDangKy>(results, sortBy, sortTangDan ? "asc" : "desc");
                 int p = results.Count();
                 if (p == 0)

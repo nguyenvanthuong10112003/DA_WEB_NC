@@ -1,0 +1,688 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "D:\\Thuong\\web\\\u0110A WEB NC\\ProgramWEB_BV\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{E4D827DD-A477-45DC-9B1D-3E1CEA412723}|ProgramWEB\\ProgramWEB.csproj|d:\\thuong\\web\\\u0111a web nc\\programweb_bv\\programweb\\views\\shared\\parts\\_sidebar.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{E4D827DD-A477-45DC-9B1D-3E1CEA412723}|ProgramWEB\\ProgramWEB.csproj|solutionrelative:programweb\\views\\shared\\parts\\_sidebar.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E4D827DD-A477-45DC-9B1D-3E1CEA412723}|ProgramWEB\\ProgramWEB.csproj|d:\\thuong\\web\\\u0111a web nc\\programweb_bv\\programweb\\views\\user\\changepassword.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{E4D827DD-A477-45DC-9B1D-3E1CEA412723}|ProgramWEB\\ProgramWEB.csproj|solutionrelative:programweb\\views\\user\\changepassword.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E4D827DD-A477-45DC-9B1D-3E1CEA412723}|ProgramWEB\\ProgramWEB.csproj|d:\\thuong\\web\\\u0111a web nc\\programweb_bv\\programweb\\controllers\\nhansucontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{E4D827DD-A477-45DC-9B1D-3E1CEA412723}|ProgramWEB\\ProgramWEB.csproj|solutionrelative:programweb\\controllers\\nhansucontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E4D827DD-A477-45DC-9B1D-3E1CEA412723}|ProgramWEB\\ProgramWEB.csproj|d:\\thuong\\web\\\u0111a web nc\\programweb_bv\\programweb\\models\\data\\quanlynhansucontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{E4D827DD-A477-45DC-9B1D-3E1CEA412723}|ProgramWEB\\ProgramWEB.csproj|solutionrelative:programweb\\models\\data\\quanlynhansucontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E4D827DD-A477-45DC-9B1D-3E1CEA412723}|ProgramWEB\\ProgramWEB.csproj|d:\\thuong\\web\\\u0111a web nc\\programweb_bv\\programweb\\web.config||{FA3CD31E-987B-443A-9B81-186104E8DAC1}",
+      "RelativeMoniker": "D:0:0:{E4D827DD-A477-45DC-9B1D-3E1CEA412723}|ProgramWEB\\ProgramWEB.csproj|solutionrelative:programweb\\web.config||{FA3CD31E-987B-443A-9B81-186104E8DAC1}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E4D827DD-A477-45DC-9B1D-3E1CEA412723}|ProgramWEB\\ProgramWEB.csproj|d:\\thuong\\web\\\u0111a web nc\\programweb_bv\\programweb\\models\\object\\quanly.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{E4D827DD-A477-45DC-9B1D-3E1CEA412723}|ProgramWEB\\ProgramWEB.csproj|solutionrelative:programweb\\models\\object\\quanly.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E4D827DD-A477-45DC-9B1D-3E1CEA412723}|ProgramWEB\\ProgramWEB.csproj|d:\\thuong\\web\\\u0111a web nc\\programweb_bv\\programweb\\controllers\\calamcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{E4D827DD-A477-45DC-9B1D-3E1CEA412723}|ProgramWEB\\ProgramWEB.csproj|solutionrelative:programweb\\controllers\\calamcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E4D827DD-A477-45DC-9B1D-3E1CEA412723}|ProgramWEB\\ProgramWEB.csproj|d:\\thuong\\web\\\u0111a web nc\\programweb_bv\\programweb\\models\\object\\admin.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{E4D827DD-A477-45DC-9B1D-3E1CEA412723}|ProgramWEB\\ProgramWEB.csproj|solutionrelative:programweb\\models\\object\\admin.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E4D827DD-A477-45DC-9B1D-3E1CEA412723}|ProgramWEB\\ProgramWEB.csproj|d:\\thuong\\web\\\u0111a web nc\\programweb_bv\\programweb\\views\\management\\calam.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{E4D827DD-A477-45DC-9B1D-3E1CEA412723}|ProgramWEB\\ProgramWEB.csproj|solutionrelative:programweb\\views\\management\\calam.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E4D827DD-A477-45DC-9B1D-3E1CEA412723}|ProgramWEB\\ProgramWEB.csproj|d:\\thuong\\web\\\u0111a web nc\\programweb_bv\\programweb\\views\\user\\xacthuctaikhoan.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{E4D827DD-A477-45DC-9B1D-3E1CEA412723}|ProgramWEB\\ProgramWEB.csproj|solutionrelative:programweb\\views\\user\\xacthuctaikhoan.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E4D827DD-A477-45DC-9B1D-3E1CEA412723}|ProgramWEB\\ProgramWEB.csproj|d:\\thuong\\web\\\u0111a web nc\\programweb_bv\\programweb\\views\\management\\taikhoan.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{E4D827DD-A477-45DC-9B1D-3E1CEA412723}|ProgramWEB\\ProgramWEB.csproj|solutionrelative:programweb\\views\\management\\taikhoan.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E4D827DD-A477-45DC-9B1D-3E1CEA412723}|ProgramWEB\\ProgramWEB.csproj|d:\\thuong\\web\\\u0111a web nc\\programweb_bv\\programweb\\controllers\\usercontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{E4D827DD-A477-45DC-9B1D-3E1CEA412723}|ProgramWEB\\ProgramWEB.csproj|solutionrelative:programweb\\controllers\\usercontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E4D827DD-A477-45DC-9B1D-3E1CEA412723}|ProgramWEB\\ProgramWEB.csproj|d:\\thuong\\web\\\u0111a web nc\\programweb_bv\\programweb\\controllers\\ngaynghicontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{E4D827DD-A477-45DC-9B1D-3E1CEA412723}|ProgramWEB\\ProgramWEB.csproj|solutionrelative:programweb\\controllers\\ngaynghicontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E4D827DD-A477-45DC-9B1D-3E1CEA412723}|ProgramWEB\\ProgramWEB.csproj|d:\\thuong\\web\\\u0111a web nc\\programweb_bv\\programweb\\views\\management\\ngaynghi.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{E4D827DD-A477-45DC-9B1D-3E1CEA412723}|ProgramWEB\\ProgramWEB.csproj|solutionrelative:programweb\\views\\management\\ngaynghi.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E4D827DD-A477-45DC-9B1D-3E1CEA412723}|ProgramWEB\\ProgramWEB.csproj|d:\\thuong\\web\\\u0111a web nc\\programweb_bv\\programweb\\scripts\\management\\main.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}",
+      "RelativeMoniker": "D:0:0:{E4D827DD-A477-45DC-9B1D-3E1CEA412723}|ProgramWEB\\ProgramWEB.csproj|solutionrelative:programweb\\scripts\\management\\main.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E4D827DD-A477-45DC-9B1D-3E1CEA412723}|ProgramWEB\\ProgramWEB.csproj|d:\\thuong\\web\\\u0111a web nc\\programweb_bv\\programweb\\views\\user\\profile.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{E4D827DD-A477-45DC-9B1D-3E1CEA412723}|ProgramWEB\\ProgramWEB.csproj|solutionrelative:programweb\\views\\user\\profile.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E4D827DD-A477-45DC-9B1D-3E1CEA412723}|ProgramWEB\\ProgramWEB.csproj|d:\\thuong\\web\\\u0111a web nc\\programweb_bv\\programweb\\models\\object\\ngaynghi.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{E4D827DD-A477-45DC-9B1D-3E1CEA412723}|ProgramWEB\\ProgramWEB.csproj|solutionrelative:programweb\\models\\object\\ngaynghi.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E4D827DD-A477-45DC-9B1D-3E1CEA412723}|ProgramWEB\\ProgramWEB.csproj|d:\\thuong\\web\\\u0111a web nc\\programweb_bv\\programweb\\define\\definetable.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{E4D827DD-A477-45DC-9B1D-3E1CEA412723}|ProgramWEB\\ProgramWEB.csproj|solutionrelative:programweb\\define\\definetable.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E4D827DD-A477-45DC-9B1D-3E1CEA412723}|ProgramWEB\\ProgramWEB.csproj|d:\\thuong\\web\\\u0111a web nc\\programweb_bv\\programweb\\views\\nhansu\\profile.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{E4D827DD-A477-45DC-9B1D-3E1CEA412723}|ProgramWEB\\ProgramWEB.csproj|solutionrelative:programweb\\views\\nhansu\\profile.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E4D827DD-A477-45DC-9B1D-3E1CEA412723}|ProgramWEB\\ProgramWEB.csproj|d:\\thuong\\web\\\u0111a web nc\\programweb_bv\\programweb\\views\\management\\lichsulamviec.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{E4D827DD-A477-45DC-9B1D-3E1CEA412723}|ProgramWEB\\ProgramWEB.csproj|solutionrelative:programweb\\views\\management\\lichsulamviec.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E4D827DD-A477-45DC-9B1D-3E1CEA412723}|ProgramWEB\\ProgramWEB.csproj|d:\\thuong\\web\\\u0111a web nc\\programweb_bv\\programweb\\models\\object\\user.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{E4D827DD-A477-45DC-9B1D-3E1CEA412723}|ProgramWEB\\ProgramWEB.csproj|solutionrelative:programweb\\models\\object\\user.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E4D827DD-A477-45DC-9B1D-3E1CEA412723}|ProgramWEB\\ProgramWEB.csproj|d:\\thuong\\web\\\u0111a web nc\\programweb_bv\\programweb\\controllers\\taikhoancontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{E4D827DD-A477-45DC-9B1D-3E1CEA412723}|ProgramWEB\\ProgramWEB.csproj|solutionrelative:programweb\\controllers\\taikhoancontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E4D827DD-A477-45DC-9B1D-3E1CEA412723}|ProgramWEB\\ProgramWEB.csproj|d:\\thuong\\web\\\u0111a web nc\\programweb_bv\\programweb\\models\\object\\taikhoan.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{E4D827DD-A477-45DC-9B1D-3E1CEA412723}|ProgramWEB\\ProgramWEB.csproj|solutionrelative:programweb\\models\\object\\taikhoan.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E4D827DD-A477-45DC-9B1D-3E1CEA412723}|ProgramWEB\\ProgramWEB.csproj|d:\\thuong\\web\\\u0111a web nc\\programweb_bv\\programweb\\views\\management\\nhansu.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{E4D827DD-A477-45DC-9B1D-3E1CEA412723}|ProgramWEB\\ProgramWEB.csproj|solutionrelative:programweb\\views\\management\\nhansu.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E4D827DD-A477-45DC-9B1D-3E1CEA412723}|ProgramWEB\\ProgramWEB.csproj|d:\\thuong\\web\\\u0111a web nc\\programweb_bv\\programweb\\define\\definepage.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{E4D827DD-A477-45DC-9B1D-3E1CEA412723}|ProgramWEB\\ProgramWEB.csproj|solutionrelative:programweb\\define\\definepage.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E4D827DD-A477-45DC-9B1D-3E1CEA412723}|ProgramWEB\\ProgramWEB.csproj|d:\\thuong\\web\\\u0111a web nc\\programweb_bv\\programweb\\controllers\\managementcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{E4D827DD-A477-45DC-9B1D-3E1CEA412723}|ProgramWEB\\ProgramWEB.csproj|solutionrelative:programweb\\controllers\\managementcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E4D827DD-A477-45DC-9B1D-3E1CEA412723}|ProgramWEB\\ProgramWEB.csproj|d:\\thuong\\web\\\u0111a web nc\\programweb_bv\\programweb\\controllers\\bophancontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{E4D827DD-A477-45DC-9B1D-3E1CEA412723}|ProgramWEB\\ProgramWEB.csproj|solutionrelative:programweb\\controllers\\bophancontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E4D827DD-A477-45DC-9B1D-3E1CEA412723}|ProgramWEB\\ProgramWEB.csproj|d:\\thuong\\web\\\u0111a web nc\\programweb_bv\\programweb\\controllers\\errorcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{E4D827DD-A477-45DC-9B1D-3E1CEA412723}|ProgramWEB\\ProgramWEB.csproj|solutionrelative:programweb\\controllers\\errorcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E4D827DD-A477-45DC-9B1D-3E1CEA412723}|ProgramWEB\\ProgramWEB.csproj|d:\\thuong\\web\\\u0111a web nc\\programweb_bv\\programweb\\define\\db\\table.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{E4D827DD-A477-45DC-9B1D-3E1CEA412723}|ProgramWEB\\ProgramWEB.csproj|solutionrelative:programweb\\define\\db\\table.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E4D827DD-A477-45DC-9B1D-3E1CEA412723}|ProgramWEB\\ProgramWEB.csproj|d:\\thuong\\web\\\u0111a web nc\\programweb_bv\\programweb\\controllers\\baohiemcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{E4D827DD-A477-45DC-9B1D-3E1CEA412723}|ProgramWEB\\ProgramWEB.csproj|solutionrelative:programweb\\controllers\\baohiemcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E4D827DD-A477-45DC-9B1D-3E1CEA412723}|ProgramWEB\\ProgramWEB.csproj|d:\\thuong\\web\\\u0111a web nc\\programweb_bv\\programweb\\controllers\\basecontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{E4D827DD-A477-45DC-9B1D-3E1CEA412723}|ProgramWEB\\ProgramWEB.csproj|solutionrelative:programweb\\controllers\\basecontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E4D827DD-A477-45DC-9B1D-3E1CEA412723}|ProgramWEB\\ProgramWEB.csproj|d:\\thuong\\web\\\u0111a web nc\\programweb_bv\\programweb\\controllers\\chamcongcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{E4D827DD-A477-45DC-9B1D-3E1CEA412723}|ProgramWEB\\ProgramWEB.csproj|solutionrelative:programweb\\controllers\\chamcongcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E4D827DD-A477-45DC-9B1D-3E1CEA412723}|ProgramWEB\\ProgramWEB.csproj|d:\\thuong\\web\\\u0111a web nc\\programweb_bv\\programweb\\controllers\\homecontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{E4D827DD-A477-45DC-9B1D-3E1CEA412723}|ProgramWEB\\ProgramWEB.csproj|solutionrelative:programweb\\controllers\\homecontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E4D827DD-A477-45DC-9B1D-3E1CEA412723}|ProgramWEB\\ProgramWEB.csproj|d:\\thuong\\web\\\u0111a web nc\\programweb_bv\\programweb\\controllers\\hopdongcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{E4D827DD-A477-45DC-9B1D-3E1CEA412723}|ProgramWEB\\ProgramWEB.csproj|solutionrelative:programweb\\controllers\\hopdongcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E4D827DD-A477-45DC-9B1D-3E1CEA412723}|ProgramWEB\\ProgramWEB.csproj|d:\\thuong\\web\\\u0111a web nc\\programweb_bv\\programweb\\controllers\\khenthuongkyluatcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{E4D827DD-A477-45DC-9B1D-3E1CEA412723}|ProgramWEB\\ProgramWEB.csproj|solutionrelative:programweb\\controllers\\khenthuongkyluatcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E4D827DD-A477-45DC-9B1D-3E1CEA412723}|ProgramWEB\\ProgramWEB.csproj|d:\\thuong\\web\\\u0111a web nc\\programweb_bv\\programweb\\controllers\\lichsulamvieccontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{E4D827DD-A477-45DC-9B1D-3E1CEA412723}|ProgramWEB\\ProgramWEB.csproj|solutionrelative:programweb\\controllers\\lichsulamvieccontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E4D827DD-A477-45DC-9B1D-3E1CEA412723}|ProgramWEB\\ProgramWEB.csproj|d:\\thuong\\web\\\u0111a web nc\\programweb_bv\\programweb\\controllers\\phongbancontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{E4D827DD-A477-45DC-9B1D-3E1CEA412723}|ProgramWEB\\ProgramWEB.csproj|solutionrelative:programweb\\controllers\\phongbancontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E4D827DD-A477-45DC-9B1D-3E1CEA412723}|ProgramWEB\\ProgramWEB.csproj|d:\\thuong\\web\\\u0111a web nc\\programweb_bv\\programweb\\define\\defineproc.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{E4D827DD-A477-45DC-9B1D-3E1CEA412723}|ProgramWEB\\ProgramWEB.csproj|solutionrelative:programweb\\define\\defineproc.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E4D827DD-A477-45DC-9B1D-3E1CEA412723}|ProgramWEB\\ProgramWEB.csproj|d:\\thuong\\web\\\u0111a web nc\\programweb_bv\\programweb\\views\\home\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{E4D827DD-A477-45DC-9B1D-3E1CEA412723}|ProgramWEB\\ProgramWEB.csproj|solutionrelative:programweb\\views\\home\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 55,
+          "SelectedChildIndex": 8,
+          "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
+              "Title": "Admin.cs",
+              "DocumentMoniker": "D:\\Thuong\\web\\\u0110A WEB NC\\ProgramWEB_BV\\ProgramWEB\\Models\\Object\\Admin.cs",
+              "RelativeDocumentMoniker": "ProgramWEB\\Models\\Object\\Admin.cs",
+              "ToolTip": "D:\\Thuong\\web\\\u0110A WEB NC\\ProgramWEB_BV\\ProgramWEB\\Models\\Object\\Admin.cs",
+              "RelativeToolTip": "ProgramWEB\\Models\\Object\\Admin.cs",
+              "ViewState": "AQIAAJYBAAAAAAAAAAAewLQBAAAQAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2023-12-08T17:59:25.209Z",
+              "IsPinned": true,
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "ChangePassword.cshtml",
+              "DocumentMoniker": "D:\\Thuong\\web\\\u0110A WEB NC\\ProgramWEB_BV\\ProgramWEB\\Views\\User\\ChangePassword.cshtml",
+              "RelativeDocumentMoniker": "ProgramWEB\\Views\\User\\ChangePassword.cshtml",
+              "ToolTip": "D:\\Thuong\\web\\\u0110A WEB NC\\ProgramWEB_BV\\ProgramWEB\\Views\\User\\ChangePassword.cshtml",
+              "RelativeToolTip": "ProgramWEB\\Views\\User\\ChangePassword.cshtml",
+              "ViewState": "AQIAAE4AAAAAAAAAAAAAAFUAAAAWAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2023-12-10T10:40:16.968Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "QuanLyNhanSuContext.cs",
+              "DocumentMoniker": "D:\\Thuong\\web\\\u0110A WEB NC\\ProgramWEB_BV\\ProgramWEB\\Models\\Data\\QuanLyNhanSuContext.cs",
+              "RelativeDocumentMoniker": "ProgramWEB\\Models\\Data\\QuanLyNhanSuContext.cs",
+              "ToolTip": "D:\\Thuong\\web\\\u0110A WEB NC\\ProgramWEB_BV\\ProgramWEB\\Models\\Data\\QuanLyNhanSuContext.cs",
+              "RelativeToolTip": "ProgramWEB\\Models\\Data\\QuanLyNhanSuContext.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2023-12-10T10:32:27.32Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 14,
+              "Title": "main.js",
+              "DocumentMoniker": "D:\\Thuong\\web\\\u0110A WEB NC\\ProgramWEB_BV\\ProgramWEB\\Scripts\\management\\main.js",
+              "RelativeDocumentMoniker": "ProgramWEB\\Scripts\\management\\main.js",
+              "ToolTip": "D:\\Thuong\\web\\\u0110A WEB NC\\ProgramWEB_BV\\ProgramWEB\\Scripts\\management\\main.js",
+              "RelativeToolTip": "ProgramWEB\\Scripts\\management\\main.js",
+              "ViewState": "AQIAAPIBAAAAAAAAAIAwwP4BAABfAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001646|",
+              "WhenOpened": "2023-12-10T08:22:32.294Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 11,
+              "Title": "UserController.cs",
+              "DocumentMoniker": "D:\\Thuong\\web\\\u0110A WEB NC\\ProgramWEB_BV\\ProgramWEB\\Controllers\\UserController.cs",
+              "RelativeDocumentMoniker": "ProgramWEB\\Controllers\\UserController.cs",
+              "ToolTip": "D:\\Thuong\\web\\\u0110A WEB NC\\ProgramWEB_BV\\ProgramWEB\\Controllers\\UserController.cs",
+              "RelativeToolTip": "ProgramWEB\\Controllers\\UserController.cs",
+              "ViewState": "AQIAAB0BAAAAAAAAAAAywCoBAAAcAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2023-12-10T07:51:19.025Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 10,
+              "Title": "TaiKhoan.cshtml",
+              "DocumentMoniker": "D:\\Thuong\\web\\\u0110A WEB NC\\ProgramWEB_BV\\ProgramWEB\\Views\\Management\\TaiKhoan.cshtml",
+              "RelativeDocumentMoniker": "ProgramWEB\\Views\\Management\\TaiKhoan.cshtml",
+              "ToolTip": "D:\\Thuong\\web\\\u0110A WEB NC\\ProgramWEB_BV\\ProgramWEB\\Views\\Management\\TaiKhoan.cshtml",
+              "RelativeToolTip": "ProgramWEB\\Views\\Management\\TaiKhoan.cshtml",
+              "ViewState": "AQIAAEwAAAAAAAAAAAAAwHYAAAAsAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2023-12-10T08:21:32.403Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 9,
+              "Title": "XacThucTaiKhoan.cshtml",
+              "DocumentMoniker": "D:\\Thuong\\web\\\u0110A WEB NC\\ProgramWEB_BV\\ProgramWEB\\Views\\User\\XacThucTaiKhoan.cshtml",
+              "RelativeDocumentMoniker": "ProgramWEB\\Views\\User\\XacThucTaiKhoan.cshtml",
+              "ToolTip": "D:\\Thuong\\web\\\u0110A WEB NC\\ProgramWEB_BV\\ProgramWEB\\Views\\User\\XacThucTaiKhoan.cshtml",
+              "RelativeToolTip": "ProgramWEB\\Views\\User\\XacThucTaiKhoan.cshtml",
+              "ViewState": "AQIAAFgAAAAAAAAAAAAiwFwAAAASAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2023-12-10T08:21:22.984Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "CaLamController.cs",
+              "DocumentMoniker": "D:\\Thuong\\web\\\u0110A WEB NC\\ProgramWEB_BV\\ProgramWEB\\Controllers\\CaLamController.cs",
+              "RelativeDocumentMoniker": "ProgramWEB\\Controllers\\CaLamController.cs",
+              "ToolTip": "D:\\Thuong\\web\\\u0110A WEB NC\\ProgramWEB_BV\\ProgramWEB\\Controllers\\CaLamController.cs",
+              "RelativeToolTip": "ProgramWEB\\Controllers\\CaLamController.cs",
+              "ViewState": "AQIAAC0AAAAAAAAAAAAowD0AAAAIAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2023-12-10T07:56:21.431Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "_Sidebar.cshtml",
+              "DocumentMoniker": "D:\\Thuong\\web\\\u0110A WEB NC\\ProgramWEB_BV\\ProgramWEB\\Views\\Shared\\Parts\\_Sidebar.cshtml",
+              "RelativeDocumentMoniker": "ProgramWEB\\Views\\Shared\\Parts\\_Sidebar.cshtml",
+              "ToolTip": "D:\\Thuong\\web\\\u0110A WEB NC\\ProgramWEB_BV\\ProgramWEB\\Views\\Shared\\Parts\\_Sidebar.cshtml",
+              "RelativeToolTip": "ProgramWEB\\Views\\Shared\\Parts\\_Sidebar.cshtml",
+              "ViewState": "AQIAAB4AAAAAAAAAAAAAADAAAAARAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2023-12-10T07:52:01.332Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 13,
+              "Title": "NgayNghi.cshtml",
+              "DocumentMoniker": "D:\\Thuong\\web\\\u0110A WEB NC\\ProgramWEB_BV\\ProgramWEB\\Views\\Management\\NgayNghi.cshtml",
+              "RelativeDocumentMoniker": "ProgramWEB\\Views\\Management\\NgayNghi.cshtml",
+              "ToolTip": "D:\\Thuong\\web\\\u0110A WEB NC\\ProgramWEB_BV\\ProgramWEB\\Views\\Management\\NgayNghi.cshtml",
+              "RelativeToolTip": "ProgramWEB\\Views\\Management\\NgayNghi.cshtml",
+              "ViewState": "AQIAAD8AAAAAAAAAAAAAAEYAAAAWAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2023-12-10T09:17:43.556Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 8,
+              "Title": "CaLam.cshtml",
+              "DocumentMoniker": "D:\\Thuong\\web\\\u0110A WEB NC\\ProgramWEB_BV\\ProgramWEB\\Views\\Management\\CaLam.cshtml",
+              "RelativeDocumentMoniker": "ProgramWEB\\Views\\Management\\CaLam.cshtml",
+              "ToolTip": "D:\\Thuong\\web\\\u0110A WEB NC\\ProgramWEB_BV\\ProgramWEB\\Views\\Management\\CaLam.cshtml",
+              "RelativeToolTip": "ProgramWEB\\Views\\Management\\CaLam.cshtml",
+              "ViewState": "AQIAACoAAAAAAAAAAAAAADcAAAAtAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2023-12-10T09:51:59.87Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "NhanSuController.cs",
+              "DocumentMoniker": "D:\\Thuong\\web\\\u0110A WEB NC\\ProgramWEB_BV\\ProgramWEB\\Controllers\\NhanSuController.cs",
+              "RelativeDocumentMoniker": "ProgramWEB\\Controllers\\NhanSuController.cs",
+              "ToolTip": "D:\\Thuong\\web\\\u0110A WEB NC\\ProgramWEB_BV\\ProgramWEB\\Controllers\\NhanSuController.cs",
+              "RelativeToolTip": "ProgramWEB\\Controllers\\NhanSuController.cs",
+              "ViewState": "AQIAAHYAAAAAAAAAAAAMwGMAAAAMAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2023-12-10T07:53:56.667Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{cf577b8c-4134-11d2-83e5-00c04f9902c1}"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "QuanLy.cs",
+              "DocumentMoniker": "D:\\Thuong\\web\\\u0110A WEB NC\\ProgramWEB_BV\\ProgramWEB\\Models\\Object\\QuanLy.cs",
+              "RelativeDocumentMoniker": "ProgramWEB\\Models\\Object\\QuanLy.cs",
+              "ToolTip": "D:\\Thuong\\web\\\u0110A WEB NC\\ProgramWEB_BV\\ProgramWEB\\Models\\Object\\QuanLy.cs",
+              "RelativeToolTip": "ProgramWEB\\Models\\Object\\QuanLy.cs",
+              "ViewState": "AQIAALQAAAAAAAAAAADwv70AAABKAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2023-12-10T07:45:44.3Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "Web.config",
+              "DocumentMoniker": "D:\\Thuong\\web\\\u0110A WEB NC\\ProgramWEB_BV\\ProgramWEB\\Web.config",
+              "RelativeDocumentMoniker": "ProgramWEB\\Web.config",
+              "ToolTip": "D:\\Thuong\\web\\\u0110A WEB NC\\ProgramWEB_BV\\ProgramWEB\\Web.config",
+              "RelativeToolTip": "ProgramWEB\\Web.config",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAGMAAAAQAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000601|",
+              "WhenOpened": "2023-12-10T09:30:43.008Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 17,
+              "Title": "DefineTable.cs",
+              "DocumentMoniker": "D:\\Thuong\\web\\\u0110A WEB NC\\ProgramWEB_BV\\ProgramWEB\\Define\\DefineTable.cs",
+              "RelativeDocumentMoniker": "ProgramWEB\\Define\\DefineTable.cs",
+              "ToolTip": "D:\\Thuong\\web\\\u0110A WEB NC\\ProgramWEB_BV\\ProgramWEB\\Define\\DefineTable.cs",
+              "RelativeToolTip": "ProgramWEB\\Define\\DefineTable.cs",
+              "ViewState": "AQIAAB8BAAAAAAAAAAAqwDQBAAAWAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2023-12-10T07:48:40.51Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 15,
+              "Title": "Profile.cshtml",
+              "DocumentMoniker": "D:\\Thuong\\web\\\u0110A WEB NC\\ProgramWEB_BV\\ProgramWEB\\Views\\User\\Profile.cshtml",
+              "RelativeDocumentMoniker": "ProgramWEB\\Views\\User\\Profile.cshtml",
+              "ToolTip": "D:\\Thuong\\web\\\u0110A WEB NC\\ProgramWEB_BV\\ProgramWEB\\Views\\User\\Profile.cshtml",
+              "RelativeToolTip": "ProgramWEB\\Views\\User\\Profile.cshtml",
+              "ViewState": "AQIAAB0AAAAAAAAAAAAiwC0AAAAXAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2023-12-10T08:10:17.985Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 16,
+              "Title": "NgayNghi.cs",
+              "DocumentMoniker": "D:\\Thuong\\web\\\u0110A WEB NC\\ProgramWEB_BV\\ProgramWEB\\Models\\Object\\NgayNghi.cs",
+              "RelativeDocumentMoniker": "ProgramWEB\\Models\\Object\\NgayNghi.cs",
+              "ToolTip": "D:\\Thuong\\web\\\u0110A WEB NC\\ProgramWEB_BV\\ProgramWEB\\Models\\Object\\NgayNghi.cs",
+              "RelativeToolTip": "ProgramWEB\\Models\\Object\\NgayNghi.cs",
+              "ViewState": "AQIAAAQAAAAAAAAAAAAhwA8AAAAWAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2023-12-10T09:29:03.452Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 12,
+              "Title": "NgayNghiController.cs",
+              "DocumentMoniker": "D:\\Thuong\\web\\\u0110A WEB NC\\ProgramWEB_BV\\ProgramWEB\\Controllers\\NgayNghiController.cs",
+              "RelativeDocumentMoniker": "ProgramWEB\\Controllers\\NgayNghiController.cs",
+              "ToolTip": "D:\\Thuong\\web\\\u0110A WEB NC\\ProgramWEB_BV\\ProgramWEB\\Controllers\\NgayNghiController.cs",
+              "RelativeToolTip": "ProgramWEB\\Controllers\\NgayNghiController.cs",
+              "ViewState": "AQIAAFgAAAAAAAAAAADgv1EAAAAuAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2023-12-10T07:51:46.134Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 28,
+              "Title": "Table.cs",
+              "DocumentMoniker": "D:\\Thuong\\web\\\u0110A WEB NC\\ProgramWEB_BV\\ProgramWEB\\Define\\DB\\Table.cs",
+              "RelativeDocumentMoniker": "ProgramWEB\\Define\\DB\\Table.cs",
+              "ToolTip": "D:\\Thuong\\web\\\u0110A WEB NC\\ProgramWEB_BV\\ProgramWEB\\Define\\DB\\Table.cs",
+              "RelativeToolTip": "ProgramWEB\\Define\\DB\\Table.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2023-12-10T08:04:09.965Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 18,
+              "Title": "Profile.cshtml",
+              "DocumentMoniker": "D:\\Thuong\\web\\\u0110A WEB NC\\ProgramWEB_BV\\ProgramWEB\\Views\\NhanSu\\Profile.cshtml",
+              "RelativeDocumentMoniker": "ProgramWEB\\Views\\NhanSu\\Profile.cshtml",
+              "ToolTip": "D:\\Thuong\\web\\\u0110A WEB NC\\ProgramWEB_BV\\ProgramWEB\\Views\\NhanSu\\Profile.cshtml",
+              "RelativeToolTip": "ProgramWEB\\Views\\NhanSu\\Profile.cshtml",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAsAAAAVAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2023-12-10T08:27:08.586Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 19,
+              "Title": "LichSuLamViec.cshtml",
+              "DocumentMoniker": "D:\\Thuong\\web\\\u0110A WEB NC\\ProgramWEB_BV\\ProgramWEB\\Views\\Management\\LichSuLamViec.cshtml",
+              "RelativeDocumentMoniker": "ProgramWEB\\Views\\Management\\LichSuLamViec.cshtml",
+              "ToolTip": "D:\\Thuong\\web\\\u0110A WEB NC\\ProgramWEB_BV\\ProgramWEB\\Views\\Management\\LichSuLamViec.cshtml",
+              "RelativeToolTip": "ProgramWEB\\Views\\Management\\LichSuLamViec.cshtml",
+              "ViewState": "AQIAABIAAAAAAAAAAAAAAAAAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2023-12-10T08:51:17.036Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 21,
+              "Title": "TaiKhoanController.cs",
+              "DocumentMoniker": "D:\\Thuong\\web\\\u0110A WEB NC\\ProgramWEB_BV\\ProgramWEB\\Controllers\\TaiKhoanController.cs",
+              "RelativeDocumentMoniker": "ProgramWEB\\Controllers\\TaiKhoanController.cs",
+              "ToolTip": "D:\\Thuong\\web\\\u0110A WEB NC\\ProgramWEB_BV\\ProgramWEB\\Controllers\\TaiKhoanController.cs",
+              "RelativeToolTip": "ProgramWEB\\Controllers\\TaiKhoanController.cs",
+              "ViewState": "AQIAADAAAAAAAAAAAAAowAAAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2023-12-10T07:55:25.18Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 20,
+              "Title": "User.cs",
+              "DocumentMoniker": "D:\\Thuong\\web\\\u0110A WEB NC\\ProgramWEB_BV\\ProgramWEB\\Models\\Object\\User.cs",
+              "RelativeDocumentMoniker": "ProgramWEB\\Models\\Object\\User.cs",
+              "ToolTip": "D:\\Thuong\\web\\\u0110A WEB NC\\ProgramWEB_BV\\ProgramWEB\\Models\\Object\\User.cs",
+              "RelativeToolTip": "ProgramWEB\\Models\\Object\\User.cs",
+              "ViewState": "AQIAAHsAAAAAAAAAAAAYwJEAAAAJAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2023-12-10T07:45:20.627Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 22,
+              "Title": "TaiKhoan.cs",
+              "DocumentMoniker": "D:\\Thuong\\web\\\u0110A WEB NC\\ProgramWEB_BV\\ProgramWEB\\Models\\Object\\TaiKhoan.cs",
+              "RelativeDocumentMoniker": "ProgramWEB\\Models\\Object\\TaiKhoan.cs",
+              "ToolTip": "D:\\Thuong\\web\\\u0110A WEB NC\\ProgramWEB_BV\\ProgramWEB\\Models\\Object\\TaiKhoan.cs",
+              "RelativeToolTip": "ProgramWEB\\Models\\Object\\TaiKhoan.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAqwBYAAAAIAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2023-12-10T07:45:43.079Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 23,
+              "Title": "NhanSu.cshtml",
+              "DocumentMoniker": "D:\\Thuong\\web\\\u0110A WEB NC\\ProgramWEB_BV\\ProgramWEB\\Views\\Management\\NhanSu.cshtml",
+              "RelativeDocumentMoniker": "ProgramWEB\\Views\\Management\\NhanSu.cshtml",
+              "ToolTip": "D:\\Thuong\\web\\\u0110A WEB NC\\ProgramWEB_BV\\ProgramWEB\\Views\\Management\\NhanSu.cshtml",
+              "RelativeToolTip": "ProgramWEB\\Views\\Management\\NhanSu.cshtml",
+              "ViewState": "AQIAAFQAAAAAAAAAAAAAAAAAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2023-12-10T08:29:41.501Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 24,
+              "Title": "DefinePage.cs",
+              "DocumentMoniker": "D:\\Thuong\\web\\\u0110A WEB NC\\ProgramWEB_BV\\ProgramWEB\\Define\\DefinePage.cs",
+              "RelativeDocumentMoniker": "ProgramWEB\\Define\\DefinePage.cs",
+              "ToolTip": "D:\\Thuong\\web\\\u0110A WEB NC\\ProgramWEB_BV\\ProgramWEB\\Define\\DefinePage.cs",
+              "RelativeToolTip": "ProgramWEB\\Define\\DefinePage.cs",
+              "ViewState": "AQIAABEAAAAAAAAAAAA8wCAAAABVAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2023-12-10T07:48:58.496Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 27,
+              "Title": "ErrorController.cs",
+              "DocumentMoniker": "D:\\Thuong\\web\\\u0110A WEB NC\\ProgramWEB_BV\\ProgramWEB\\Controllers\\ErrorController.cs",
+              "RelativeDocumentMoniker": "ProgramWEB\\Controllers\\ErrorController.cs",
+              "ToolTip": "D:\\Thuong\\web\\\u0110A WEB NC\\ProgramWEB_BV\\ProgramWEB\\Controllers\\ErrorController.cs",
+              "RelativeToolTip": "ProgramWEB\\Controllers\\ErrorController.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2023-12-10T07:56:15.33Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 25,
+              "Title": "ManagementController.cs",
+              "DocumentMoniker": "D:\\Thuong\\web\\\u0110A WEB NC\\ProgramWEB_BV\\ProgramWEB\\Controllers\\ManagementController.cs",
+              "RelativeDocumentMoniker": "ProgramWEB\\Controllers\\ManagementController.cs",
+              "ToolTip": "D:\\Thuong\\web\\\u0110A WEB NC\\ProgramWEB_BV\\ProgramWEB\\Controllers\\ManagementController.cs",
+              "RelativeToolTip": "ProgramWEB\\Controllers\\ManagementController.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAC8AAAA+AAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2023-12-10T07:48:14.817Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 26,
+              "Title": "BoPhanController.cs",
+              "DocumentMoniker": "D:\\Thuong\\web\\\u0110A WEB NC\\ProgramWEB_BV\\ProgramWEB\\Controllers\\BoPhanController.cs",
+              "RelativeDocumentMoniker": "ProgramWEB\\Controllers\\BoPhanController.cs",
+              "ToolTip": "D:\\Thuong\\web\\\u0110A WEB NC\\ProgramWEB_BV\\ProgramWEB\\Controllers\\BoPhanController.cs",
+              "RelativeToolTip": "ProgramWEB\\Controllers\\BoPhanController.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAqwAsAAAAkAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2023-12-10T07:56:25.408Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 29,
+              "Title": "BaoHiemController.cs",
+              "DocumentMoniker": "D:\\Thuong\\web\\\u0110A WEB NC\\ProgramWEB_BV\\ProgramWEB\\Controllers\\BaoHiemController.cs",
+              "RelativeDocumentMoniker": "ProgramWEB\\Controllers\\BaoHiemController.cs",
+              "ToolTip": "D:\\Thuong\\web\\\u0110A WEB NC\\ProgramWEB_BV\\ProgramWEB\\Controllers\\BaoHiemController.cs",
+              "RelativeToolTip": "ProgramWEB\\Controllers\\BaoHiemController.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2023-12-10T07:56:31.142Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 30,
+              "Title": "BaseController.cs",
+              "DocumentMoniker": "D:\\Thuong\\web\\\u0110A WEB NC\\ProgramWEB_BV\\ProgramWEB\\Controllers\\BaseController.cs",
+              "RelativeDocumentMoniker": "ProgramWEB\\Controllers\\BaseController.cs",
+              "ToolTip": "D:\\Thuong\\web\\\u0110A WEB NC\\ProgramWEB_BV\\ProgramWEB\\Controllers\\BaseController.cs",
+              "RelativeToolTip": "ProgramWEB\\Controllers\\BaseController.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2023-12-10T07:56:29.168Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 31,
+              "Title": "ChamCongController.cs",
+              "DocumentMoniker": "D:\\Thuong\\web\\\u0110A WEB NC\\ProgramWEB_BV\\ProgramWEB\\Controllers\\ChamCongController.cs",
+              "RelativeDocumentMoniker": "ProgramWEB\\Controllers\\ChamCongController.cs",
+              "ToolTip": "D:\\Thuong\\web\\\u0110A WEB NC\\ProgramWEB_BV\\ProgramWEB\\Controllers\\ChamCongController.cs",
+              "RelativeToolTip": "ProgramWEB\\Controllers\\ChamCongController.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAsAAAAqAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2023-12-10T07:56:16.634Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 34,
+              "Title": "KhenThuongKyLuatController.cs",
+              "DocumentMoniker": "D:\\Thuong\\web\\\u0110A WEB NC\\ProgramWEB_BV\\ProgramWEB\\Controllers\\KhenThuongKyLuatController.cs",
+              "RelativeDocumentMoniker": "ProgramWEB\\Controllers\\KhenThuongKyLuatController.cs",
+              "ToolTip": "D:\\Thuong\\web\\\u0110A WEB NC\\ProgramWEB_BV\\ProgramWEB\\Controllers\\KhenThuongKyLuatController.cs",
+              "RelativeToolTip": "ProgramWEB\\Controllers\\KhenThuongKyLuatController.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAsAAAAyAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2023-12-10T07:56:05.478Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 35,
+              "Title": "LichSuLamViecController.cs",
+              "DocumentMoniker": "D:\\Thuong\\web\\\u0110A WEB NC\\ProgramWEB_BV\\ProgramWEB\\Controllers\\LichSuLamViecController.cs",
+              "RelativeDocumentMoniker": "ProgramWEB\\Controllers\\LichSuLamViecController.cs",
+              "ToolTip": "D:\\Thuong\\web\\\u0110A WEB NC\\ProgramWEB_BV\\ProgramWEB\\Controllers\\LichSuLamViecController.cs",
+              "RelativeToolTip": "ProgramWEB\\Controllers\\LichSuLamViecController.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2023-12-10T07:56:03.896Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 33,
+              "Title": "HopDongController.cs",
+              "DocumentMoniker": "D:\\Thuong\\web\\\u0110A WEB NC\\ProgramWEB_BV\\ProgramWEB\\Controllers\\HopDongController.cs",
+              "RelativeDocumentMoniker": "ProgramWEB\\Controllers\\HopDongController.cs",
+              "ToolTip": "D:\\Thuong\\web\\\u0110A WEB NC\\ProgramWEB_BV\\ProgramWEB\\Controllers\\HopDongController.cs",
+              "RelativeToolTip": "ProgramWEB\\Controllers\\HopDongController.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2023-12-10T07:51:46.115Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 32,
+              "Title": "HomeController.cs",
+              "DocumentMoniker": "D:\\Thuong\\web\\\u0110A WEB NC\\ProgramWEB_BV\\ProgramWEB\\Controllers\\HomeController.cs",
+              "RelativeDocumentMoniker": "ProgramWEB\\Controllers\\HomeController.cs",
+              "ToolTip": "D:\\Thuong\\web\\\u0110A WEB NC\\ProgramWEB_BV\\ProgramWEB\\Controllers\\HomeController.cs",
+              "RelativeToolTip": "ProgramWEB\\Controllers\\HomeController.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAADAAAAARAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2023-12-10T07:50:43.118Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 36,
+              "Title": "PhongBanController.cs",
+              "DocumentMoniker": "D:\\Thuong\\web\\\u0110A WEB NC\\ProgramWEB_BV\\ProgramWEB\\Controllers\\PhongBanController.cs",
+              "RelativeDocumentMoniker": "ProgramWEB\\Controllers\\PhongBanController.cs",
+              "ToolTip": "D:\\Thuong\\web\\\u0110A WEB NC\\ProgramWEB_BV\\ProgramWEB\\Controllers\\PhongBanController.cs",
+              "RelativeToolTip": "ProgramWEB\\Controllers\\PhongBanController.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAsAAAAqAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2023-12-10T07:55:46.378Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 37,
+              "Title": "DefineProc.cs",
+              "DocumentMoniker": "D:\\Thuong\\web\\\u0110A WEB NC\\ProgramWEB_BV\\ProgramWEB\\Define\\DefineProc.cs",
+              "RelativeDocumentMoniker": "ProgramWEB\\Define\\DefineProc.cs",
+              "ToolTip": "D:\\Thuong\\web\\\u0110A WEB NC\\ProgramWEB_BV\\ProgramWEB\\Define\\DefineProc.cs",
+              "RelativeToolTip": "ProgramWEB\\Define\\DefineProc.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2023-12-10T07:48:57.602Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 38,
+              "Title": "Index.cshtml",
+              "DocumentMoniker": "D:\\Thuong\\web\\\u0110A WEB NC\\ProgramWEB_BV\\ProgramWEB\\Views\\Home\\Index.cshtml",
+              "RelativeDocumentMoniker": "ProgramWEB\\Views\\Home\\Index.cshtml",
+              "ToolTip": "D:\\Thuong\\web\\\u0110A WEB NC\\ProgramWEB_BV\\ProgramWEB\\Views\\Home\\Index.cshtml",
+              "RelativeToolTip": "ProgramWEB\\Views\\Home\\Index.cshtml",
+              "ViewState": "AQIAAAwAAAAAAAAAAAAAAAAAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2023-12-10T07:44:29.152Z",
+              "EditorCaption": ""
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

@@ -351,7 +351,8 @@ var createForm = function (result, thaotac) {
                             result1 +
                             `<div class="col-md-6">
                                 <div class="form-group">
-                                    <label>${item}</label>
+                                    <label>${item} ${thaotac == 'search' ? '' : required[index] ?
+                                    '(<span class="text-danger" style="font-weight: 800">*</span>)' : ''}</label >
                                     ${createInputFormAddOrUpdate(
                                         thaotac,
                                         result,
@@ -506,8 +507,11 @@ var ready = function () {
         loadDataTable()
     })
     nutXoaHang.click(function (e) {
-        let id = $(e.currentTarget).attr('id').split('-')
-        onCanhBao(alertDelete(), yeuCauXoaDenServer, id[id.length - 1])
+        let id = $(e.currentTarget).parent().parent().attr('id');
+        id = document.getElementById(nameObj[nameTiengViets[0]].id + '-' + id).innerText.trim()
+        if (namePage == 'ngày nghỉ')
+            id = toDateToServer(id)
+        onCanhBao(alertDelete(), yeuCauXoaDenServer, id)
     })
     nutXoaCacHangDaChon.click(function () {
         let arrId = []

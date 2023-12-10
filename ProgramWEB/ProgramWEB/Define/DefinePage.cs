@@ -17,6 +17,7 @@ namespace ProgramWEB.Define
         public static Page user_Logout { get; } = new Page("Đăng xuất", "/User/Logout");
         public static Page user_Login { get; } = new Page("Đăng nhập", "/User/Login");
         public static Page user_Profile { get; } = new Page("Thông tin cá nhân", "/User/Profile");
+        public static Page user_XacThucTaiKhoan { get; } = new Page("Xác thực tài khoản", "/User/XacThucTaiKhoan");
         public static Page management { get; } = new Page("Quản lý", "/Management/Index");
         public static Page management_NhanSu { get; } = new Page("Nhân sự", "/Management/NhanSu");
         public static Page management_PhongBan { get; } = new Page("Phòng ban", "/Management/PhongBan");

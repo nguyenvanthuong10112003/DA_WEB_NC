@@ -14,11 +14,25 @@ using Newtonsoft.Json.Linq;
 using System.IO;
 using System.Web.UI;
 using ProgramWEB.Libary;
+using System.Threading;
+using System.Configuration;
+using System.EnterpriseServices.CompensatingResourceManager;
 
 namespace ProgramWEB.Controllers
 {
     public class UserController : Controller
     {
+        public ActionResult Index()
+        {
+            if (ModelState.IsValid)
+            {
+                if (Session[DefineSession.userSession] == null)
+                {
+                    return Login();
+                }
+            }
+            return View();
+        }
         [HttpGet]
         public ActionResult Login()
         {
@@ -133,13 +147,135 @@ namespace ProgramWEB.Controllers
                 error = DefineError.loiHeThong
             });
         }
-        public ActionResult ForgetPassword()
+        public ActionResult ForgetPassword(string error = "")
         {
-            return View();
+            if (ModelState.IsValid)
+            {
+                if (Request.Cookies[DefineCookie.cookieUsername] != null || Request.Cookies[DefineCookie.cookiePassword] != null)
+                    removeFromCookie(new string[] { DefineCookie.cookieUsername, DefineCookie.cookiePassword });
+                if (Session[DefineSession.userSession] != null)
+                    Session.Remove(DefineSession.userSession);
+                if (!string.IsNullOrEmpty(error))
+                    ViewBag.error = error;
+            }
+            return View("ForgetPassword");
+        }
+        [HttpPost]
+        public ActionResult XacThucTaiKhoan(string email)
+        {
+            try
+            {
+                string error = Models.Object.User.thayDoiMaXacThuc(email);
+                if (!string.IsNullOrEmpty(error))
+                    return ForgetPassword(error);
+                ViewBag.email = email;
+                Thread sendMail = new Thread(() =>
+                {
+                    QuanLyNhanSuContext context = new QuanLyNhanSuContext();
+                    Models.Data.NhanSu nhanSu = context.NhanSus.Where(item => item.NS_Email == email).FirstOrDefault();
+                    if (nhanSu == null)
+                        return;
+                    Models.Data.TaiKhoan taiKhoan = context.TaiKhoans.Where(item => item.NS_Ma == nhanSu.NS_Ma).FirstOrDefault();
+                    if (taiKhoan == null)
+                        return;
+                    sendEmail("~/Contents/forms/SendEmailForgetPassword.html", nhanSu.NS_Email, "Xác thực đặt lại mật khẩu",
+                        new List<string> { "{{email}}", "{{name}}", "{{maXacThuc}}", "{{companyName}}", "{{time}}" },
+                        new List<string> { nhanSu.NS_Email, nhanSu.NS_HoVaTen, taiKhoan.TK_MaXacThuc, 
+                            ConfigurationManager.AppSettings["FromEmailDisplayName"].ToString(), DateTime.Now.ToString()
+                    });
+                });
+                sendMail.Start();
+                return View();
+            } catch { }
+            return ForgetPassword();
+        }
+        [HttpPost]
+        public string GuiLaiMa(string email)
+        {
+            try
+            {
+                string error = Models.Object.User.thayDoiMaXacThuc(email);
+                if (!string.IsNullOrEmpty(error))
+                    return JsonConvert.SerializeObject(new {error = error});
+                Thread sendMail = new Thread(() =>
+                {
+                    QuanLyNhanSuContext context = new QuanLyNhanSuContext();
+                    Models.Data.NhanSu nhanSu = context.NhanSus.Where(item => item.NS_Email == email).FirstOrDefault();
+                    if (nhanSu == null)
+                        return;
+                    Models.Data.TaiKhoan taiKhoan = context.TaiKhoans.Where(item => item.NS_Ma == nhanSu.NS_Ma).FirstOrDefault();
+                    if (taiKhoan == null)
+                        return;
+                    sendEmail("~/Contents/forms/SendEmailForgetPassword.html", nhanSu.NS_Email, "Xác thực đặt lại mật khẩu",
+                        new List<string> { "{{email}}", "{{name}}", "{{maXacThuc}}", "{{companyName}}", "{{time}}" },
+                        new List<string> { nhanSu.NS_Email, nhanSu.NS_HoVaTen, taiKhoan.TK_MaXacThuc,
+                            ConfigurationManager.AppSettings["FromEmailDisplayName"].ToString(), DateTime.Now.ToString()
+                    });
+                });
+                sendMail.Start();
+                return JsonConvert.SerializeObject(new
+                {
+                    success = true
+                });
+            } catch { }
+            return JsonConvert.SerializeObject(new
+            {
+                error = DefineError.loiHeThong
+            });
+        }
+        [HttpPost]
+        public string DoiMatKhauMoi(string email, string maXacThuc, string newPassword)
+        {
+            try
+            {
+                if (string.IsNullOrEmpty(newPassword))
+                    return JsonConvert.SerializeObject(new { error = DefineError.loiDuLieuKhongHopLe });
+                string error = Models.Object.User.kiemTraMaXacThuc(email, maXacThuc);
+                if (!string.IsNullOrEmpty(error))
+                    return JsonConvert.SerializeObject(new { error = error });
+                QuanLyNhanSuContext context = new QuanLyNhanSuContext();
+                Models.Data.TaiKhoan taiKhoan = context.TaiKhoans.Where(item => item.NhanSu.NS_Email == email).FirstOrDefault();
+                if (taiKhoan == null)
+                    return JsonConvert.SerializeObject(new { error = DefineError.khongTonTai });
+                taiKhoan.TK_MatKhau = BCrypt.Net.BCrypt.HashPassword(newPassword);
+                int check = context.SaveChanges();
+                if (check == 0)
+                    return JsonConvert.SerializeObject(new { error = DefineError.loiHeThong });
+                return JsonConvert.SerializeObject(new { success = "Đổi mật khẩu mới thành công" });
+            }
+            catch { }
+            return JsonConvert.SerializeObject(new {error = DefineError.loiHeThong});
         }
         public ActionResult ChangePassword()
         {
+            if (ModelState.IsValid)
+            {
+                if (Session[DefineSession.userSession] == null)
+                {
+                    return RedirectToAction("Index", "Home");
+                }
+            }
             return View();
+        }
+        public string ToChangePassword(string oldPassword, string newPassword)
+        {
+            try
+            {
+                User user = (User)Session[DefineSession.userSession];
+                if (user == null)
+                    return DefineError.canDangNhap;
+                string error = user.doiMatKhau(oldPassword, newPassword);
+                if (string.IsNullOrEmpty(error))
+                    return JsonConvert.SerializeObject(new
+                    {
+                        success = "Đổi mật khẩu thành công"
+                    });
+                return JsonConvert.SerializeObject(new
+                {
+                    error = error
+                });
+            } catch { }
+            return JsonConvert.SerializeObject(new { error = DefineError.loiHeThong });
         }
         public ActionResult Logout()
         {
