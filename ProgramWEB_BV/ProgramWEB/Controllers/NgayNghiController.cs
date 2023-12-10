@@ -11,7 +11,7 @@ namespace ProgramWEB.Controllers
 {
     public class NgayNghiController : BaseController
     {
-        public string getAll(NgayNghi findBy = null, int page = 1, int pageSize = 10, string sortBy = "NN_Ngay", bool sortTangDan = true)
+        public string getAll(NgayNghi findBy = null, int page = 1, int pageSize = 10, string sortBy = "NN_Ma", bool sortTangDan = true)
         {
             try
             {

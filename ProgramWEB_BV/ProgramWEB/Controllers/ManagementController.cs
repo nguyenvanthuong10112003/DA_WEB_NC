@@ -288,7 +288,6 @@ namespace ProgramWEB.Controllers
                 Dictionary<string, string> findBy = new Dictionary<string, string>();
                 Dictionary<string, bool> action = new Dictionary<string, bool>();
                 action.Add("add", true);
-                action.Add("edit", true);
                 action.Add("delete", true);
                 action.Add("search", true);
                 ViewBag.jsonString = ViewBag.jsonString = System.Text.Json.JsonSerializer.Serialize(new

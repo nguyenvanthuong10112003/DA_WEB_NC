@@ -1,19 +1,12 @@
-﻿using Newtonsoft.Json;
-using PagedList;
+﻿using PagedList;
 using ProgramWEB.Define;
 using ProgramWEB.Libary;
 using ProgramWEB.Models.Data;
 using System;
 using System.Collections.Generic;
-using System.Configuration;
-using System.Data.Entity;
 using System.Data.Entity.Core.Common.CommandTrees.ExpressionBuilder;
 using System.Data.Entity.Migrations;
-using System.Drawing.Printing;
-using System.Globalization;
 using System.Linq;
-using System.Threading;
-using System.Web;
 
 namespace ProgramWEB.Models.Object
 {
@@ -134,7 +127,8 @@ namespace ProgramWEB.Models.Object
             {
                 if (nhanSu == null)
                     return DefineError.loiDuLieuKhongHopLe;
-                if (string.IsNullOrEmpty(nhanSu.NS_HoVaTen) || nhanSu.NS_GioiTinh == null || nhanSu.NS_NgaySinh == null ||
+                if (string.IsNullOrEmpty(nhanSu.NS_Ma) || string.IsNullOrEmpty(nhanSu.NS_HoVaTen) ||
+                    nhanSu.NS_GioiTinh == null || nhanSu.NS_NgaySinh == null ||
                     string.IsNullOrEmpty(nhanSu.NS_SoDienThoai) || string.IsNullOrEmpty(nhanSu.NS_Email) ||
                     string.IsNullOrEmpty(nhanSu.NS_DiaChi) || string.IsNullOrEmpty(nhanSu.NS_SoCCCD) ||
                     nhanSu.NS_NgayVao == null)
@@ -147,10 +141,10 @@ namespace ProgramWEB.Models.Object
                 if (!StringHelper.IsValidCCCD(nhanSu.NS_SoCCCD))
                     error += "[Số căn cước công dân không đúng định dạng]";
                 if (DateTime.Now.Year - nhanSu.NS_NgaySinh.Value.Year < 16)
-                    error += "[Nhân sự phải đủ từ 16 tuổi trở lên";
+                    error += "[Nhân sự phải đủ từ 16 tuổi trở lên]";
                 if (error.Length > 0)
                     return error;
-                
+
                 Data.NhanSu nhanSu1 = context.NhanSus.Where(
                     item => item.NS_Ma == nhanSu.NS_Ma || item.NS_SoCCCD == nhanSu.NS_SoCCCD ||
                     item.NS_Email == nhanSu.NS_Email || item.NS_SoDienThoai == nhanSu.NS_SoDienThoai).FirstOrDefault();
@@ -175,10 +169,8 @@ namespace ProgramWEB.Models.Object
                     error += "[Số điện thoại đã tồn tại]";
                 return error;
             }
-            catch
-            {
-                return DefineError.loiHeThong;
-            }
+            catch { }
+            return DefineError.loiHeThong;
         }
         public string suaNhanSu(Object.NhanSu nhanSuNew)
         {
@@ -186,7 +178,24 @@ namespace ProgramWEB.Models.Object
             {
                 if (nhanSuNew == null)
                     return DefineError.loiDuLieuKhongHopLe;
-                
+                if (string.IsNullOrEmpty(nhanSuNew.NS_Ma) || string.IsNullOrEmpty(nhanSuNew.NS_HoVaTen) ||
+                    nhanSuNew.NS_GioiTinh == null || nhanSuNew.NS_NgaySinh == null ||
+                    string.IsNullOrEmpty(nhanSuNew.NS_SoDienThoai) || string.IsNullOrEmpty(nhanSuNew.NS_Email) ||
+                    string.IsNullOrEmpty(nhanSuNew.NS_DiaChi) || string.IsNullOrEmpty(nhanSuNew.NS_SoCCCD) ||
+                    nhanSuNew.NS_NgayVao == null)
+                    return DefineError.loiDuLieuKhongHopLe;
+                string error = "";
+                if (!StringHelper.IsValidEmail(nhanSuNew.NS_Email))
+                    error += "[Email không đúng định dạng]";
+                if (!StringHelper.IsPhoneNbr(nhanSuNew.NS_SoDienThoai))
+                    error += "[Số điện thoại không đúng định dạng]";
+                if (!StringHelper.IsValidCCCD(nhanSuNew.NS_SoCCCD))
+                    error += "[Số căn cước công dân không đúng định dạng]";
+                if (DateTime.Now.Year - nhanSuNew.NS_NgaySinh.Value.Year < 16)
+                    error += "[Nhân sự phải đủ từ 16 tuổi trở lên]";
+                if (error.Length > 0)
+                    return error;
+
                 Data.NhanSu nhanSu = context.NhanSus.Find(nhanSuNew.NS_Ma);
                 if (nhanSu == null)
                     return DefineError.khongTonTai;
@@ -202,19 +211,17 @@ namespace ProgramWEB.Models.Object
                         return DefineError.loiHeThong;
                     return string.Empty;
                 }
-                string error = "";
+                error = "";
                 if (nhanSu.NS_SoCCCD == nhanSuNew.NS_SoCCCD)
-                    error += "[Số căn cước công dân]";
+                    error += "[Số căn cước công dân đã tồn tại]";
                 if (nhanSu.NS_Email == nhanSuNew.NS_Email)
-                    error += "[Email]";
+                    error += "[Email đã tồn tại]";
                 if (nhanSu.NS_SoDienThoai == nhanSuNew.NS_SoDienThoai)
-                    error += "[Số điện thoại]";
-                return error + " đã tồn tại";
+                    error += "[Số điện thoại đã tổn tại]";
+                return error;
             }
-            catch
-            {
-                return DefineError.loiHeThong;
-            }
+            catch { }
+            return DefineError.loiHeThong;
         }
         public string xoaNhanSu(string maNhanSu)
         {
@@ -222,15 +229,16 @@ namespace ProgramWEB.Models.Object
             {
                 if (string.IsNullOrEmpty(maNhanSu))
                     return DefineError.loiDuLieuKhongHopLe;
-                
+                if (maNhanSu == this.maNhanSu)
+                    return "Bạn không thể tự xóa chính bản thân mình.";
                 Data.NhanSu nhanSu = context.NhanSus.Find(maNhanSu);
                 if (nhanSu == null)
                     return DefineError.khongTonTai;
                 TaiKhoan taiKhoan = timTaiKhoanBangMaNhanSu(nhanSu.NS_Ma);
                 if (taiKhoan != null && (taiKhoan.TK_QuyenQuanLy == true || taiKhoan.TK_QuyenAdmin == true) && !this.quyenAdmin)
-                    return "Bạn không thể xóa người có quyền quản lý hệ thống";
+                    return "Bạn không thể xóa người có quyền quản lý hệ thống khác.";
                 if (taiKhoan != null && taiKhoan.TK_QuyenAdmin == true && this.quyenAdmin)
-                    return "Bạn không thể xóa admin của hệ thống";
+                    return "Bạn không thể xóa admin của hệ thống.";
                 context.NhanSus.Remove(nhanSu);
                 int check = context.SaveChanges();
                 if (check > 0)
@@ -370,20 +378,22 @@ namespace ProgramWEB.Models.Object
             catch { }
             return null;
         }
-        public string themBaoHiem(Object.BaoHiem BaoHiem)
+        public string themBaoHiem(Object.BaoHiem baoHiem)
         {
             try
             {
-                if (BaoHiem == null)
+                if (baoHiem == null || string.IsNullOrEmpty(baoHiem.BH_SoBaoHiem) ||
+                    baoHiem.BH_NgayCap == null || baoHiem.BH_NgayHetHan == null ||
+                    string.IsNullOrEmpty(baoHiem.BH_NoiCap) || string.IsNullOrEmpty(baoHiem.NS_Ma))
                     return DefineError.loiDuLieuKhongHopLe;
-                
+
                 Data.BaoHiem BaoHiem1 = context.BaoHiems.Where(
-                    item => (item.BH_Ma == BaoHiem.BH_Ma || 
-                    item.BH_SoBaoHiem == BaoHiem.BH_SoBaoHiem)).FirstOrDefault();
+                    item => (item.BH_Ma == baoHiem.BH_Ma ||
+                    item.BH_SoBaoHiem == baoHiem.BH_SoBaoHiem)).FirstOrDefault();
                 if (BaoHiem1 == null)
                 {
                     BaoHiem1 = new Data.BaoHiem();
-                    Convert<Data.BaoHiem, Object.BaoHiem>.ConvertObj(ref BaoHiem1, BaoHiem);
+                    Convert<Data.BaoHiem, Object.BaoHiem>.ConvertObj(ref BaoHiem1, baoHiem);
                     context.BaoHiems.Add(BaoHiem1);
                     int check = context.SaveChanges();
                     if (check == 0)
@@ -391,29 +401,28 @@ namespace ProgramWEB.Models.Object
                     return string.Empty;
                 }
                 string error = "";
-                if (BaoHiem1.BH_Ma == BaoHiem.BH_Ma)
+                if (BaoHiem1.BH_Ma == baoHiem.BH_Ma)
                     error += "[Mã bảo hiểm đã tồn tại]";
-                if (BaoHiem1.BH_SoBaoHiem == BaoHiem.BH_SoBaoHiem)
+                if (BaoHiem1.BH_SoBaoHiem == baoHiem.BH_SoBaoHiem)
                     error += "[Số bảo hiểm đã tồn tại]";
                 return error;
             }
-            catch
-            {
-                return DefineError.loiHeThong;
-            }
+            catch { }
+            return DefineError.loiHeThong;
         }
         public string suaBaoHiem(Object.BaoHiem New)
         {
             try
             {
-                if (New == null)
+                if (New == null || string.IsNullOrEmpty(New.BH_SoBaoHiem) ||
+                    New.BH_NgayCap == null || New.BH_NgayHetHan == null ||
+                    string.IsNullOrEmpty(New.BH_NoiCap) || string.IsNullOrEmpty(New.NS_Ma))
                     return DefineError.loiDuLieuKhongHopLe;
-                
                 Data.BaoHiem Old = context.BaoHiems.Find(New.BH_Ma);
                 if (Old == null)
                     return DefineError.khongTonTai;
                 Data.BaoHiem check = context.BaoHiems.Where(
-                    item => item.BH_Ma != New.BH_Ma 
+                    item => item.BH_Ma != New.BH_Ma
                     && (item.BH_SoBaoHiem == New.BH_SoBaoHiem)).FirstOrDefault();
                 if (check == null)
                 {
@@ -425,16 +434,12 @@ namespace ProgramWEB.Models.Object
                     return string.Empty;
                 }
                 string error = "";
-                if (check.BH_Ma == check.BH_Ma)
-                    error += "[Mã bảo hiểm]";
                 if (check.BH_SoBaoHiem == check.BH_SoBaoHiem)
-                    error += "[Số bảo hiểm]";
-                return error + " đã tồn tại";
+                    error += "[Số bảo hiểm đã tồn tại]";
+                return error;
             }
-            catch
-            {
-                return DefineError.loiHeThong;
-            }
+            catch { }
+            return DefineError.loiHeThong;
         }
         public string xoaBaoHiem(long ma)
         {
@@ -496,8 +501,7 @@ namespace ProgramWEB.Models.Object
         public IEnumerable<Object.HopDong> layDanhSachHopDong()
         {
             try
-            {
-                
+            { 
                 if (context != null)
                     return Convert<Object.HopDong, Data.HopDong>.ConvertObjs(context.HopDongs);
             }
@@ -587,7 +591,10 @@ namespace ProgramWEB.Models.Object
         {
             try
             {
-                if (New == null)
+                if (New == null || New.HD_NgayBatDau == null ||
+                    string.IsNullOrEmpty(New.HD_HinhThucLamViec) || New.HD_Luong == null ||
+                    string.IsNullOrEmpty(New.HD_DonViTinhuong) || string.IsNullOrEmpty(New.HD_CongViec) ||
+                    string.IsNullOrEmpty(New.NS_Ma))
                     return DefineError.loiDuLieuKhongHopLe;
                 Data.HopDong vali = context.HopDongs.Where(
                     item => item.HD_Ma == New.HD_Ma ||
@@ -611,42 +618,10 @@ namespace ProgramWEB.Models.Object
                 }
                 string error = "";
                 if (vali.HD_Ma == New.HD_Ma)
-                    error += "[Mã hợp đồng]";
+                    error += "[Mã hợp đồng đã tồn tại]";
                 else
                     error += "[Hợp đồng cũ của người này chưa kết thúc, không thể thêm mới]";
                 return error;
-            }
-            catch
-            {
-                return DefineError.loiHeThong;
-            }
-        }
-        public string suaHopDong(Object.HopDong New)
-        {
-            try
-            {
-                if (New == null)
-                    return DefineError.loiDuLieuKhongHopLe;
-                
-                Data.HopDong Old = context.HopDongs.Find(New.HD_Ma);
-                if (Old == null)
-                    return DefineError.khongTonTai;
-                Data.HopDong check = context.HopDongs.Where(
-                    item => item.HD_Ma != New.HD_Ma
-                ).FirstOrDefault();
-                if (check == null)
-                {
-                    Convert<Data.HopDong, Object.HopDong>.ConvertObj(ref Old, New);
-                    context.HopDongs.AddOrUpdate(check);
-                    int checkSuccess = context.SaveChanges();
-                    if (checkSuccess == 0)
-                        return DefineError.loiHeThong;
-                    return string.Empty;
-                }
-                string error = "";
-                if (check.HD_Ma == check.HD_Ma)
-                    error += "[Mã hợp đồng]";
-                return error + " đã tồn tại";
             }
             catch
             {
@@ -803,11 +778,17 @@ namespace ProgramWEB.Models.Object
         {
             try
             {
-                if (New == null)
+                if (New == null || New.LSLV_NgayBatDau == null ||
+                    string.IsNullOrEmpty(New.LSLV_ChucVu) || string.IsNullOrEmpty(New.NS_Ma))
                     return DefineError.loiDuLieuKhongHopLe;
-                
                 Data.LichSuLamViec vali = context.LichSuLamViecs
-                    .Where(item => item.LSLV_Ma == New.LSLV_Ma).FirstOrDefault();
+                    .Where(item => item.LSLV_Ma == New.LSLV_Ma ||
+                    (
+                        item.NS_Ma == New.NS_Ma && (
+                            item.LSLV_NgayKetThuc == null ||
+                            item.LSLV_NgayKetThuc > New.LSLV_NgayBatDau
+                        )
+                    )).FirstOrDefault();
                 if (vali == null)
                 {
                     vali = new Data.LichSuLamViec();
@@ -820,26 +801,33 @@ namespace ProgramWEB.Models.Object
                 }
                 string error = "";
                 if (vali.LSLV_Ma == New.LSLV_Ma)
-                    error += "[Mã] đã tồn tại";
+                    error += "[Mã đã tồn tại]";
+                else
+                    error += "[Một nhân sự không thể có nhiều hơn một lịch sử làm việc trong một thời điểm]";
                 return error;
             }
-            catch
-            {
-                return DefineError.loiHeThong;
-            }
+            catch { }
+            return DefineError.loiHeThong;
+
         }
         public string suaLichSuLamViec(Object.LichSuLamViec New)
         {
             try
             {
-                if (New == null)
+                if (New == null || New.LSLV_NgayBatDau == null ||
+                    string.IsNullOrEmpty(New.LSLV_ChucVu) || string.IsNullOrEmpty(New.NS_Ma))
                     return DefineError.loiDuLieuKhongHopLe;
-                
+
                 Data.LichSuLamViec Old = context.LichSuLamViecs.Find(New.LSLV_Ma);
                 if (Old == null)
                     return DefineError.khongTonTai;
                 Data.LichSuLamViec check = context.LichSuLamViecs.Where(
-                    item => item.LSLV_Ma != New.LSLV_Ma
+                    item => item.LSLV_Ma != New.LSLV_Ma && (
+                        item.NS_Ma == New.NS_Ma && (
+                            item.LSLV_NgayKetThuc == null ||
+                            item.LSLV_NgayKetThuc > New.LSLV_NgayBatDau
+                        )
+                    )
                 ).FirstOrDefault();
                 if (check == null)
                 {
@@ -850,15 +838,10 @@ namespace ProgramWEB.Models.Object
                         return DefineError.loiHeThong;
                     return string.Empty;
                 }
-                string error = "";
-                if (check.LSLV_Ma == check.LSLV_Ma)
-                    error += "[Mã]";
-                return error + " đã tồn tại";
+                return "[Một nhân sự không thể có nhiều hơn một lịch sử làm việc trong một thời điểm]";
             }
-            catch
-            {
-                return DefineError.loiHeThong;
-            }
+            catch { }
+            return DefineError.loiHeThong;
         }
         public string xoaLichSuLamViec(long ma)
         {
@@ -1119,9 +1102,9 @@ namespace ProgramWEB.Models.Object
         {
             try
             {
-                if (New == null)
+                if (New == null || string.IsNullOrEmpty(New.KTKL_HinhThuc) ||
+                    New.KTKL_SoTien == null || string.IsNullOrEmpty(New.NS_Ma))
                     return DefineError.loiDuLieuKhongHopLe;
-                
                 Data.KhenThuongKyLuat vali = context.KhenThuongKyLuats
                     .Where(item => item.KTKL_Ma == New.KTKL_Ma).FirstOrDefault();
                 if (vali == null)
@@ -1134,42 +1117,30 @@ namespace ProgramWEB.Models.Object
                         return DefineError.loiHeThong;
                     return string.Empty;
                 }
-                string error = "";
                 if (vali.KTKL_Ma == New.KTKL_Ma)
-                    error += "[Mã] đã tồn tại";
-                return error;
+                    return "[Mã đã tồn tại]";
             }
-            catch
-            {
-                return DefineError.loiHeThong;
-            }
+            catch { }
+            return DefineError.loiHeThong;
         }
         public string suaKhenThuongKyLuat(Object.KhenThuongKyLuat New)
         {
             try
             {
-                if (New == null)
+                if (New == null || string.IsNullOrEmpty(New.KTKL_HinhThuc) ||
+                    New.KTKL_SoTien == null || string.IsNullOrEmpty(New.NS_Ma))
                     return DefineError.loiDuLieuKhongHopLe;
-                
+
                 Data.KhenThuongKyLuat Old = context.KhenThuongKyLuats.Find(New.KTKL_Ma);
                 if (Old == null)
                     return DefineError.khongTonTai;
-                Data.KhenThuongKyLuat check = context.KhenThuongKyLuats.Where(
-                    item => item.KTKL_Ma != New.KTKL_Ma
-                ).FirstOrDefault();
-                if (check == null)
-                {
-                    Convert<Data.KhenThuongKyLuat, Object.KhenThuongKyLuat>.ConvertObj(ref Old, New);
-                    context.KhenThuongKyLuats.AddOrUpdate(check);
-                    int checkSuccess = context.SaveChanges();
-                    if (checkSuccess == 0)
-                        return DefineError.loiHeThong;
-                    return string.Empty;
-                }
-                string error = "";
-                if (check.KTKL_Ma == check.KTKL_Ma)
-                    error += "[Mã]";
-                return error + " đã tồn tại";
+                Old = new Data.KhenThuongKyLuat();
+                Convert<Data.KhenThuongKyLuat, Object.KhenThuongKyLuat>.ConvertObj(ref Old, New);
+                context.KhenThuongKyLuats.AddOrUpdate(Old);
+                int checkSuccess = context.SaveChanges();
+                if (checkSuccess == 0)
+                    return DefineError.loiHeThong;
+                return string.Empty;
             }
             catch
             {

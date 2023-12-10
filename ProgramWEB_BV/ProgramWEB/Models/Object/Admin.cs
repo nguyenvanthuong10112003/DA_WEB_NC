@@ -139,7 +139,7 @@ namespace ProgramWEB.Models.Object
                 if (string.IsNullOrEmpty(result.PB_Ma) || string.IsNullOrEmpty(result.BP_Ma) || string.IsNullOrEmpty(result.BP_Ten))
                     return DefineError.loiDuLieuKhongHopLe;
                 if (context.PhongBans.Find(result.PB_Ma) == null)
-                    return "Mã bộ phận không tồn tại.";
+                    return "Phòng ban không tồn tại.";
                 Data.BoPhan old = context.BoPhans.Where(item => item.BP_Ma == result.BP_Ma).FirstOrDefault();
                 if (old == null)
                 {
@@ -176,7 +176,7 @@ namespace ProgramWEB.Models.Object
                 if (old == null)
                     return DefineError.khongTonTai;
                 if (context.PhongBans.Find(New.PB_Ma) == null)
-                    return "Mã phòng ban không tồn tại.";
+                    return "Phòng ban không tồn tại.";
                 if (!string.IsNullOrEmpty(New.NS_Ma))
                 {
                     if (context.NhanSus.Find(New.NS_Ma) == null)
@@ -185,7 +185,6 @@ namespace ProgramWEB.Models.Object
                         item => (item.BP_Ma != New.BP_Ma && (item.NS_Ma == New.NS_Ma))).Count() > 0)
                         return "Một nhân sự không thể cai quản nhiều hơn một bộ phận";
                 }
-
                 Convert<Data.BoPhan, Object.BoPhan>.ConvertObj(ref old, New);
                 int checkInt = context.SaveChanges();
                 if (checkInt == 0)
@@ -302,18 +301,25 @@ namespace ProgramWEB.Models.Object
         {
             try
             {
-                if (New == null)
+                if (New == null || New.NN_Ngay == null)
                     return DefineError.loiDuLieuKhongHopLe;
-                Data.NgayNghi old = context.NgayNghis.Where(o => o.NN_Ngay == New.NN_Ngay).FirstOrDefault();
-                if (old != null)
-                    return DefineError.daTonTai;
-                old = new Data.NgayNghi();
-                Convert<Data.NgayNghi, Object.NgayNghi>.ConvertObj(ref old, New);
-                context.NgayNghis.Add(old);
-                int check = context.SaveChanges();
-                if (check == 0)
-                    return DefineError.loiHeThong;
-                return string.Empty;
+                Data.NgayNghi old = context.NgayNghis.Where(o => o.NN_Ngay == New.NN_Ngay || o.NN_Ma == New.NN_Ma).FirstOrDefault();
+                if (old == null)
+                {
+                    old = new Data.NgayNghi();
+                    Convert<Data.NgayNghi, Object.NgayNghi>.ConvertObj(ref old, New);
+                    context.NgayNghis.Add(old);
+                    int check = context.SaveChanges();
+                    if (check == 0)
+                        return DefineError.loiHeThong;
+                    return string.Empty;
+                }
+                string error = "";
+                if (old.NN_Ma == New.NN_Ma)
+                    error += "[Mã đã tồn tại]";
+                if (old.NN_Ngay == New.NN_Ngay)
+                    error += "[Ngày nghỉ này đã tồn tại]";
+                return error;
             }
             catch { }
             return DefineError.loiHeThong;
@@ -322,11 +328,13 @@ namespace ProgramWEB.Models.Object
         {
             try
             {
-                if (New == null)
+                if (New == null || New.NN_Ngay == null)
                     return DefineError.loiDuLieuKhongHopLe;
-                Data.NgayNghi old = context.NgayNghis.Where(o => o.NN_Ngay == New.NN_Ngay).FirstOrDefault();
+                Data.NgayNghi old = context.NgayNghis.Find(New.NN_Ma);
                 if (old == null)
                     return DefineError.khongTonTai;
+                if (context.NgayNghis.Where(item => item.NN_Ma != New.NN_Ma && item.NN_Ngay == New.NN_Ngay).Count() > 0)
+                    return "[Ngày nghỉ này đã tồn tại]";
                 old = new Data.NgayNghi();
                 Convert<Data.NgayNghi, Object.NgayNghi>.ConvertObj(ref old, New);
                 context.NgayNghis.AddOrUpdate(old);
@@ -392,9 +400,10 @@ namespace ProgramWEB.Models.Object
         {
             try
             {
-                if (New == null)
-                    return DefineError.loiDuLieuKhongHopLe;
-                if (New.CL_GioBatDau < 0 || New.CL_GioBatDau > 23 || New.CL_GioKetThuc < 0 || New.CL_GioKetThuc > 23 ||
+                if (New == null || string.IsNullOrEmpty(New.CL_Ma) ||
+                    string.IsNullOrEmpty(New.CL_TenCa) || New.CL_GioBatDau == null ||
+                    New.CL_PhutBatDau == null || New.CL_GioKetThuc == null || 
+                    New.CL_PhutKetThuc == null || New.CL_GioBatDau < 0 || New.CL_GioBatDau > 23 || New.CL_GioKetThuc < 0 || New.CL_GioKetThuc > 23 ||
                     New.CL_PhutBatDau < 0 || New.CL_PhutBatDau > 59 || New.CL_PhutKetThuc < 0 || New.CL_PhutKetThuc > 59)
                     return DefineError.loiDuLieuKhongHopLe;
                 Data.CaLam old = context.CaLams.Where(o => (o.CL_Ma == New.CL_Ma || 
@@ -403,14 +412,18 @@ namespace ProgramWEB.Models.Object
                                                          o.CL_GioKetThuc == New.CL_GioKetThuc &&
                                                          o.CL_PhutKetThuc == New.CL_PhutKetThuc))
                                                          ).FirstOrDefault();
-                if (old != null)
-                    return DefineError.daTonTai;
-                old = new Data.CaLam();
-                Convert<Data.CaLam, CaLam>.ConvertObj(ref old, New);
-                context.CaLams.Add(old);
-                int check = context.SaveChanges();
-                if (check > 0)
-                    return string.Empty;
+                if (old == null)
+                {
+                    old = new Data.CaLam();
+                    Convert<Data.CaLam, CaLam>.ConvertObj(ref old, New);
+                    context.CaLams.Add(old);
+                    int check = context.SaveChanges();
+                    if (check > 0)
+                        return string.Empty;
+                }
+                if (New.CL_Ma == old.CL_Ma)
+                    return "[Mã ca làm đã tồn tại]";
+                return "[Thời gian của ca làm này đã tồn tại]";
             }
             catch { }
             return DefineError.loiHeThong;
@@ -419,21 +432,21 @@ namespace ProgramWEB.Models.Object
         {
             try
             {
-                if (New == null)
-                    return DefineError.loiDuLieuKhongHopLe;
-                if (New.CL_GioBatDau < 0 || New.CL_GioBatDau > 23 || New.CL_GioKetThuc < 0 || New.CL_GioKetThuc > 23 ||
+                if (New == null || string.IsNullOrEmpty(New.CL_Ma) ||
+                    string.IsNullOrEmpty(New.CL_TenCa) || New.CL_GioBatDau == null ||
+                    New.CL_PhutBatDau == null || New.CL_GioKetThuc == null ||
+                    New.CL_PhutKetThuc == null || New.CL_GioBatDau < 0 || New.CL_GioBatDau > 23 || New.CL_GioKetThuc < 0 || New.CL_GioKetThuc > 23 ||
                     New.CL_PhutBatDau < 0 || New.CL_PhutBatDau > 59 || New.CL_PhutKetThuc < 0 || New.CL_PhutKetThuc > 59)
                     return DefineError.loiDuLieuKhongHopLe;
                 Data.CaLam old = context.CaLams.Find(New.CL_Ma);
                 if (old == null)
                     return DefineError.khongTonTai;
-                Data.CaLam check = context.CaLams.Where(o => o.CL_Ma != New.CL_Ma && 
+                if (context.CaLams.Where(o => o.CL_Ma != New.CL_Ma && 
                                                                 (o.CL_GioBatDau == New.CL_GioBatDau &&
                                                                 o.CL_PhutBatDau == New.CL_PhutBatDau &&
                                                                 o.CL_GioKetThuc == New.CL_GioKetThuc &&
-                                                                o.CL_PhutKetThuc == New.CL_PhutKetThuc)).FirstOrDefault();
-                if (check != null)
-                    return DefineError.daTonTai;
+                                                                o.CL_PhutKetThuc == New.CL_PhutKetThuc)).Count() > 0)
+                    return "[Thời gian của ca làm này đã tồn tại]";
                 old = new Data.CaLam();
                 Convert<Data.CaLam, Object.CaLam>.ConvertObj(ref old, New);
                 context.CaLams.AddOrUpdate(old);

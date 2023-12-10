@@ -85,6 +85,14 @@
                     return `
                     <input type="datetime-local" name="${idName}" id="${idName}" value="${toDateTimeInput(data)}" class="form-control input-${thaotac}">
                     `
+                case 3: 
+                    return `
+                    <select name="${idName}" id="${idName}" class="form-control input-${thaotac}">
+                      <option value="">Chọn hình thức</option>
+                      <option value="Khen thưởng" ${data == 'Khen thưởng' ? 'selected' : ''}>Khen thưởng</option>
+                      <option value="Vi phạm" ${data == 'Vi phạm' ? 'selected' : ''}>Vi phạm</option>
+                    </select>
+                    `
             }
             return `<input type="text" name="${idName}" id="${idName}" class="form-control input-${thaotac}"
                 value="${data}"

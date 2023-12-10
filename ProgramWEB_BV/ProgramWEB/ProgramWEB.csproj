@@ -2830,10 +2830,7 @@
     <Content Include="Views\Management\CaLam.cshtml" />
     <Content Include="Views\Management\NgayNghi.cshtml" />
     <Content Include="Views\Management\ChamCong.cshtml" />
-    <Content Include="Views\Management\DuyetDangKy.cshtml" />
     <Content Include="Views\Management\LichSuLamViec.cshtml" />
-    <Content Include="Views\Management\DangKyCaLam.cshtml" />
-    <Content Include="Views\Management\DangKyNghiLam.cshtml" />
     <Content Include="Views\User\Profile.cshtml" />
     <Content Include="Views\User\Index.cshtml" />
     <Content Include="Views\User\ChangePassword.cshtml" />

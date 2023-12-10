@@ -58,29 +58,6 @@ namespace ProgramWEB.Controllers
                 error = DefineError.loiHeThong
             });
         }
-        public string edit(HopDong hopDong)
-        {
-            try
-            {
-                QuanLy user = (QuanLy)Session[DefineSession.userSession];
-                if (user == null)
-                    return JsonConvert.SerializeObject(new { error = DefineError.canDangNhap });
-                if (!user.quyenQuanLy)
-                    return JsonConvert.SerializeObject(new { error = DefineError.khongCoQuyen });
-                string error = ((QuanLy)user).suaHopDong(hopDong);
-                if (!string.IsNullOrEmpty(error))
-                    return JsonConvert.SerializeObject(new { error = error });
-                return JsonConvert.SerializeObject(new
-                {
-                    success = "Sửa thành công"
-                });
-            }
-            catch { }
-            return JsonConvert.SerializeObject(new
-            {
-                error = DefineError.loiHeThong
-            });
-        }
         public string delete(long[] mas)
         {
             try

@@ -89,6 +89,23 @@
                         value="${data.length >= 8 ? toDateInput(data) : ""}"
                             placeholder="Nhập ${item.toLowerCase()}">
                     `
+                case 3:
+                    return `
+                    <select name="${idName}" id="${idName}" class="form-control input-${thaotac}">
+                      <option value="">Chọn hình thức</option>
+                      <option value="FullTime" ${data == 'FullTime' ? 'selected' : ''}>FullTime</option>
+                      <option value="PartTime" ${data == 'PartTime' ? 'selected' : ''}>PartTime</option>
+                    </select>
+                    `
+                case 5: 
+                    return `
+                    <select name="${idName}" id="${idName}" class="form-control input-${thaotac}">
+                      <option value="">Chọn đơn vị tính lương</option>
+                      <option value="Tháng" ${data == 'Tháng' ? 'selected' : ''}>Tháng</option>
+                      <option value="Ngày" ${data == 'Ngày' ? 'selected' : ''}>Ngày</option>
+                      <option value="Giờ" ${data == 'Giờ' ? 'selected' : ''}>Giờ</option>
+                    </select>
+                    `
             }
             return `<input type="text" name="${idName}" id="${idName}" class="form-control input-${thaotac}"
                 value="${data}"
