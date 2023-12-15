@@ -17,22 +17,22 @@ export default function dataToWorksheet(data, typeHandlers) {
   // convert cells array to an object by iterating over all rows
   const worksheet = cells.reduce((sheet, row, rowIndex) => {
     // iterate over all row cells
-    row.forEach((cell, columnIndex) => {
-      lastColumn = Math.max(lastColumn, columnIndex);
+      row.forEach((cell, columnIndex) => {
+          lastColumn = Math.max(lastColumn, columnIndex);
 
-      // convert the row and column indices to a XLSX index
-      const ref = encodeCell({
-        c: columnIndex,
-        r: rowIndex,
+          // convert the row and column indices to a XLSX index
+          const ref = encodeCell({
+              c: columnIndex,
+              r: rowIndex,
+          });
+
+          // only save actual cells and convert them to XLSX-Cell objects
+          if (cell) {
+              sheet[ref] = cellToObject(cell, typeHandlers);
+          } else {
+              sheet[ref] = { t: 's', v: '' };
+          }
       });
-
-      // only save actual cells and convert them to XLSX-Cell objects
-      if (cell) {
-        sheet[ref] = cellToObject(cell, typeHandlers);
-      } else {
-          sheet[ref] =  { t: 's', v: '' };
-      }
-    });
 
     return sheet;
   }, {});

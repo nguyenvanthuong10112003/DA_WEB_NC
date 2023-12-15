@@ -68,6 +68,12 @@
             let data = result[nameObj[item].id] ? (result[nameObj[item].id]).trim() : "";
             let idName = nameObj[item].id + '-' + thaotac + (thaotac != 'search' ? '-' + id : '');
             switch (index) {
+                case 0:
+                    return `
+                    <input type="number" name="${idName}" id="${idName}" class="form-control input-${thaotac}"
+                        value="${data}" min="0" ${thaotac == 'search' ? '' : 'disabled'}
+                        placeholder="Nhập ${item.toLowerCase()}">
+                    `
                 case 1:
                     return `
                     <input type="date" name="${idName}" id="${idName}" class="form-control input-${thaotac}"

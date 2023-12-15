@@ -387,6 +387,8 @@ namespace ProgramWEB.Models.Object
                     string.IsNullOrEmpty(baoHiem.BH_NoiCap) || string.IsNullOrEmpty(baoHiem.NS_Ma))
                     return DefineError.loiDuLieuKhongHopLe;
 
+                if (context.NhanSus.Find(baoHiem.NS_Ma) == null)
+                    return "Nhân sự không tồn tại.";
                 Data.BaoHiem BaoHiem1 = context.BaoHiems.Where(
                     item => (item.BH_Ma == baoHiem.BH_Ma ||
                     item.BH_SoBaoHiem == baoHiem.BH_SoBaoHiem)).FirstOrDefault();
@@ -418,6 +420,8 @@ namespace ProgramWEB.Models.Object
                     New.BH_NgayCap == null || New.BH_NgayHetHan == null ||
                     string.IsNullOrEmpty(New.BH_NoiCap) || string.IsNullOrEmpty(New.NS_Ma))
                     return DefineError.loiDuLieuKhongHopLe;
+                if (context.NhanSus.Find(New.NS_Ma) == null)
+                    return "Nhân sự không tồn tại.";
                 Data.BaoHiem Old = context.BaoHiems.Find(New.BH_Ma);
                 if (Old == null)
                     return DefineError.khongTonTai;
@@ -596,6 +600,8 @@ namespace ProgramWEB.Models.Object
                     string.IsNullOrEmpty(New.HD_DonViTinhuong) || string.IsNullOrEmpty(New.HD_CongViec) ||
                     string.IsNullOrEmpty(New.NS_Ma))
                     return DefineError.loiDuLieuKhongHopLe;
+                if (context.NhanSus.Find(New.NS_Ma) == null)
+                    return "Nhân sự không tồn tại.";
                 Data.HopDong vali = context.HopDongs.Where(
                     item => item.HD_Ma == New.HD_Ma ||
                     (
@@ -781,6 +787,10 @@ namespace ProgramWEB.Models.Object
                 if (New == null || New.LSLV_NgayBatDau == null ||
                     string.IsNullOrEmpty(New.LSLV_ChucVu) || string.IsNullOrEmpty(New.NS_Ma))
                     return DefineError.loiDuLieuKhongHopLe;
+                if (context.NhanSus.Find(New.NS_Ma) == null)
+                    return "Nhân sự không tồn tại.";
+                if (context.BoPhans.Find(New.BP_Ma) == null)
+                    return "Bộ phận không tồn tại.";
                 Data.LichSuLamViec vali = context.LichSuLamViecs
                     .Where(item => item.LSLV_Ma == New.LSLV_Ma ||
                     (
@@ -817,7 +827,10 @@ namespace ProgramWEB.Models.Object
                 if (New == null || New.LSLV_NgayBatDau == null ||
                     string.IsNullOrEmpty(New.LSLV_ChucVu) || string.IsNullOrEmpty(New.NS_Ma))
                     return DefineError.loiDuLieuKhongHopLe;
-
+                if (context.NhanSus.Find(New.NS_Ma) == null)
+                    return "Nhân sự không tồn tại.";
+                if (context.BoPhans.Find(New.BP_Ma) == null)
+                    return "Bộ phận không tồn tại.";
                 Data.LichSuLamViec Old = context.LichSuLamViecs.Find(New.LSLV_Ma);
                 if (Old == null)
                     return DefineError.khongTonTai;
@@ -1105,6 +1118,8 @@ namespace ProgramWEB.Models.Object
                 if (New == null || string.IsNullOrEmpty(New.KTKL_HinhThuc) ||
                     New.KTKL_SoTien == null || string.IsNullOrEmpty(New.NS_Ma))
                     return DefineError.loiDuLieuKhongHopLe;
+                if (context.NhanSus.Find(New.NS_Ma) == null)
+                    return "Nhân sự không tồn tại.";
                 Data.KhenThuongKyLuat vali = context.KhenThuongKyLuats
                     .Where(item => item.KTKL_Ma == New.KTKL_Ma).FirstOrDefault();
                 if (vali == null)
@@ -1130,7 +1145,8 @@ namespace ProgramWEB.Models.Object
                 if (New == null || string.IsNullOrEmpty(New.KTKL_HinhThuc) ||
                     New.KTKL_SoTien == null || string.IsNullOrEmpty(New.NS_Ma))
                     return DefineError.loiDuLieuKhongHopLe;
-
+                if (context.NhanSus.Find(New.NS_Ma) == null)
+                    return "Nhân sự không tồn tại.";
                 Data.KhenThuongKyLuat Old = context.KhenThuongKyLuats.Find(New.KTKL_Ma);
                 if (Old == null)
                     return DefineError.khongTonTai;

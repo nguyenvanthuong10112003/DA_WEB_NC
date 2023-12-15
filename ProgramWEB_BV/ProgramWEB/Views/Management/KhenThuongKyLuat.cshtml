@@ -78,7 +78,7 @@
                 case 0:
                     return `
                     <input type="number" name="${idName}" id="${idName}" class="form-control input-${thaotac}"
-                        value="${data}" min="0"
+                        value="${data}" min="0" ${thaotac == 'search' ? '' : 'disabled'}
                         placeholder="Nhập ${item.toLowerCase()}">
                     `
                 case 2:

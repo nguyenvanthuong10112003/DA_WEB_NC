@@ -55,7 +55,7 @@ namespace ProgramWEB.Controllers
                     if (context == null)
                         return View();
                     Models.Data.TaiKhoan taiKhoan = context.TaiKhoans.Where(item => item.TK_TenDangNhap == username).FirstOrDefault();
-                    if (taiKhoan == null || taiKhoan.TK_MatKhau != password || Models.Object.User.kiemTraBiKhoaVaMoKhoa(taiKhoan))
+                    if (taiKhoan == null || taiKhoan.TK_MatKhau != password || Models.Object.User.kiemTraBiKhoaVaMoKhoa(taiKhoan.TK_TenDangNhap))
                     {
                         //Xoa khoi cookie
                         removeFromCookie(new string[] { DefineCookie.cookieUsername, DefineCookie.cookiePassword });
@@ -108,7 +108,7 @@ namespace ProgramWEB.Controllers
                         error = DefineError.loiHeThong
                     });
                 Models.Data.TaiKhoan taiKhoan = context.TaiKhoans.Find(username);
-                string message = Models.Object.User.login(taiKhoan, password);
+                string message = Models.Object.User.login(taiKhoan.TK_TenDangNhap, password);
                 if (!string.IsNullOrEmpty(message))
                     return JsonConvert.SerializeObject(new
                     {
@@ -147,7 +147,7 @@ namespace ProgramWEB.Controllers
                 error = DefineError.loiHeThong
             });
         }
-        public ActionResult ForgetPassword(string error = "")
+        public ActionResult ForgetPassword()
         {
             if (ModelState.IsValid)
             {
@@ -155,20 +155,25 @@ namespace ProgramWEB.Controllers
                     removeFromCookie(new string[] { DefineCookie.cookieUsername, DefineCookie.cookiePassword });
                 if (Session[DefineSession.userSession] != null)
                     Session.Remove(DefineSession.userSession);
-                if (!string.IsNullOrEmpty(error))
-                    ViewBag.error = error;
             }
             return View("ForgetPassword");
         }
         [HttpPost]
-        public ActionResult XacThucTaiKhoan(string email)
+        public ActionResult ForgetPassword(string email)
         {
-            try
+            if (ModelState.IsValid)
             {
+                if (string.IsNullOrEmpty(email))
+                {
+                    ViewBag.error = DefineError.loiDuLieuKhongHopLe;
+                    return View();
+                }
                 string error = Models.Object.User.thayDoiMaXacThuc(email);
                 if (!string.IsNullOrEmpty(error))
-                    return ForgetPassword(error);
-                ViewBag.email = email;
+                {
+                    ViewBag.error = error;
+                    return View();
+                }
                 Thread sendMail = new Thread(() =>
                 {
                     QuanLyNhanSuContext context = new QuanLyNhanSuContext();
@@ -180,12 +185,22 @@ namespace ProgramWEB.Controllers
                         return;
                     sendEmail("~/Contents/forms/SendEmailForgetPassword.html", nhanSu.NS_Email, "Xác thực đặt lại mật khẩu",
                         new List<string> { "{{email}}", "{{name}}", "{{maXacThuc}}", "{{companyName}}", "{{time}}" },
-                        new List<string> { nhanSu.NS_Email, nhanSu.NS_HoVaTen, taiKhoan.TK_MaXacThuc, 
+                        new List<string> { nhanSu.NS_Email, nhanSu.NS_HoVaTen, taiKhoan.TK_MaXacThuc,
                             ConfigurationManager.AppSettings["FromEmailDisplayName"].ToString(), DateTime.Now.ToString()
                     });
                 });
                 sendMail.Start();
-                return View();
+                return XacThucTaiKhoan(email);
+            }
+            return ForgetPassword();
+        }
+        [HttpPost]
+        public ActionResult XacThucTaiKhoan(string email)
+        {
+            try
+            {
+                ViewBag.email = email;
+                return View("XacThucTaiKhoan");
             } catch { }
             return ForgetPassword();
         }

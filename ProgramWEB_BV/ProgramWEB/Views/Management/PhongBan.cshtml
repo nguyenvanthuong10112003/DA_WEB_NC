@@ -69,7 +69,7 @@
             let data = result[nameObj[item].id] ? (result[nameObj[item].id]).trim() : "";
             let idName = nameObj[item].id + '-' + thaotac + (thaotac != 'search' ? '-' + id : '');
             return `<input type="text" name="${idName}" id="${idName}" class="form-control input-${thaotac}"
-                value="${data}"
+                value="${data}" ${index == 0 ? thaotac == 'edit' ? 'disabled' : '' : '' }
                 placeholder="Nhập ${item.toLowerCase()}">`
         }
         var convertDataToServer = function (item, index) {

@@ -66,32 +66,35 @@ var createContent = function () {
             <div class="Dialog_wrapper__5aD4q">
                 <div class="Dialog_overlay__27wcK">
                 </div>
-            <div class="Dialog_main__PPXtm">
-                <div class="Dialog_header__0dUcJ">
-                    <h3 class="Dialog_title__+aMqC">
-                        Cảnh báo
-                    </h3>
-                    <button class="Dialog_close-button__3tLfG">
-                        <svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="circle-xmark" class="svg-inline--fa fa-circle-xmark " role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
-                            <path fill="currentColor" d="M0 256C0 114.6 114.6 0 256 0C397.4 0 512 114.6 512 256C512 397.4 397.4 512 256 512C114.6 512 0 397.4 0 256zM175 208.1L222.1 255.1L175 303C165.7 312.4 165.7 327.6 175 336.1C184.4 346.3 199.6 346.3 208.1 336.1L255.1 289.9L303 336.1C312.4 346.3 327.6 346.3 336.1 336.1C346.3 327.6 346.3 312.4 336.1 303L289.9 255.1L336.1 208.1C346.3 199.6 346.3 184.4 336.1 175C327.6 165.7 312.4 165.7 303 175L255.1 222.1L208.1 175C199.6 165.7 184.4 165.7 175 175C165.7 184.4 165.7 199.6 175 208.1V208.1z">
-                            </path>
-                        </svg>
-                    </button>
-                </div>
-                <div class="Dialog_content-wrapper__oTjv7">
-                    <div class="Dialog_content__fC8ze">
-                        
+                <div class="Dialog_main__PPXtm">
+                    <div class="Dialog_header__0dUcJ">
+                        <h3 class="Dialog_title__+aMqC">
+                            Cảnh báo
+                        </h3>
+                        <button class="Dialog_close-button__3tLfG">
+                            <svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="circle-xmark" class="svg-inline--fa fa-circle-xmark " role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+                                <path fill="currentColor" d="M0 256C0 114.6 114.6 0 256 0C397.4 0 512 114.6 512 256C512 397.4 397.4 512 256 512C114.6 512 0 397.4 0 256zM175 208.1L222.1 255.1L175 303C165.7 312.4 165.7 327.6 175 336.1C184.4 346.3 199.6 346.3 208.1 336.1L255.1 289.9L303 336.1C312.4 346.3 327.6 346.3 336.1 336.1C346.3 327.6 346.3 312.4 336.1 303L289.9 255.1L336.1 208.1C346.3 199.6 346.3 184.4 336.1 175C327.6 165.7 312.4 165.7 303 175L255.1 222.1L208.1 175C199.6 165.7 184.4 165.7 175 175C165.7 184.4 165.7 199.6 175 208.1V208.1z">
+                                </path>
+                            </svg>
+                        </button>
                     </div>
-                    <div class="Dialog_action__kFm-L">
-                        <button class="btn btn-secondary Button_btn__RW1e2 Button_primary__86yfm Dialog_confirm-button__j4ByN" id="canh-bao-cancel">
-                            Hủy bỏ
-                        </button>
-                        <button class="btn btn-primary Button_btn__RW1e2 Button_primary__86yfm Dialog_confirm-button__j4ByN" id="canh-bao-accept">
-                            Đồng ý
-                        </button>
+                    <div class="Dialog_content-wrapper__oTjv7">
+                        <div class="Dialog_content__fC8ze">
+                        
+                        </div>
+                        <div class="Dialog_action__kFm-L">
+                            <button class="btn btn-secondary Button_btn__RW1e2 Button_primary__86yfm Dialog_confirm-button__j4ByN" id="canh-bao-cancel">
+                                Hủy bỏ
+                            </button>
+                            <button class="btn btn-primary Button_btn__RW1e2 Button_primary__86yfm Dialog_confirm-button__j4ByN" id="canh-bao-accept">
+                                Đồng ý
+                            </button>
+                        </div>
                     </div>
                 </div>
             </div>
+        </div>
+        <div id="table-export" class="w-100 h-100 d-none">
         </div>
     `;
 };
@@ -319,6 +322,49 @@ var createTable = function () {
         </div>
     `
 };
+var createTableExport = function () {
+    return `
+    <div class="back-export">
+    </div>
+    <div class="content-table-export">
+        <h2>Xuất file excel</h2>
+        <table class="table table-hover" id="table-job" style="overflow: auto;">
+        <thead>
+            <tr class="align-center">
+            ${nameTiengViets.reduce(function (result, item, index) {
+                return (
+                    result + (nameObj[item].using ? 
+                    `<th>${item}</th>` : '')
+                );
+            }, "")}
+            </tr>
+        </thead>
+        <tbody>
+            ${datas != null
+            ? datas.reduce(function (result, item) {
+                let id = item[nameItems[0]].toString().trim();
+                return (
+                    result +
+                    `
+                    <tr>
+                        ${nameItems.reduce(function (result1, item1, index) {
+                        return result1 + createRowTable(item, item1, index, id + '-export');
+                        }, "")}
+                    </tr>
+                    `
+                );
+            }, "")
+            : ""
+        }
+        </tbody>
+        </table>
+        <div class="d-flex flex-row justify-content-end">
+            <button type="button" id="cancel-export" class="btn btn-secondary">Hủy</button>
+            <button type="button" id="start-export" class="btn btn-primary">Xác nhận</button>
+        </div>
+    </div>
+    `
+}
 var createForm = function (result, thaotac) {
   if (result) {
     let id = result[nameObj[nameTiengViets[0]].id];
@@ -499,8 +545,19 @@ var ready = function () {
         }
     })
     nutXuatFile.click(function () {
-        var table2excel = new Table2Excel();
-        table2excel.export($('table'), 'thống kê ' + namePage);
+        var formTableExport = $('#table-export');
+        formTableExport.html(createTableExport())
+        formTableExport.removeClass('d-none')
+        $('#cancel-export').click(() => {
+            formTableExport.html('')
+            formTableExport.addClass('d-none')
+        })
+        $('#start-export').click(() => {
+            var table2excel = new Table2Excel();
+            table2excel.export($('#table-export table'), 'thống kê ' + namePage);
+            formTableExport.html('')
+            formTableExport.addClass('d-none')
+        })
     })
     nutThayDoiCheDoSapXep.change(function () {
         sortTangDan = !nutThayDoiCheDoSapXep.prop('checked');
@@ -527,37 +584,44 @@ var ready = function () {
     $('.successCL').hide()
 }
 var openEdit = function (e) {
-    let edit = $(e).parent().parent();
-    let id = edit.attr('id');
-    let result = {}
-    for (let item of nameTiengViets) {
-        result[nameObj[item].id] = document.getElementById(`${nameObj[item].id}-${id}`).innerText.trim()
-    }
-    $('td').removeClass('d-none')
-    for (let e of edit.children('td')) {
-        e = $(e)
-        e.attr('class', e.attr('class') ? (e.attr('class') + (e.attr('class').indexOf('d-none') == -1 ? ' d-none' : '')) : 'd-none')
-    }
-    $('.form-edit').remove();
-    edit.html(edit.html() + `<td colspan="${count + 2}" id="form-edit-${id}" class="form-edit">${createForm(result, 'edit')}</td>`);
-    ready()
-    $('.btn-resert-form').click(function () {
-        let id = $(this).attr('id');
-        id = id.split('-')
-        let thaoTac = id[id.length - 1];
-        if (thaoTac == 'edit') {
-            id = $(this).parent().parent().parent().parent().attr('id');
-            id = id.split('-')
-            id = id[id.length - 1]
-            openEdit($('#' + id).children().children()[0]);
+    new Promise(f => {
+        let edit = $(e).parent().parent();
+        let id = edit.attr('id');
+        let result = {}
+        for (let item of nameTiengViets) {
+            result[nameObj[item].id] = document.getElementById(`${nameObj[item].id}-${id}`).innerText.trim()
         }
-    }) 
+        $('td').removeClass('d-none')
+        for (let e of edit.children('td')) {
+            e = $(e)
+            e.attr('class', e.attr('class') ? (e.attr('class') + (e.attr('class').indexOf('d-none') == -1 ? ' d-none' : '')) : 'd-none')
+        }
+        $('.form-edit').remove();
+        edit.html(edit.html() + `<td colspan="${count + 2}" id="form-edit-${id}" class="form-edit">${createForm(result, 'edit')}</td>`);
+        ready()
+        $('.btn-resert-form').click(function () {
+            let id = $(this).attr('id');
+            id = id.split('-')
+            let thaoTac = id[id.length - 1];
+            if (thaoTac == 'edit') {
+                id = $(this).parent().parent().parent().parent().attr('id');
+                id = id.split('-')
+                id = id[id.length - 1]
+                openEdit($('#' + id).children().children()[0]);
+            }
+        })
+        f()
+    }).then(f => {
+        $(document).ready(ready)
+    })
 }
 var cancel = function (e) {
-    let edit = $(e).parent().parent().parent().parent().parent().parent().parent();
-    let id = edit.attr('id');
-    edit.children('td').removeClass('d-none');
-    document.getElementById(`form-edit-${id}`).classList.add('d-none');
+    new Promise(f => {
+        let edit = $(e).parent().parent().parent().parent().parent().parent().parent();
+        let id = edit.attr('id');
+        edit.children('td').removeClass('d-none');
+        document.getElementById(`form-edit-${id}`).classList.add('d-none');
+    }).then(f => { $(document).ready(ready)  })
 }
 var toPage = function (index) {
     page = index;
@@ -669,6 +733,8 @@ var loadData = function (myResolve, myReject) {
             n = parseInt(n)
             if (page > n)
                 page = n;
+            if (countData > 0 && page <= 0)
+                page = 1;
             if (myResolve && typeof myResolve == 'function')
                 myResolve()
         },
@@ -759,14 +825,20 @@ var loadPage = function (f) {
     loadTable()
 };
 var loadTable = function (f) {
-    $("#content-table").html(createTable());
-    if (f && typeof f == 'function') 
-        f()
+    new Promise(fu => {
+        $("#content-table").html(createTable())
+        fu()
+    })
+        .then(() => {
+            console.log('ok')
+            $(document).ready(ready)
+            if (f && typeof f == 'function')
+                f()
+    })
 };
 var loadDataTable = function (f) {
     new Promise(f => loadData(f))
         .then(f => loadTable(f))
-        .then(f => $(document).ready(ready))
     if (f && typeof f == 'function')
         f()
 }
@@ -775,8 +847,6 @@ var load = function (f) {
         loadData(f)
     }).then(f => {
         loadPage(f)
-    }).then(f => {
-        $(document).ready(ready)
     })
     if (f && typeof f == 'function')
         f()

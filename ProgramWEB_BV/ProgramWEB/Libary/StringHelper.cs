@@ -34,8 +34,9 @@ namespace ProgramWEB.Libary
         }
         public static bool IsValidEmail(string email)
         {
+            if (string.IsNullOrEmpty(email))
+                return false;
             var trimmedEmail = email.Trim();
-
             if (trimmedEmail.EndsWith("."))
             {
                 return false; // suggested by @TK-421
@@ -75,13 +76,19 @@ namespace ProgramWEB.Libary
         {
             if (date == null)
                 return string.Empty;
-            return date.Day + "/" + date.Month + "/" + date.Year;
+            return to2(date.Day.ToString()) + "/" + to2(date.Month.ToString()) + "/" + to2(date.Year.ToString());
         }
         public static string toDateTimeView(DateTime date)
         {
             if (date == null)
                 return string.Empty;
-            return date.Hour + ":" + date.Minute + ":" + date.Second + " " + date.Day + "/" + date.Month + "/" + date.Year;
+            return to2(date.Hour.ToString()) + ":" + to2(date.Minute.ToString()) + ":" + to2(date.Second.ToString()) + " " + to2(date.Day.ToString()) + "/" + to2(date.Month.ToString()) + "/" + to2(date.Year.ToString());
+        }
+        public static string to2(string s)
+        {
+            if (s.Length > 1)
+                return s;
+            return "0" + s;
         }
         public static string boKhoangTrang(string str)
         {

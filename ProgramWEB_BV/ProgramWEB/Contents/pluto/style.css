@@ -76,6 +76,10 @@
     outline: none !important;
 }
 
+:root {
+    --bg-main: #0971B8;
+}
+
 html,
 body {
     color: #898989;
@@ -3485,4 +3489,64 @@ td {
 
 #sidebar ul li a, .footer * {
     font-weight: 400 !important;
+}
+
+.card.material-card {
+    background-image: url(/Contents/pluto/images/layout_img/pattern_h.png);
+}
+
+.content-exp {
+    background-color: white;
+    padding: 15px;
+    border-bottom: 1px solid var(--bg-main);
+    height: 100px;
+    float: right;
+}
+
+.bg-main {
+    background-color: var(--bg-main)
+}
+
+.item-exp {
+    align-items: center;
+}
+
+.item-exp * {
+    font-weight: 400 !important;
+    font-size: 14px;
+    font-family: monospace !important;
+}
+
+.item-exp i {
+    width: 10px;
+    height: 10px;
+    border-radius: 2px;
+    margin-right: 5px;
+}
+
+.propetie {
+    width: 100%;
+    height: 100%;
+    background-color: var(--bg-main);
+    padding: 15px;
+    padding-top: 115px;
+    box-shadow: 0 6px 20px 0 rgba(0, 0, 0, 0.01), 0 8px 17px 0 rgba(0, 0, 0, 0.2);
+}
+
+.propetie * {
+    color: white;
+    font-family: monospace !important;
+    font-size: 14px !important;
+}
+
+.active-danger span {
+    background-color: #DC3545;
+    border-radius: 4px;
+    color: white;
+}
+
+.active-select span {
+    background-color: #28A745;
+    border-radius: 4px;
+    color: white;
 }

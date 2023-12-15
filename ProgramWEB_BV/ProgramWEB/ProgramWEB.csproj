@@ -216,8 +216,6 @@
     <Content Include="Contents\main\css\profile.css" />
     <Content Include="Content\PagedList.css" />
     <Content Include="Images\avatar.png" />
-    <Content Include="Scripts\caulendar\main.js" />
-    <Content Include="Scripts\caulendar\popper.js" />
     <Content Include="Contents\error\throw-error\css\style.css" />
     <Content Include="Contents\alert-f8\style.css" />
     <Compile Include="Controllers\BaoHiemController.cs" />
@@ -283,7 +281,6 @@
     <Compile Include="Models\Object\NhanSu.cs" />
     <Compile Include="Models\Object\PhongBan.cs" />
     <Compile Include="Models\Object\QuanLy.cs" />
-    <Compile Include="Models\Object\Rong.cs" />
     <Compile Include="Models\Object\TaiKhoan.cs" />
     <Compile Include="Models\Object\User.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -2356,6 +2353,7 @@
     <Content Include="Contents\main\css\user-forget.css" />
     <Content Include="Contents\main\css\user-login.css" />
     <Content Include="Contents\pluto\css\bootstrap-select.css" />
+    <Content Include="Scripts\caulendar\main.js" />
     <Content Include="Scripts\export-file\dist\table2excel.js" />
     <Content Include="Scripts\export-file\src\helpers\cell-to-object.js" />
     <Content Include="Scripts\export-file\src\helpers\data-to-worksheet.js" />
@@ -2836,6 +2834,10 @@
     <Content Include="Views\User\ChangePassword.cshtml" />
     <Content Include="Views\User\XacThucTaiKhoan.cshtml" />
     <Content Include="Views\NhanSu\Profile.cshtml" />
+    <Content Include="Views\Home\XemCaLam.cshtml" />
+    <Content Include="Views\Home\XemNgayNghi.cshtml" />
+    <None Include="Properties\PublishProfiles\thuong2003-001-site1 - FTP.pubxml" />
+    <None Include="Properties\PublishProfiles\thuong2003-001-site1 - Web Deploy.pubxml" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{3259AA49-8AA1-44D3-9025-A0B520596A8C}" />

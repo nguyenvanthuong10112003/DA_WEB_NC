@@ -3,8 +3,10 @@ using ProgramWEB.Libary;
 using ProgramWEB.Models.Data;
 using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using System.Web;
+using System.Web.Mvc;
 
 namespace ProgramWEB.Models.Object
 {
@@ -26,24 +28,35 @@ namespace ProgramWEB.Models.Object
             this.avatar = avatar;
             init();
         }
-        public void init()
+        private void init()
         {
             if (context == null)
                 context = new QuanLyNhanSuContext();
         }
-        public static string login(Data.TaiKhoan taiKhoan, string password)
+        public static string login(string username, string password)
         {
-            if (taiKhoan == null)
-                return "Tài khoản không tồn tại.";
-            if (!BCrypt.Net.BCrypt.Verify(password, taiKhoan.TK_MatKhau))
-                return "Mật khẩu đăng nhập không chính xác.";
-            if (kiemTraBiKhoaVaMoKhoa(taiKhoan))
-                return taiKhoan.TK_ThoiGianMoKhoa != null ? "Tài khoản đang bị khóa, hãy chờ đến " + 
-                    taiKhoan.TK_ThoiGianMoKhoa.ToString() + "." : "Tài khoản của bạn đã bị khóa vĩnh viễn.";
-            return string.Empty;
+            try
+            {
+                if (string.IsNullOrEmpty(username) || string.IsNullOrEmpty(password))
+                    return DefineError.loiDuLieuKhongHopLe;
+                Data.TaiKhoan taiKhoan = new QuanLyNhanSuContext().TaiKhoans.Find(username);
+                if (taiKhoan == null)
+                    return "Tài khoản không tồn tại.";
+                if (!BCrypt.Net.BCrypt.Verify(password, taiKhoan.TK_MatKhau))
+                    return "Mật khẩu đăng nhập không chính xác.";
+                if (kiemTraBiKhoaVaMoKhoa(taiKhoan.TK_TenDangNhap)) 
+                    return taiKhoan.TK_ThoiGianMoKhoa != null ? "Tài khoản đang bị khóa, hãy chờ đến " +
+                        taiKhoan.TK_ThoiGianMoKhoa.ToString() + "." : "Tài khoản của bạn đã bị khóa vĩnh viễn.";
+                return string.Empty;
+            } catch { }
+            return DefineError.loiHeThong;
         }
-        public static bool kiemTraBiKhoaVaMoKhoa(Data.TaiKhoan taiKhoan)
+        public static bool kiemTraBiKhoaVaMoKhoa(string username)
         {
+            if (string.IsNullOrEmpty(username))
+                return true;
+            QuanLyNhanSuContext con = new QuanLyNhanSuContext();
+            Data.TaiKhoan taiKhoan = con.TaiKhoans.Find(username);
             if (taiKhoan == null)
                 return true;
             if (taiKhoan.TK_BiKhoa == false)
@@ -222,6 +235,30 @@ namespace ProgramWEB.Models.Object
             }
             catch { }
             return DefineError.loiHeThong;
+        }
+
+        public IEnumerable<NgayNghi> getNgayNghis(int year = 1, int month = 1)
+        {
+            try
+            {
+                if (year < 0 || month < 0 || month > 12)
+                {
+                    year = DateTime.Now.Year;
+                    month = DateTime.Now.Month;
+                }
+                return Convert<NgayNghi, Data.NgayNghi>.ConvertObjs(context.NgayNghis
+                    .Where(item => item.NN_Ngay.Year == year && item.NN_Ngay.Month == month).OrderBy(item => item.NN_Ngay));
+            } catch { }
+            return null;
+        }
+        public IEnumerable<CaLam> getCaLams()
+        {
+            try
+            {
+                return Convert<CaLam, Data.CaLam>.ConvertObjs(context.CaLams.OrderBy(item => item.CL_TenCa));
+            }
+            catch { }
+            return null;
         }
     }
 }

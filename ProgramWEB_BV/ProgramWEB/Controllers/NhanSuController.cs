@@ -61,16 +61,25 @@ namespace ProgramWEB.Controllers
                         name = Libary.StringHelper.RemoveDiacritics(name);
                         string password = "";
                         Random ran = new Random();
-                        for (int i = 0; i < 6; i++)
+                        for (int j = 0; j < 6; j++)
                         {
                             password += (char)ran.Next(48, 127);
                         }
+                        Models.Data.QuanLyNhanSuContext context = new Models.Data.QuanLyNhanSuContext();
                         Models.Data.TaiKhoan taiKhoan = new Models.Data.TaiKhoan();
-                        taiKhoan.TK_TenDangNhap = (name + (nhanSu.NS_Ma.StartsWith("NS") ?
-                            nhanSu.NS_Ma.Substring(2).Trim() : nhanSu.NS_Ma.Trim())).ToLower();
+                        int i = -1;
+                        while (true)
+                        { 
+                            taiKhoan.TK_TenDangNhap = (name + (nhanSu.NS_Ma.StartsWith("NS") ?
+                                nhanSu.NS_Ma.Substring(2).Trim() : nhanSu.NS_Ma.Trim())).ToLower();
+                            if (i >= 0)
+                                taiKhoan.TK_TenDangNhap += i.ToString();
+                            if (context.TaiKhoans.Find(taiKhoan.TK_TenDangNhap) == null)
+                                break;
+                            i++;
+                        }
                         taiKhoan.TK_MatKhau = BCrypt.Net.BCrypt.HashPassword(password);
                         taiKhoan.NS_Ma = nhanSu.NS_Ma;
-                        Models.Data.QuanLyNhanSuContext context = new Models.Data.QuanLyNhanSuContext();
                         context.TaiKhoans.Add(taiKhoan);
                         int check = context.SaveChanges();
                         if (check == 0)

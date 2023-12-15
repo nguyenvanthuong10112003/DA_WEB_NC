@@ -1,4 +1,5 @@
-var Calendar = function(t) {
+var toActiveSelect
+var Calendar = function (t) {
     this.divId = t.RenderID ? t.RenderID : '[data-render="calendar"]', this.DaysOfWeek = t.DaysOfWeek ? t.DaysOfWeek : ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"], this.Months = t.Months ? t.Months : ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
     var e = new Date;
     this.CurrentMonth = e.getMonth(), this.CurrentYear = e.getFullYear();
@@ -7,7 +8,7 @@ var Calendar = function(t) {
 };
 Calendar.prototype.nextMonth = function() {
     11 == this.CurrentMonth ? (this.CurrentMonth = 0, this.CurrentYear = this.CurrentYear + 1) : this.CurrentMonth = this.CurrentMonth + 1, this.divId = '[data-active="false"] .render', this.showCurrent()
-}, Calendar.prototype.prevMonth = function() {
+}, Calendar.prototype.prevMonth = function () {
     0 == this.CurrentMonth ? (this.CurrentMonth = 11, this.CurrentYear = this.CurrentYear - 1) : this.CurrentMonth = this.CurrentMonth - 1, this.divId = '[data-active="false"] .render', this.showCurrent()
 }, Calendar.prototype.previousYear = function() {
     this.CurrentYear = this.CurrentYear - 1, this.showCurrent()
@@ -38,27 +39,12 @@ Calendar.prototype.nextMonth = function() {
             if ((h = c + dm - o) < 1) d += '<div class="cell disable">' + (u - o + l++) + "</div>";
             else if (h > i) d += '<div class="cell disable">' + l++ + "</div>";
             else {
-                d += '<div class="cell' + (r == h && this.CurrentMonth == n && this.CurrentYear == a ? " active" : "") + '"><span>' + h + "</span></div>", l = 1
+                d += '<div onclick="toActiveSelect(this)" class="cell' + (r == h && this.CurrentMonth == n && this.CurrentYear == a ? " active" : "") + '"><span>' + h + "</span></div>", l = 1
             }
             c % 7 == 6 && h >= i && (v = 10), c++
         }
         d += "</div>"
     }
     d += "</div>", document.querySelector('[data-render="month-year"]').innerHTML = s, document.querySelector(this.divId).innerHTML = d, document.querySelector(this.divId).setAttribute("data-date", this.Months[e] + " - " + t), document.querySelector(this.divId).setAttribute("data-month", e)
-}, window.onload = function() {
-    var t = new Calendar({
-        RenderID: ".render-a",
-        Format: "M"
-    });
-    t.showCurrent(), t.checkActive();
-    var e = document.querySelectorAll(".header [data-action]");
-    for (i = 0; i < e.length; i++) e[i].onclick = function() {
-        if (document.querySelector(".calendar .header").setAttribute("class", "header"), "true" == document.querySelector(".months").getAttribute("data-loading")) return document.querySelector(".calendar .header").setAttribute("class", "header active"), !1;
-        var e;
-        document.querySelector(".months").setAttribute("data-loading", "true"), this.getAttribute("data-action").includes("prev") ? (t.prevMonth(), e = "left") : (t.nextMonth(), e = "right"), t.checkActive(), document.querySelector(".months").setAttribute("data-flow", e), document.querySelector('.month[data-active="true"]').addEventListener("webkitTransitionEnd", function() {
-            document.querySelector(".months").removeAttribute("data-loading")
-        }), document.querySelector('.month[data-active="true"]').addEventListener("transitionend", function() {
-            document.querySelector(".months").removeAttribute("data-loading")
-        })
-    }
-};
+}
+var setting = (d) => { toActiveSelect = d } 

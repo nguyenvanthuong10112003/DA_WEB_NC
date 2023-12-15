@@ -203,7 +203,7 @@
                                                             <div class="content-info">
                                                                 <ul>
                                                                     <li>Hình thức: @khenThuongKyLuats.ElementAt(i).KTKL_HinhThuc</li>
-                                                                    <li>Thời gian: @StringHelper.toDateTimeView(khenThuongKyLuats.ElementAt(i).KTKL_ThoiGian.Value)</li>
+                                                                    <li>Thời gian: @(khenThuongKyLuats.ElementAt(i).KTKL_ThoiGian == null ? "" : StringHelper.toDateTimeView(khenThuongKyLuats.ElementAt(i).KTKL_ThoiGian.Value))</li>
                                                                     <li>Mô tả: @khenThuongKyLuats.ElementAt(i).KTKL_MoTa</li>
                                                                     <li>Số tiền: @khenThuongKyLuats.ElementAt(i).KTKL_SoTien</li>
                                                                 </ul>

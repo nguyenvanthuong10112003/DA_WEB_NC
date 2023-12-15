@@ -333,7 +333,7 @@ namespace ProgramWEB.Models.Object
                 Data.NgayNghi old = context.NgayNghis.Find(New.NN_Ma);
                 if (old == null)
                     return DefineError.khongTonTai;
-                if (context.NgayNghis.Where(item => item.NN_Ma != New.NN_Ma && item.NN_Ngay == New.NN_Ngay).Count() > 0)
+                if (context.NgayNghis.Where(item => (item.NN_Ma != New.NN_Ma && item.NN_Ngay == New.NN_Ngay)).Count() > 0)
                     return "[Ngày nghỉ này đã tồn tại]";
                 old = new Data.NgayNghi();
                 Convert<Data.NgayNghi, Object.NgayNghi>.ConvertObj(ref old, New);

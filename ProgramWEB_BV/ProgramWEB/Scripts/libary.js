@@ -33,7 +33,7 @@ const validateEmail = (email) => {
             /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|.(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
         );
 };
-var toDateView = function (data) {
+var toDateView = function (data, char = '/') {
     if (data == null)
         return "";
     for (let i = 0; i < data.length; i++)
@@ -44,12 +44,12 @@ var toDateView = function (data) {
     let arr = data.split('-');
     if (arr.length < 3)
         return "";
-    return to2(arr[2]) + "-" + to2(arr[1]) + "-" + to2(arr[0]);
+    return to2(arr[2]) + char + to2(arr[1]) + char + to2(arr[0]);
 }
 var toDateInput = function (data) {
     if (data == null)
         return "";
-    let arr = data.split('-');
+    let arr = data.split('/');
     if (arr.length < 3)
         return "";
     return to2(arr[2]) + "-" + to2(arr[1]) + "-" + to2(arr[0]);
@@ -57,7 +57,7 @@ var toDateInput = function (data) {
 var toDateToServer = function (data) {
     if (data == null)
         return "";
-    let arr = data.split('-');
+    let arr = data.split('/');
     if (arr.length < 3)
         return "";
     return (arr[2]) + "-" + bo0(arr[1]) + "-" + bo0(arr[0]);
@@ -67,18 +67,18 @@ var bo0 = (data) => {
         return data[data.length - 1];
     return "";
 }
-var toDateTimeView = function (data) {
+var toDateTimeView = function (data, char = '/') {
     if (data == null)
         return "";
     let arr = data.substr(0, 10).split('-');
     if (arr.length < 3)
         return "";
-    return data.substr(11, 8) + ' ' + to2(arr[2]) + "-" + to2(arr[1]) + "-" + to2(arr[0]);
+    return data.substr(11, 8) + ' ' + to2(arr[2]) + char + to2(arr[1]) + char + to2(arr[0]);
 }
 var toDateTimeInput = function (data) {
     if (data == null)
         return "";
-    let arr = data.substr(9, 10).split('-');
+    let arr = data.substr(9, 10).split('/');
     if (arr.length < 3)
         return "";
     return to2(arr[2]) + "-" + to2(arr[1]) + "-" + to2(arr[0]) + 'T' + data.substr(0, 8);

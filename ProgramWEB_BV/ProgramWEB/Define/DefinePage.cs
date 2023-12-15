@@ -10,6 +10,8 @@ namespace ProgramWEB.Define
     public class DefinePage
     {
         public static Page home { get; } = new Page("Trang chủ", "/Home/Index");
+        public static Page home_XemNgayNghi { get; } = new Page("Ngày nghỉ", "/Home/XemNgayNghi");
+        public static Page home_XemCaLam { get; } = new Page("Ca làm", "/Home/XemCaLam");
         public static Page user { get; } = new Page("Tài khoản của tôi", "/User/Index");
         public static Page user_ChangePassword { get; } = new Page("Đổi mật khẩu", "/User/ChangePassword");
         public static Page user_ForgetPassword { get; } = new Page("Quên mật khẩu", "/User/ForgetPassword");

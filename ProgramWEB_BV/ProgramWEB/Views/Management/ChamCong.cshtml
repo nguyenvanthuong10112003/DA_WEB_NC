@@ -101,7 +101,7 @@
                     `
             }
             return `<input type="text" name="${idName}" id="${idName}" class="form-control input-${thaotac}"
-                value="${data}"
+                value="${data}" ${index == 0 ? thaotac == 'search' ? '' : 'disabled' : '' }
                 placeholder="Nhập ${item.toLowerCase()}">`
         }
         var convertDataToServer = function (item, index) {
